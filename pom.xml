@@ -5,8 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cz.muni.fi.pa165.project</groupId>
-    <artifactId>machine-rental</artifactId>
+    <artifactId>machine-rental-parent</artifactId>
+	<packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>PA165 Machine Rental Shop</name>
 
     <developers>
         <developer>
@@ -26,12 +28,60 @@
             <email>433451@mail.muni.cz</email>
         </developer>
     </developers>
-
-    <properties>
+	
+	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- property used by spring-boot-starter-parent project to define maven.compiler.source and maven.compiler.target
+		     properties that in turn are used by maven-compiler-plugin to specify java source and target version -->
+        <java.version>8</java.version>
     </properties>
 
+    <!-- Spring Boot Starter Parent as parent project - this project inherits versions of dependencies and plugins -->
+    <!-- see https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-build-systems.html#using-boot-maven-parent-pom -->
+    <!-- update Spring by changing the version here to the current release displayed at https://projects.spring.io/spring-boot/ -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.5.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+	<build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+	
+	<dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>2.23.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>6.14.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+	
+	
+    <modules>
+        <module>rental-persistence</module>
+    </modules>
 
 </project>
+
