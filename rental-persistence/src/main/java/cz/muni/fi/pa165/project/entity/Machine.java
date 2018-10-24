@@ -1,12 +1,13 @@
 package cz.muni.fi.pa165.project.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Adam Vaňko (445310@mail.muni.cz)
+ */
 public class Machine {
 
     @Id
@@ -16,6 +17,10 @@ public class Machine {
     @NotNull
     @Column(nullable = false)
     private String name;
+
+    @NotNull
+    @OneToMany(mappedBy = "machine")
+    private List<Rental> rentals;
 
     public Machine() {
     }
@@ -43,6 +48,14 @@ public class Machine {
     @Override
     public int hashCode() {
         return Objects.hash(getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Machine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
 }
