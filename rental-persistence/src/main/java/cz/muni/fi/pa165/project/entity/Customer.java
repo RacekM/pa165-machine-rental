@@ -57,4 +57,13 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(getName(), getCustomerType());
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", customerType=" + customerType +
+                '}';
+    }
 }
