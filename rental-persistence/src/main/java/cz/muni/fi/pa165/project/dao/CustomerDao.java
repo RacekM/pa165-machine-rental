@@ -4,10 +4,15 @@ import cz.muni.fi.pa165.project.entity.Customer;
 
 import java.util.List;
 
+
+/**
+ * Interface of DAO for Customer entity providing basic CRUD operations
+ * @author Juraj Vandor
+ */
 public interface CustomerDao {
-    public void create(Customer customer);
-    public Customer findById(Long id);
-    public List<Customer> findAll();
-    public void delete(Customer customer);
-    public void update(Customer customer);
+    void create(Customer customer);
+    Customer findById(Long id);
+    List<Customer> findAll();
+    void delete(Customer customer);
+    void update(Customer customer);
 }
