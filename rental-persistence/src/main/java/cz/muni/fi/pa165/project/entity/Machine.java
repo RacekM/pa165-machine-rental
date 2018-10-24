@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * @author Adam Vaňko (445310@mail.muni.cz)
  */
+@Entity
 public class Machine {
 
     @Id
