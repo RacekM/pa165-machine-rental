@@ -9,4 +9,5 @@ public interface CustomerDao {
     public Customer findById(Long id);
     public List<Customer> findAll();
     public void delete(Customer customer);
+    public void update(Customer customer);
 }
