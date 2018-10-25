@@ -35,7 +35,7 @@ public class RentalDaoImpl implements RentalDao {
 
     @Override
     public List<Rental> findAll() {
-        return entityManager.createQuery("select r from Rental r", Rental.class).getResultList();
+        return entityManager.createQuery("SELECT r FROM Rental r", Rental.class).getResultList();
     }
 
     @Override
