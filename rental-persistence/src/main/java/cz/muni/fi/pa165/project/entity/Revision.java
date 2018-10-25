@@ -7,6 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 
+
+/**
+ * Entity Revision represents record of revision belonging to particular machine
+ * @author Juraj Vandor
+ */
 @Entity
 public class Revision {
     @Id
