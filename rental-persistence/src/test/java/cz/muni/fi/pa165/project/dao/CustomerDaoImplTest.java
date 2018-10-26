@@ -10,11 +10,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 
@@ -29,18 +30,17 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     public CustomerDao customerDao;
 
-//    private Customer customerAdam;
-//    private Customer customerMatus;
+    private Customer customerAdam;
+    private Customer customerMatus;
 
-    @BeforeClass
-    public void setup() {
-        //customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
-        //customerMatus = new Customer("Matus", CustomerType.LEGAL_PERSON);
+    @BeforeMethod
+    public void setupBeforeTest() {
+        customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
+        customerMatus = new Customer("Matus", CustomerType.LEGAL_PERSON);
     }
 
     @Test
     public void createCustomerTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
         customerDao.create(customerAdam);
 
         Customer customer = entityManager.find(Customer.class, customerAdam.getId());
@@ -48,15 +48,14 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(customer, customerAdam);
     }
 
-//    @Test(expectedExceptions = {ConstraintViolationException.class})
-//    public void createCustomerWithNullAttribute() {
-//        Customer customer = new Customer(null, CustomerType.LEGAL_PERSON);
-//        customerDao.create(customer);
-//    }
+    @Test(expectedExceptions = {ConstraintViolationException.class})
+    public void createCustomerWithNullAttribute() {
+        Customer customer = new Customer(null, CustomerType.LEGAL_PERSON);
+        customerDao.create(customer);
+    }
 
     @Test
     public void findCustomerByIdTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
         entityManager.persist(customerAdam);
 
         Customer customer = customerDao.findById(customerAdam.getId());
@@ -66,15 +65,12 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findNonExistingCustomerTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
-        Customer customer = customerDao.findById(customerAdam.getId());
+        Customer customer = customerDao.findById(0L);
         Assert.assertNull(customer);
     }
 
     @Test
     public void findAllCustomersTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
-        Customer customerMatus = new Customer("Matus", CustomerType.LEGAL_PERSON);
         entityManager.persist(customerAdam);
         entityManager.persist(customerMatus);
 
@@ -86,7 +82,6 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteCustomerTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
         entityManager.persist(customerAdam);
 
         customerDao.delete(customerAdam);
@@ -95,7 +90,6 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteNonExistingCustomerTest() {
-        Customer customerAdam = new Customer("Adam", CustomerType.INDIVIDUAL);
         customerDao.delete(customerAdam);
 
         Assert.assertEquals(0, entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList().size());
@@ -103,24 +97,12 @@ public class CustomerDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateCustomerTest() {
-        Customer customer = new Customer("Customer", CustomerType.INDIVIDUAL);
-        entityManager.persist(customer);
-        customer.setName("CustomerRenamed");
-        customerDao.update(customer);
+        entityManager.persist(customerAdam);
+        customerAdam.setName("CustomerRenamed");
+        customerDao.update(customerAdam);
 
-        Customer c = entityManager.find(Customer.class, customer.getId());
+        Customer c = entityManager.find(Customer.class, customerAdam.getId());
         Assert.assertNotNull(c);
-        Assert.assertEquals(c, customer);
-    }
-
-    @Test
-    public void updateNonExistingCustomerTest() {
-        Customer customer = new Customer("Customer", CustomerType.INDIVIDUAL);
-        customer.setName("CustomerRenamed");
-        customerDao.update(customer);
-
-        List<Customer> customers = entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
-        Assert.assertEquals(1, customers.size());
-        Assert.assertTrue(customers.contains(customer));
+        Assert.assertEquals(c, customerAdam);
     }
 }
