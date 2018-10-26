@@ -43,6 +43,14 @@ public class Customer {
         this.customerType = customerType;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
     public List<Rental> getRentals() {
         return Collections.unmodifiableList(rentals);
     }
