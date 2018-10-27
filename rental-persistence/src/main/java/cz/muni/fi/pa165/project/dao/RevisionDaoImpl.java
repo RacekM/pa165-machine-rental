@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
+ * Implementation of RevisionDao interface with database as data storage.
+ *
  * @author Adam Vaňko (445310@mail.muni.cz)
  */
 @Repository
