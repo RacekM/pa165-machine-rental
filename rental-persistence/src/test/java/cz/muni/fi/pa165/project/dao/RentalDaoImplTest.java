@@ -54,15 +54,15 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
         entityManager.persist(customerAdam);
         entityManager.persist(customerMatus);
 
-        adamOne = new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        adamOne = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineOne, customerAdam);
 
-        adamTwo = new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        adamTwo = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineTwo, customerAdam);
 
-        adamOneSecondTimeRented = new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        adamOneSecondTimeRented = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineOne, customerAdam);
-        matusOne = new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        matusOne = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineOne, customerMatus);
     }
 
@@ -98,24 +98,24 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeTwo() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis()), null, "feedback", machineOne, customerAdam));
+        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), null, "feedback", machineOne, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeThree() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 null, machineOne, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeFour() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", null, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeFive() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
+        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineOne, null));
     }
 
