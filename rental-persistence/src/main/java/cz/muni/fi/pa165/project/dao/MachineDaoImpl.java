@@ -9,7 +9,8 @@ import java.util.List;
 
 
 /**
- * Implementation of interface MachineDao
+ * Implementation of MachineDao
+ *
  * @author Juraj Vandor
  */
 @Repository
@@ -19,8 +20,9 @@ public class MachineDaoImpl implements MachineDao {
     private EntityManager entityManager;
 
     /**
-     * persists entity machine
-     * @param machine object to persist
+     * Creates new machine
+     *
+     * @param machine machine to be created
      */
     @Override
     public void create(Machine machine) {
@@ -28,8 +30,9 @@ public class MachineDaoImpl implements MachineDao {
     }
 
     /**
-     * updates entity in DB (based on ID)
-     * @param machine object to update
+     * Updates given machine
+     *
+     * @param machine machine to be updated
      */
     @Override
     public void update(Machine machine) {
@@ -37,8 +40,10 @@ public class MachineDaoImpl implements MachineDao {
     }
 
     /**
-     * @param id id of machine to be found
-     * @return object of class machine with given id
+     * Finds machine by its ID
+     *
+     * @param id id of the machine
+     * @return machine
      */
     @Override
     public Machine findById(Long id) {
@@ -46,7 +51,9 @@ public class MachineDaoImpl implements MachineDao {
     }
 
     /**
-     * @return list of all machines in DB
+     * Finds all machines
+     *
+     * @return List of all machines
      */
     @Override
     public List<Machine> findAll() {
@@ -54,8 +61,9 @@ public class MachineDaoImpl implements MachineDao {
     }
 
     /**
-     * deletes given machine from database
-     * @param machine object to be deleted
+     * Deletes given machine
+     *
+     * @param machine machine to be deleted
      */
     @Override
     public void delete(Machine machine) {
