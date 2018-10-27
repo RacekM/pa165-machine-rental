@@ -24,7 +24,6 @@ public class Rental {
     private Date dateOfRental;
 
     @Temporal(TemporalType.DATE)
-    @Past
     @NotNull
     @Column(nullable = false)
     private Date returnDate;
