@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.project.entity;
 
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,18 +14,19 @@ import java.util.Objects;
 @Entity
 public class Revision {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private boolean result;
 
     @Temporal(TemporalType.DATE)
+    @Past
     @NotNull
     @Column(nullable = false)
     private Date date;
 
     @ManyToOne(optional = false)
-    @NonNull
+    @NotNull
     private Machine machine;
 
     public Revision(){}
@@ -41,7 +41,7 @@ public class Revision {
         return id;
     }
 
-    public boolean isResult() {
+    public boolean getResult() {
         return result;
     }
 
@@ -53,19 +53,31 @@ public class Revision {
         return machine;
     }
 
+    public void setResult(boolean result) {
+        this.result = result;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Revision)) return false;
         Revision revision = (Revision) o;
-        return isResult() == revision.isResult() &&
+        return getResult() == revision.getResult() &&
                 Objects.equals(getDate(), revision.getDate()) &&
                 Objects.equals(getMachine(), revision.getMachine());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isResult(), getDate(), getMachine());
+        return Objects.hash(getResult(), getDate(), getMachine());
     }
 
     @Override

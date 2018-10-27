@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.project.dao;
 
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface RevisionDao {
     List<Revision> findAll();
 
     void delete(Revision revision);
+
+    List<Revision> findByMachine(Machine machine);
 
 }
