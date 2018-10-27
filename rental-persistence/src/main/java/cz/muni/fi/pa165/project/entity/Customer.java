@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 560)
@@ -40,6 +40,14 @@ public class Customer {
 
     public Customer(String name, CustomerType customerType) {
         this.name = name;
+        this.customerType = customerType;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
     }
 
