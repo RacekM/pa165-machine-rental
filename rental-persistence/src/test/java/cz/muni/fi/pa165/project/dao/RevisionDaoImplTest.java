@@ -151,8 +151,8 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByMachine() {
-        List<Machine> machines = revisionDao.findByMachine(bulldozer);
-        Assert.assertEquals(machines.size(), 2);
+        List<Revision> revisions = revisionDao.findByMachine(bulldozer);
+        Assert.assertEquals(revisions.size(), 2);
     }
 
 
