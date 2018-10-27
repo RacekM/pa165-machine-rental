@@ -41,7 +41,7 @@ public class Revision {
         return id;
     }
 
-    public boolean isResult() {
+    public boolean getResult() {
         return result;
     }
 
@@ -70,14 +70,14 @@ public class Revision {
         if (this == o) return true;
         if (!(o instanceof Revision)) return false;
         Revision revision = (Revision) o;
-        return isResult() == revision.isResult() &&
+        return getResult() == revision.getResult() &&
                 Objects.equals(getDate(), revision.getDate()) &&
                 Objects.equals(getMachine(), revision.getMachine());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isResult(), getDate(), getMachine());
+        return Objects.hash(getResult(), getDate(), getMachine());
     }
 
     @Override
