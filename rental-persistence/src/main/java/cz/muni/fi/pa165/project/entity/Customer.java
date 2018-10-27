@@ -5,9 +5,6 @@ import cz.muni.fi.pa165.project.enums.CustomerType;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,10 +24,6 @@ public class Customer {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "customer")
-    @NotNull
-    private List<Rental> rentals = new ArrayList<>();
-
     @Enumerated
     @NotNull
     private CustomerType customerType;
@@ -49,10 +42,6 @@ public class Customer {
 
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
-    }
-
-    public List<Rental> getRentals() {
-        return Collections.unmodifiableList(rentals);
     }
 
     public Long getId() {
