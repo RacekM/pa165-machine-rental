@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.project.dao;
 
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +40,13 @@ public class RevisionDaoImpl implements RevisionDao {
     @Override
     public void delete(Revision revision) {
         entityManager.remove(entityManager.merge(revision));
+    }
+
+    @Override
+    public List<Revision> findByMachine(Machine machine) {
+        return entityManager.createQuery("SELECT r FROM Revision r WHERE r.machine = :machine", Revision.class)
+                .setParameter("machine", machine)
+                .getResultList();
     }
 
 }

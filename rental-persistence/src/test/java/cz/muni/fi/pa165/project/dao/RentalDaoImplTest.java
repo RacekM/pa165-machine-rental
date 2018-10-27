@@ -32,10 +32,6 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     public RentalDao rentalDao;
-    @Autowired
-    public MachineDao machineDao;
-    @Autowired
-    public CustomerDao customerDao;
 
     private Customer customerAdam;
     private Customer customerMatus;
@@ -53,10 +49,10 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
         machineOne = new Machine("drill");
         machineTwo = new Machine("saw");
 
-        machineDao.create(machineOne);
-        machineDao.create(machineTwo);
-        customerDao.create(customerAdam);
-        customerDao.create(customerMatus);
+        entityManager.persist(machineOne);
+        entityManager.persist(machineTwo);
+        entityManager.persist(customerAdam);
+        entityManager.persist(customerMatus);
 
         adamOne = new Rental(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 24*60*60*1000),
                 "feedback", machineOne, customerAdam);
@@ -123,4 +119,55 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
                 "feedback", machineOne, null));
     }
 
+    @Test
+    public void findRentalByIdTest() {
+        entityManager.persist(adamOne);
+
+        Rental rental = rentalDao.findById(adamOne.getId());
+        Assert.assertNotNull(rental);
+        Assert.assertEquals(rental, adamOne);
+    }
+
+    @Test
+    public void findNonExistingRentalTest() {
+        Rental rental = rentalDao.findById(0L);
+        Assert.assertNull(rental);
+    }
+
+    @Test
+    public void findAllRentalsTest() {
+        entityManager.persist(adamOne);
+        entityManager.persist(adamTwo);
+        entityManager.persist(adamOneSecondTimeRented);
+
+        List<Rental> rentals = rentalDao.findAll();
+        Assert.assertEquals(3, rentals.size());
+        Assert.assertTrue(rentals.contains(adamOne));
+        Assert.assertTrue(rentals.contains(adamTwo));
+        Assert.assertTrue(rentals.contains(adamOneSecondTimeRented));
+    }
+
+    @Test
+    public void deleteCustomerTest() {
+        entityManager.persist(adamOne);
+        rentalDao.delete(adamOne);
+        Assert.assertNull(entityManager.find(Rental.class, adamOne.getId()));
+    }
+
+    @Test
+    public void deleteNonExistingCustomerTest() {
+        rentalDao.delete(adamOne);
+        Assert.assertEquals(0, entityManager.createQuery("SELECT r FROM Rental r", Rental.class).getResultList().size());
+    }
+
+    @Test
+    public void updateRentalTest() {
+        entityManager.persist(adamOne);
+        adamOne.setFeedback("new feedback");
+        rentalDao.update(adamOne);
+
+        Rental rental = entityManager.find(Rental.class, adamOne.getId());
+        Assert.assertNotNull(rental);
+        Assert.assertEquals(rental, adamOne);
+    }
 }

@@ -1,25 +1,30 @@
 package cz.muni.fi.pa165.project.entity;
 
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ *  Rental Entity
+ * @author Martin Sisak (445384@mail.muni.cz)
+ */
 @Entity
 public class Rental {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(TemporalType.DATE)
+    @Past
     @NotNull
     @Column(nullable = false)
     private Date dateOfRental;
 
     @Temporal(TemporalType.DATE)
+    @Past
     @NotNull
     @Column(nullable = false)
     private Date returnDate;
@@ -29,11 +34,11 @@ public class Rental {
     private String feedback;
 
     @ManyToOne(optional = false)
-    @NonNull
+    @NotNull
     private Machine machine;
 
     @ManyToOne(optional = false)
-    @NonNull
+    @NotNull
     private Customer customer;
 
     public Rental(){
@@ -67,6 +72,26 @@ public class Rental {
     public Machine getMachine() { return machine; }
 
     public Customer getCustomer() { return customer; }
+
+    public void setDateOfRental(Date dateOfRental) {
+        this.dateOfRental = dateOfRental;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     @Override
     public boolean equals(Object o) {
