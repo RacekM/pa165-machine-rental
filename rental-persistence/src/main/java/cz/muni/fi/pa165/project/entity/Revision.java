@@ -8,7 +8,8 @@ import java.util.Objects;
 
 
 /**
- * Entity Revision represents record of revision belonging to particular machine
+ * Revision Entity
+ *
  * @author Juraj Vandor
  */
 @Entity

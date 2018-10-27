@@ -21,7 +21,10 @@ import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Tests for RentalDao implementation
+ * @author Juraj Vandor
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
