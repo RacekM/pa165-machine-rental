@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.project.dao;
 
+import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface RentalDao {
     void update(Rental rental);
 
     Rental findById(Long id);
+
+    List<Rental> findByCustomer(Customer customer);
 
     List<Rental> findAll();
 

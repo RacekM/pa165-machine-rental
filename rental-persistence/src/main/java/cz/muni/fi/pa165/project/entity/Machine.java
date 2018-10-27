@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.project.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,16 +11,12 @@ import java.util.Objects;
 public class Machine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Column(nullable = false)
     private String name;
-
-    @NotNull
-    @OneToMany(mappedBy = "machine")
-    private List<Rental> rentals;
 
     public Machine() {
     }
@@ -32,6 +27,10 @@ public class Machine {
 
     public Long getId() {
         return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
