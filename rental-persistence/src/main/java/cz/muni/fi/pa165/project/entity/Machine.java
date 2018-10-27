@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.project.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,10 +17,6 @@ public class Machine {
     @NotNull
     @Column(nullable = false)
     private String name;
-
-    @NotNull
-    @OneToMany(mappedBy = "machine")
-    private List<Rental> rentals;
 
     public Machine() {
     }
