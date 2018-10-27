@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Machine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -27,6 +27,10 @@ public class Machine {
 
     public Long getId() {
         return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
