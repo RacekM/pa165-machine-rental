@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Machine entity
  *
- * @author Adam Vaňko (445310@mail.muni.cz)
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 @Entity
 public class Machine {
