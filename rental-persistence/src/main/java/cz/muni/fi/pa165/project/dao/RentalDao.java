@@ -13,24 +13,24 @@ import java.util.List;
 public interface RentalDao {
 
     /**
-     * Persist given object in data storage.
+     * Persist rental in data storage.
      *
-     * @param rental object to persist
+     * @param rental rental to persist
      */
     void create(Rental rental);
 
     /**
-     * Update given object in data storage.
+     * Update rental in data storage.
      *
-     * @param rental object to update
+     * @param rental rental to update
      */
     void update(Rental rental);
 
     /**
-     * Finds object by id number.
+     * Finds rental by id number.
      *
-     * @param id id number of the object
-     * @return Found object if data storage contains it, null otherwise.
+     * @param id id number of the rental
+     * @return Found rental if data storage contains it, null otherwise.
      */
     Rental findById(Long id);
 
