@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Tests for CustomerDaoImpl.
  *
- * @author Adam Vaňko (445310@mail.muni.cz)
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)

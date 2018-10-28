@@ -6,9 +6,9 @@ import cz.muni.fi.pa165.project.entity.Rental;
 import java.util.List;
 
 /**
- * DAO interface for entity Rental.
+ * DAO interface for entity {@link Rental}.
  *
- * @author Adam Vaňko (445310@mail.muni.cz)
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 public interface RentalDao {
 

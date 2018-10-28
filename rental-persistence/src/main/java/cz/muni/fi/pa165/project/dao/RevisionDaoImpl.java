@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Implementation of RevisionDao interface with database as data storage.
  *
- * @author Adam Vaňko (445310@mail.muni.cz)
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 @Repository
 public class RevisionDaoImpl implements RevisionDao {
