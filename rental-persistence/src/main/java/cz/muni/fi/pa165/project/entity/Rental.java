@@ -97,11 +97,11 @@ public class Rental {
         if (this == o) return true;
         if (!(o instanceof Rental)) return false;
         Rental rental = (Rental) o;
-        return Objects.equals(getDateOfRental(), rental.dateOfRental) &&
-                Objects.equals(getReturnDate(), rental.returnDate) &&
-                Objects.equals(getFeedback(), rental.feedback) &&
-                Objects.equals(getMachine(), rental.machine) &&
-                Objects.equals(getCustomer(), rental.customer);
+        return Objects.equals(getDateOfRental(), rental.getDateOfRental()) &&
+                Objects.equals(getReturnDate(), rental.getReturnDate()) &&
+                Objects.equals(getFeedback(), rental.getFeedback()) &&
+                Objects.equals(getMachine(), rental.getMachine()) &&
+                Objects.equals(getCustomer(), rental.getCustomer());
     }
 
     @Override
