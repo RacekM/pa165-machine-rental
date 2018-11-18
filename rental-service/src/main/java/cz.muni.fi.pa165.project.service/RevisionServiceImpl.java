@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RevisionDao;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 
 import javax.inject.Inject;
@@ -21,6 +22,11 @@ public class RevisionServiceImpl implements RevisionService{
     @Override
     public List<Revision> findAll() {
         return revisionDao.findAll();
+    }
+
+    @Override
+    public List<Revision> findMachineRevisions(Machine machine) {
+        return revisionDao.findByMachine(machine);
     }
 
     @Override

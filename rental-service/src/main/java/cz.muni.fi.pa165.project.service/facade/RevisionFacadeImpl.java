@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.service.facade;
 import cz.muni.fi.pa165.project.dto.MachineDTO;
 import cz.muni.fi.pa165.project.dto.RevisionCreateDTO;
 import cz.muni.fi.pa165.project.dto.RevisionDTO;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
@@ -34,6 +35,12 @@ public class RevisionFacadeImpl implements RevisionFacade {
     @Override
     public List<RevisionDTO> getAllRevisions() {
         return beanMappingService.mapTo(revisionService.findAll(), RevisionDTO.class);
+    }
+
+    @Override
+    public List<RevisionDTO> getRevisionsOfMachine(MachineDTO machineDTO) {
+        Machine machine = beanMappingService.mapTo(machineDTO, Machine.class);
+        return beanMappingService.mapTo(revisionService.findMachineRevisions(machine), RevisionDTO.class);
     }
 
     @Override
