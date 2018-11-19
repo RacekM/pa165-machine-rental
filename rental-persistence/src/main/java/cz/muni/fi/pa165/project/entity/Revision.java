@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Revision {
     @Past
     @NotNull
     @Column(nullable = false)
-    private Date date;
+    private Calendar date;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -32,7 +33,7 @@ public class Revision {
 
     public Revision(){}
 
-    public Revision(boolean result, Date date, Machine machine) {
+    public Revision(boolean result, Calendar date, Machine machine) {
         this.result = result;
         this.date = date;
         this.machine = machine;
@@ -46,7 +47,7 @@ public class Revision {
         return result;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
@@ -58,7 +59,7 @@ public class Revision {
         this.result = result;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 

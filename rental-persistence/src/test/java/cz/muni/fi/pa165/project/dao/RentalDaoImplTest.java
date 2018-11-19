@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -36,6 +36,8 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     public RentalDao rentalDao;
 
+    private Calendar timeNow;
+    private Calendar timeTomorrow;
     private Customer customerAdam;
     private Customer customerMatus;
     private Machine machineOne;
@@ -57,16 +59,16 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
         entityManager.persist(customerAdam);
         entityManager.persist(customerMatus);
 
-        adamOne = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", machineOne, customerAdam);
+        timeNow = Calendar.getInstance();
+        timeNow.add(Calendar.SECOND, -10);
+        timeTomorrow = Calendar.getInstance();
+        timeTomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        adamOne = new Rental(timeNow, timeTomorrow, "feedback", machineOne, customerAdam);
 
-        adamTwo = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", machineTwo, customerAdam);
+        adamTwo = new Rental(timeNow, timeTomorrow, "feedback", machineTwo, customerAdam);
 
-        adamOneSecondTimeRented = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", machineOne, customerAdam);
-        matusOne = new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", machineOne, customerMatus);
+        adamOneSecondTimeRented = new Rental(timeNow, timeTomorrow, "feedback", machineOne, customerAdam);
+        matusOne = new Rental(timeNow, timeTomorrow, "feedback", machineOne, customerMatus);
     }
 
     @Test
@@ -94,32 +96,29 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeOne() {
-        Rental rental = new Rental(null, new Date(System.currentTimeMillis() + 24*60*60*1000),
+        Rental rental = new Rental(null, timeTomorrow,
                 "feedback", machineOne, customerAdam);
         rentalDao.create(rental);
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeTwo() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), null, "feedback", machineOne, customerAdam));
+        rentalDao.create(new Rental(timeNow, null, "feedback", machineOne, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeThree() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                null, machineOne, customerAdam));
+        rentalDao.create(new Rental(timeNow, timeTomorrow, null, machineOne, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeFour() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", null, customerAdam));
+        rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", null, customerAdam));
     }
 
     @Test(expectedExceptions = {ConstraintViolationException.class})
     public void createRentalWithNullAttributeFive() {
-        rentalDao.create(new Rental(new Date(System.currentTimeMillis() - 10000), new Date(System.currentTimeMillis() + 24*60*60*1000),
-                "feedback", machineOne, null));
+        rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", machineOne, null));
     }
 
     @Test
