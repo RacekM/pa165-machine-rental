@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.entity.Machine;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @author Matus Racek (mat.racek@gmail.com)
  */
 
-@Service
 public interface MachineService {
 
     Machine findById(Long machineId);

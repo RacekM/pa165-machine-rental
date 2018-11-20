@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.MachineDao;
 import cz.muni.fi.pa165.project.entity.Machine;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Matus Racek (mat.racek@gmail.com)
  */
-
+@Service
 public class MachineServiceImpl implements MachineService {
 
     @Inject
