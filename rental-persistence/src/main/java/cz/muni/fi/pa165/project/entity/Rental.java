@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,12 +22,12 @@ public class Rental {
     @Past
     @NotNull
     @Column(nullable = false)
-    private Date dateOfRental;
+    private Calendar dateOfRental;
 
     @Temporal(TemporalType.DATE)
     @NotNull
     @Column(nullable = false)
-    private Date returnDate;
+    private Calendar returnDate;
 
     @NotNull
     @Column(nullable = false)
@@ -44,7 +45,7 @@ public class Rental {
 
     }
 
-    public Rental(Date dateOfRental, Date returnDate, String feedback, Machine machine, Customer customer){
+    public Rental(Calendar dateOfRental, Calendar returnDate, String feedback, Machine machine, Customer customer){
         this.dateOfRental = dateOfRental;
         this.returnDate = returnDate;
         this.feedback = feedback;
@@ -56,11 +57,11 @@ public class Rental {
         return id;
     }
 
-    public Date getDateOfRental() {
+    public Calendar getDateOfRental() {
         return dateOfRental;
     }
 
-    public Date getReturnDate() {
+    public Calendar getReturnDate() {
         return returnDate;
     }
 
@@ -72,11 +73,11 @@ public class Rental {
 
     public Customer getCustomer() { return customer; }
 
-    public void setDateOfRental(Date dateOfRental) {
+    public void setDateOfRental(Calendar dateOfRental) {
         this.dateOfRental = dateOfRental;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(Calendar returnDate) {
         this.returnDate = returnDate;
     }
 
