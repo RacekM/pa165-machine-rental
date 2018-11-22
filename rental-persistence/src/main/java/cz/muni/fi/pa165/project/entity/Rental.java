@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -72,6 +71,10 @@ public class Rental {
     public Machine getMachine() { return machine; }
 
     public Customer getCustomer() { return customer; }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setDateOfRental(Calendar dateOfRental) {
         this.dateOfRental = dateOfRental;
