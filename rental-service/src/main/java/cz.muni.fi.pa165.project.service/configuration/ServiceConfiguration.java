@@ -3,15 +3,19 @@ package cz.muni.fi.pa165.project.service.configuration;
 import cz.muni.fi.pa165.project.PersistenceApplicationContext;
 import cz.muni.fi.pa165.project.dto.CustomerDTO;
 import cz.muni.fi.pa165.project.dto.MachineDTO;
+import cz.muni.fi.pa165.project.dto.RentalDTO;
 import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Machine;
+import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.service.CustomerServiceImpl;
 import cz.muni.fi.pa165.project.service.MachineServiceImpl;
+import cz.muni.fi.pa165.project.service.RentalServiceImpl;
 import cz.muni.fi.pa165.project.service.RevisionServiceImpl;
 import cz.muni.fi.pa165.project.service.facade.CustomerFacadeImpl;
 import cz.muni.fi.pa165.project.service.facade.MachineFacadeImpl;
+import cz.muni.fi.pa165.project.service.facade.RentalFacadeImpl;
 import cz.muni.fi.pa165.project.service.facade.RevisionFacadeImpl;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -31,7 +35,8 @@ import org.springframework.context.annotation.Import;
 @Import(PersistenceApplicationContext.class)
 @ComponentScan(basePackageClasses = {MachineServiceImpl.class, MachineFacadeImpl.class,
         RevisionServiceImpl.class, RevisionFacadeImpl.class,
-        CustomerServiceImpl.class, CustomerFacadeImpl.class})
+        CustomerServiceImpl.class, CustomerFacadeImpl.class,
+        RentalServiceImpl.class, RentalFacadeImpl.class})
 public class ServiceConfiguration {
 
 
@@ -48,6 +53,7 @@ public class ServiceConfiguration {
             mapping(Machine.class, MachineDTO.class);
             mapping(Revision.class, RevisionDTO.class);
             mapping(Customer.class, CustomerDTO.class);
+            mapping(Rental.class, RentalDTO.class);
         }
     }
 

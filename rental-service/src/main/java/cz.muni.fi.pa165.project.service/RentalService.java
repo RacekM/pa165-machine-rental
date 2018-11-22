@@ -15,7 +15,7 @@ public interface RentalService {
     /**
      * Creates new rental.
      *
-     * @param rental rental to persist
+     * @param rental rental to create
      */
     void create(Rental rental);
 
