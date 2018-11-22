@@ -22,7 +22,7 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
         List<T> mappedCollection = new ArrayList<>();
-        objects.forEach(object -> dozer.map(object, mapToClass));
+        objects.forEach(object -> mappedCollection.add(dozer.map(object, mapToClass)));
         return mappedCollection;
     }
 

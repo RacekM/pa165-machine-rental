@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.service;
 import cz.muni.fi.pa165.project.dao.RevisionDao;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * @author Juraj Vandor
  */
+@Service
 public class RevisionServiceImpl implements RevisionService{
     @Inject
     private RevisionDao revisionDao;
