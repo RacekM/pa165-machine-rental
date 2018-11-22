@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.project.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -17,16 +17,14 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @Past
     @NotNull
     @Column(nullable = false)
-    private Calendar dateOfRental;
+    private LocalDateTime dateOfRental;
 
-    @Temporal(TemporalType.DATE)
     @NotNull
     @Column(nullable = false)
-    private Calendar returnDate;
+    private LocalDateTime returnDate;
 
     @NotNull
     @Column(nullable = false)
@@ -40,11 +38,11 @@ public class Rental {
     @NotNull
     private Customer customer;
 
-    public Rental(){
+    public Rental() {
 
     }
 
-    public Rental(Calendar dateOfRental, Calendar returnDate, String feedback, Machine machine, Customer customer){
+    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, Customer customer) {
         this.dateOfRental = dateOfRental;
         this.returnDate = returnDate;
         this.feedback = feedback;
@@ -56,12 +54,12 @@ public class Rental {
         return id;
     }
 
-    public Calendar getDateOfRental() {
+    public LocalDateTime getDateOfRental() {
         return dateOfRental;
     }
 
-    public Calendar getReturnDate() {
-        return returnDate;
+    public void setDateOfRental(LocalDateTime dateOfRental) {
+        this.dateOfRental = dateOfRental;
     }
 
     public String getFeedback() {
@@ -76,11 +74,11 @@ public class Rental {
         this.id = id;
     }
 
-    public void setDateOfRental(Calendar dateOfRental) {
-        this.dateOfRental = dateOfRental;
+    public LocalDateTime getReturnDate() {
+        return returnDate;
     }
 
-    public void setReturnDate(Calendar returnDate) {
+    public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
