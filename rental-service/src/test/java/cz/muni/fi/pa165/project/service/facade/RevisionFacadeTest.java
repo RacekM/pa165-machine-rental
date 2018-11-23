@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.project.service;
+package cz.muni.fi.pa165.project.service.facade;
 
 import cz.muni.fi.pa165.project.dto.MachineDTO;
 import cz.muni.fi.pa165.project.dto.RevisionCreateDTO;
@@ -6,8 +6,10 @@ import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
+import cz.muni.fi.pa165.project.service.BeanMappingService;
+import cz.muni.fi.pa165.project.service.MachineService;
+import cz.muni.fi.pa165.project.service.RevisionService;
 import cz.muni.fi.pa165.project.service.configuration.ServiceConfiguration;
-import cz.muni.fi.pa165.project.service.facade.RevisionFacadeImpl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,13 +19,13 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
-
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Juraj Vandor
@@ -51,10 +53,10 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         MockitoAnnotations.initMocks(this);
         machine = new Machine("Drill");
         Calendar c = Calendar.getInstance();
-        c.set(2018,Calendar.OCTOBER,1);
+        c.set(2018, Calendar.OCTOBER, 1);
         revision1 = new Revision(true, c, machine);
         Calendar c2 = Calendar.getInstance();
-        c2.set(2018,Calendar.OCTOBER,8);
+        c2.set(2018, Calendar.OCTOBER, 8);
         revision2 = new Revision(true, c2, machine);
     }
 

@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,18 +49,19 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     private Machine testingMachine2;
     private Machine testingMachine3;
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @BeforeMethod
-    public void setUpMachines() {
         testingMachine1 = new Machine();
-        testingMachine2 = new Machine();
-        testingMachine3 = new Machine();
+        testingMachine1.setId(1L);
         testingMachine1.setName("Machine 1");
+
+        testingMachine2 = new Machine();
+        testingMachine2.setId(2L);
         testingMachine2.setName("Machine 2");
+
+        testingMachine3 = new Machine();
+        testingMachine3.setId(3L);
         testingMachine3.setName("Machine 3");
     }
 

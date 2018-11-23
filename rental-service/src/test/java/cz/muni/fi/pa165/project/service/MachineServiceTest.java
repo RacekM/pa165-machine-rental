@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,28 +42,24 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
 
     private Machine testMachineWithoutId;
 
-    @BeforeClass
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @BeforeMethod
     public void prepareTestMachine() {
+        MockitoAnnotations.initMocks(this);
+
         testMachine = new Machine();
-        //testMachine.setId(1);
+        testMachine.setId(1L);
         testMachine.setName("Testing machine");
+
         testMachineWithoutId = new Machine();
-        //testMachine.setId(1);
         testMachineWithoutId.setName("Testing machine without assigned id");
     }
 
     @Test
     public void getByIdTest() {
-        //todo implement setId method?
-        long machineId = 1;
-        when(machineDao.findById(machineId)).thenReturn(testMachine);
-        Machine machine = machineService.findById(machineId);
-        verify(machineDao).findById(machineId);
+        when(machineDao.findById(testMachine.getId())).thenReturn(testMachine);
+        Machine machine = machineService.findById(testMachine.getId());
+        verify(machineDao).findById(testMachine.getId());
         assertEquals(testMachine, machine);
     }
 
@@ -86,7 +81,7 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void getEmptyALlTest() {
+    public void getEmptyAllTest() {
         List<Machine> expectedMachines = Collections.EMPTY_LIST;
         when(machineDao.findAll()).thenReturn(Collections.unmodifiableList(expectedMachines));
         List<Machine> result = machineService.findAll();
@@ -99,7 +94,7 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
         long expectedId = 10;
         doAnswer(invocationOnMock -> {
             Machine machine = invocationOnMock.getArgument(0);
-            //machine.setId(expectedId);
+            machine.setId(expectedId);
             return null;
         }).when(machineDao).create(testMachineWithoutId);
         machineService.create(testMachineWithoutId);
