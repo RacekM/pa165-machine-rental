@@ -105,6 +105,13 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void rentalMappingTest() {
+        RentalDTO rentalDTO = beanMappingService.mapTo(testingRental1, RentalDTO.class);
+        Rental rental = beanMappingService.mapTo(rentalDTO, Rental.class);
+        assertEquals(rental, testingRental1);
+    }
+
+    @Test
     public void getRentalByIdTest() {
         when(rentalService.findById(testingRental1.getId()))
                 .thenReturn(testingRental1);
