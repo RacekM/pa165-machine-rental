@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.project.service;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
