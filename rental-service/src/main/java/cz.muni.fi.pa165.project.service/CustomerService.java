@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.entity.Customer;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,7 +9,6 @@ import java.util.List;
  *
  * @author Martin Sisak, 445384
  */
-@Service
 public interface CustomerService {
 
     Customer findById(Long customerId);
