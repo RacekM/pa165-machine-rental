@@ -146,6 +146,8 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         machineService.create(beanMappingService.mapTo(machineDTO, Machine.class));
 
         rentalFacade.createRental(rentalCreateDTO);
+        verify(customerService).findById(customerDTO.getId());
+        verify(machineService).findById(machineDTO.getId());
         verify(rentalService).create(any(Rental.class));
     }
 
