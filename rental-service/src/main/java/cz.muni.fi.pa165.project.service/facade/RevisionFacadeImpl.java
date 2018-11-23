@@ -9,6 +9,9 @@ import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RevisionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 /**
  * @author Juraj Vandor
  */
+
 public class RevisionFacadeImpl implements RevisionFacade {
     @Inject
     private RevisionService revisionService;
@@ -34,7 +38,8 @@ public class RevisionFacadeImpl implements RevisionFacade {
 
     @Override
     public List<RevisionDTO> getAllRevisions() {
-        return beanMappingService.mapTo(revisionService.findAll(), RevisionDTO.class);
+        List<Revision> res = revisionService.findAll();
+        return beanMappingService.mapTo(res, RevisionDTO.class);
     }
 
     @Override

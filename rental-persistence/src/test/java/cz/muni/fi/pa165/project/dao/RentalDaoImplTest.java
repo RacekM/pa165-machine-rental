@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,8 +36,8 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     public RentalDao rentalDao;
 
-    private Calendar timeNow;
-    private Calendar timeTomorrow;
+    private LocalDateTime timeNow;
+    private LocalDateTime timeTomorrow;
     private Customer customerAdam;
     private Customer customerMatus;
     private Machine machineOne;
@@ -59,10 +59,8 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
         entityManager.persist(customerAdam);
         entityManager.persist(customerMatus);
 
-        timeNow = Calendar.getInstance();
-        timeNow.add(Calendar.SECOND, -10);
-        timeTomorrow = Calendar.getInstance();
-        timeTomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        timeNow = LocalDateTime.now().minusMinutes(5);
+        timeTomorrow = LocalDateTime.now().plusDays(1);
         adamOne = new Rental(timeNow, timeTomorrow, "feedback", machineOne, customerAdam);
 
         adamTwo = new Rental(timeNow, timeTomorrow, "feedback", machineTwo, customerAdam);
