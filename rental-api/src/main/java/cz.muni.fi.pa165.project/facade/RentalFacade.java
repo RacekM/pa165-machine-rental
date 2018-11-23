@@ -17,7 +17,7 @@ public interface RentalFacade {
      *
      * @param rentalCreateDTO new rental to create
      */
-    Long create(RentalCreateDTO rentalCreateDTO);
+    Long createRental(RentalCreateDTO rentalCreateDTO);
 
     /**
      * Finds rental by id number.
@@ -25,7 +25,7 @@ public interface RentalFacade {
      * @param rentalId id number of the rental to find
      * @return Found rental if data storage contains it, null otherwise.
      */
-    RentalDTO findById(Long rentalId);
+    RentalDTO getRentalById(Long rentalId);
 
     /**
      * Gets all rentals made by one customer.
@@ -33,20 +33,20 @@ public interface RentalFacade {
      * @param customerId id of customer whose rentals to find
      * @return List of rentals associated with customer.
      */
-    List<RentalDTO> findByCustomer(Long customerId);
+    List<RentalDTO> getRentalsByCustomer(Long customerId);
 
     /**
      * Gets all rentals.
      *
      * @return All rentals.
      */
-    List<RentalDTO> findAll();
+    List<RentalDTO> getAllRentals();
 
     /**
      * Deletes rental.
      *
      * @param rentalId id of rental to remove
      */
-    void remove(Long rentalId);
+    void deleteRental(Long rentalId);
 
 }

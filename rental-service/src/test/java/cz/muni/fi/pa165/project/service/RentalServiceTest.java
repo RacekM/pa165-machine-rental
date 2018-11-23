@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
 /**
- * Tests for service layer of rental entity.
+ * Tests for the {@link RentalService}.
  *
  * @author Adam Vanko (445310@mail.muni.cz)
  */

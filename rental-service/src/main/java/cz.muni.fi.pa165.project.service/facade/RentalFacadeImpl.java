@@ -38,7 +38,7 @@ public class RentalFacadeImpl implements RentalFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(RentalCreateDTO rentalCreateDTO) {
+    public Long createRental(RentalCreateDTO rentalCreateDTO) {
         Rental rental = new Rental();
         rental.setDateOfRental(rentalCreateDTO.getDateOfRental());
         rental.setReturnDate(rentalCreateDTO.getReturnDate());
@@ -51,13 +51,13 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public RentalDTO findById(Long rentalId) {
+    public RentalDTO getRentalById(Long rentalId) {
         Rental rental = rentalService.findById(rentalId);
-        return rental == null ? null : beanMappingService.mapTo(rental, RentalDTO.class);
+        return (rental == null ? null : beanMappingService.mapTo(rental, RentalDTO.class));
     }
 
     @Override
-    public List<RentalDTO> findByCustomer(Long customerId) {
+    public List<RentalDTO> getRentalsByCustomer(Long customerId) {
         Customer customer = customerService.findById(customerId);
         List<RentalDTO> rentalDTOs = new ArrayList<>();
         if (customer != null) {
@@ -67,12 +67,12 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public List<RentalDTO> findAll() {
+    public List<RentalDTO> getAllRentals() {
         return beanMappingService.mapTo(rentalService.findAll(), RentalDTO.class);
     }
 
     @Override
-    public void remove(Long rentalId) {
+    public void deleteRental(Long rentalId) {
         Rental rental = rentalService.findById(rentalId);
         if (rental != null) {
             rentalService.remove(rental);
