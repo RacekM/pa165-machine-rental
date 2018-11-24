@@ -25,6 +25,4 @@ public interface CustomerFacade {
 
     List<CustomerDTO> getAllByCustomerType(CustomerType customerType);
 
-
-
 }

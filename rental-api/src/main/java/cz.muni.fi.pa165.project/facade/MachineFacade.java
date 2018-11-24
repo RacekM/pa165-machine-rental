@@ -12,15 +12,33 @@ import java.util.List;
  */
 public interface MachineFacade {
 
+    /**
+     * Finds machine by id number.
+     *
+     * @param machineId id number of the machine to find
+     * @return Found machine if data storage contains it, null otherwise.
+     */
     MachineDTO getMachineById(Long machineId);
 
+    /**
+     * Gets all machines.
+     *
+     * @return All machines.
+     */
     List<MachineDTO> getAllMachines();
 
+    /**
+     * Creates new machine.
+     *
+     * @param machineCreateDTO new machine to create
+     */
     Long createMachine(MachineCreateDTO machineCreateDTO);
 
+    /**
+     * Deletes machine.
+     *
+     * @param machineId id of machine to remove
+     */
     void deleteMachine(Long machineId);
-
-    //void changeMachineName(NewMachineNameDTO newMachineNameDTO);
-    //void changeMachineRentPrice(NewMachinePriceDTO newMachinePrice);
 
 }

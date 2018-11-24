@@ -7,7 +7,6 @@ import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
-import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RevisionService;
 
 import javax.inject.Inject;
@@ -23,9 +22,6 @@ public class RevisionFacadeImpl implements RevisionFacade {
 
     @Inject
     private BeanMappingService beanMappingService;
-
-    @Inject
-    private MachineService machineService;
 
     @Override
     public RevisionDTO getRevisionById(Long revisionId) {
