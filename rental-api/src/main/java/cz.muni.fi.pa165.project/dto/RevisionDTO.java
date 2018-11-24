@@ -1,9 +1,6 @@
 package cz.muni.fi.pa165.project.dto;
 
-import jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode;
-
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Objects;
 
 /**
