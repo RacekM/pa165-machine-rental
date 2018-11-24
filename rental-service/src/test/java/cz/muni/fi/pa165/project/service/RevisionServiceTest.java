@@ -15,7 +15,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,9 +46,8 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
         revision = new Revision();
         revision.setMachine(machine);
         revision.setResult(true);
-        Calendar c = Calendar.getInstance();
-        c.set(2018,Calendar.OCTOBER,1);
-        revision.setDate(c);
+        LocalDateTime time = LocalDateTime.of(2018, 5, 5, 0, 0);
+        revision.setDate(time);
     }
 
     @Test

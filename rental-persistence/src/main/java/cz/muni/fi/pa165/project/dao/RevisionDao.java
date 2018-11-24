@@ -56,4 +56,9 @@ public interface RevisionDao {
      */
     List<Revision> findByMachine(Machine machine);
 
+    /**
+     * Find last Revision for given machine
+     * @param machine machine for which we need to look up last revision
+     */
+    Revision findLastRevisionByMachine(Machine machine);
 }

@@ -4,9 +4,7 @@ import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * BeanMappingService implementation
@@ -20,9 +18,19 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     @Inject
     private Mapper dozer;
 
+    @Override
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
         List<T> mappedCollection = new ArrayList<>();
         objects.forEach(object -> mappedCollection.add(dozer.map(object, mapToClass)));
+        return mappedCollection;
+    }
+
+    @Override
+    public <T, V> Map<T, V> mapTo(Map<?, ?> objects, Class<T> mapToClassKey, Class<V> mapToClassValue) {
+        Map<T, V> mappedCollection = new HashMap<>();
+        for (Map.Entry<?, ?> e : objects.entrySet()) {
+            mappedCollection.put(dozer.map(e.getKey(), mapToClassKey), dozer.map(e.getValue(), mapToClassValue));
+        }
         return mappedCollection;
     }
 

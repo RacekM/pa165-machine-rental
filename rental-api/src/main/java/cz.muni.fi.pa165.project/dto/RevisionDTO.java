@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.project.dto;
 
+import jdk.internal.org.objectweb.asm.tree.LocalVariableAnnotationNode;
+
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -9,7 +12,7 @@ import java.util.Objects;
 public class RevisionDTO {
     private Long id;
     private boolean result;
-    private Calendar date;
+    private LocalDateTime date;
     private MachineDTO machine;
 
     public Long getId() {
@@ -28,11 +31,11 @@ public class RevisionDTO {
         this.result = result;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
