@@ -17,14 +17,18 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
+/**
+ * Test for the {@link CustomerService}
+ *
+ * @author Martin Sisak, 445384
+ */
 
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class CustomerServiceTest extends AbstractTestNGSpringContextTests {
@@ -76,7 +80,7 @@ public class CustomerServiceTest extends AbstractTestNGSpringContextTests {
         List<Customer> customers = Collections.singletonList(customer);
         when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
         List<Customer> customers_result = customerService.findAll();
-        verify(customerDao, times(2)).findAll();
+        verify(customerDao, atLeastOnce()).findAll();
         assertEquals(customers, customers_result);
 
     }
@@ -86,7 +90,7 @@ public class CustomerServiceTest extends AbstractTestNGSpringContextTests {
         List<Customer> customers = Collections.EMPTY_LIST;
         when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
         List<Customer> customers_result = customerService.findAll();
-        verify(customerDao).findAll();
+        verify(customerDao, atLeastOnce()).findAll();
         assertEquals(customers, customers_result);
     }
 
@@ -150,6 +154,51 @@ public class CustomerServiceTest extends AbstractTestNGSpringContextTests {
         doThrow(new InvalidDataAccessApiUsageException("")).when(customerDao).delete(null);
         customerService.remove(null);
     }
+
+    @Test
+    public void getAllByCustomerTypeTest(){
+        List<Customer> customers = Arrays.asList(customerWithoutId, customer);
+        when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
+        List<Customer> customers1 = customerService.getAllByCustomerType(CustomerType.INDIVIDUAL);
+        verify(customerDao, atLeastOnce()).findAll();
+        assertNotEquals(customers, customers1);
+        assertEquals(1, customers1.size());
+        assertTrue(customers1.contains(customer));
+        assertFalse(customers1.contains(customerWithoutId));
+    }
+
+    @Test
+    public void getAllByCustomerTypeWrongType(){
+        List<Customer> customers = Collections.singletonList(customer);
+        when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
+        List<Customer> customers1 = customerService.getAllByCustomerType(CustomerType.LEGAL_PERSON);
+        verify(customerDao, atLeastOnce()).findAll();
+        assertNotEquals(customers, customers1);
+        assertEquals(0, customers1.size());
+        assertFalse(customers1.contains(customer));
+    }
+
+    @Test
+    public void getAllByCustomerNullType(){
+        List<Customer> customers = Collections.singletonList(customer);
+        when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
+        List<Customer> customers1 = customerService.getAllByCustomerType(null);
+        verify(customerDao, atLeastOnce()).findAll();
+        assertNotEquals(customers, customers1);
+        assertEquals(0, customers1.size());
+
+    }
+
+    @Test
+    public void getAllByCustomerFromEmpty(){
+        List<Customer> customers = Collections.EMPTY_LIST;
+        when(customerDao.findAll()).thenReturn(Collections.unmodifiableList(customers));
+        List<Customer> customers1 = customerService.getAllByCustomerType(CustomerType.INDIVIDUAL);
+        verify(customerDao, atLeastOnce()).findAll();
+        assertEquals(customers1, customers);
+        assertEquals(0, customers1.size());
+    }
+
 
 
 }

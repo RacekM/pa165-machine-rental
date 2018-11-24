@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.enums.CustomerType;
 
 import java.util.List;
 
@@ -20,5 +21,9 @@ public interface CustomerService {
     void remove(Customer customer);
 
     void update(Customer customer);
+
+    List<Customer> getAllByCustomerType(CustomerType customerType);
+
+
 
 }

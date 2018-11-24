@@ -2,10 +2,12 @@ package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.CustomerDao;
 import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.enums.CustomerType;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link CustomerService}
@@ -33,4 +35,13 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void update(Customer customer) { customerDao.update(customer); }
+
+    @Override
+    public List<Customer> getAllByCustomerType(CustomerType customerType) {
+        return  findAll().
+                stream()
+                .filter(customer ->
+                        customer.getCustomerType() == customerType)
+                .collect(Collectors.toList());
+    }
 }

@@ -29,6 +29,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
+/**
+ * Test for the {@link CustomerFacade}
+ *
+ * @author Martin Sisak, 445384
+ */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class CustomerFacadeTest extends AbstractTestNGSpringContextTests {
 
@@ -93,6 +98,25 @@ public class CustomerFacadeTest extends AbstractTestNGSpringContextTests {
         customerFacade.deleteCustomer(customer1.getId());
         verify(customerService).findById(customer1.getId());
         verify(customerService).remove(customer1);
+    }
+
+    @Test
+    public void updateCustomerTest(){
+        CustomerCreateDTO customerCreateDTO = new CustomerCreateDTO();
+        customerCreateDTO.setName("Customer");
+        customerCreateDTO.setCustomerType(CustomerType.LEGAL_PERSON);
+        customerFacade.updateCustomer(customerCreateDTO);
+        verify(customerService).update(any(Customer.class));
+    }
+
+    @Test
+    public void getAllByCustomerTypeTest(){
+        List<Customer> customers = Arrays.asList(customer1);
+        when(customerService.getAllByCustomerType(CustomerType.LEGAL_PERSON)).thenReturn(customers);
+        List<CustomerDTO> customerDTOS = customerFacade.getAllByCustomerType(CustomerType.LEGAL_PERSON);
+        verify(customerService).getAllByCustomerType(CustomerType.LEGAL_PERSON);
+        List<Customer> customersResult = beanMappingService.mapTo(customerDTOS, Customer.class);
+        assertEquals(customers, customersResult);
     }
 
 }
