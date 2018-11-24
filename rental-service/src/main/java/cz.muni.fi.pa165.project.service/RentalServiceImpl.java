@@ -3,11 +3,15 @@ package cz.muni.fi.pa165.project.service;
 import cz.muni.fi.pa165.project.dao.RentalDao;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of the {@link RentalService}.
@@ -19,6 +23,9 @@ public class RentalServiceImpl implements RentalService {
 
     @Inject
     private RentalDao rentalDao;
+
+    @Inject
+    private RevisionService revisionService;
 
     @Override
     public void create(Rental rental) {
@@ -90,6 +97,17 @@ public class RentalServiceImpl implements RentalService {
     private boolean isNotSameDay(LocalDateTime dateTime1, LocalDateTime dateTime2) {
         return dateTime1.getDayOfYear() != dateTime2.getDayOfYear() ||
                 dateTime1.getYear() != dateTime2.getYear();
+    }
+
+    @Override
+    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer){
+        List<Rental> rentals = rentalDao.findByCustomer(customer);
+        Map<Rental, Revision> res= new HashMap<>();
+        for (Rental r : rentals){
+            if (r.getReturnDate().isAfter(LocalDateTime.now()))
+                res.put(r, revisionService.getLastMachineRevision(r.getMachine()));
+        }
+        return res;
     }
 
 }

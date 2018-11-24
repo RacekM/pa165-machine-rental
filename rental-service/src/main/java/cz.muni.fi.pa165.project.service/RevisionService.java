@@ -21,4 +21,5 @@ public interface RevisionService {
 
     void update(Revision revision);
 
+    Revision getLastMachineRevision(Machine machine);
 }

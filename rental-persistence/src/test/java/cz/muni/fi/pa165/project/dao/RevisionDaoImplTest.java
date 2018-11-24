@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,9 +37,9 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     public MachineDao machineDao;
 
-    private Calendar date1;
-    private Calendar date2;
-    private Calendar date3;
+    private LocalDateTime date1;
+    private LocalDateTime date2;
+    private LocalDateTime date3;
     private Machine excavator;
     private Machine bulldozer;
     private Revision revision1;
@@ -47,19 +48,13 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void createRevisions() {
-        Calendar cal = Calendar.getInstance();
-
         excavator = new Machine("excavator");
         machineDao.create(excavator);
         bulldozer = new Machine("bulldozer");
         machineDao.create(bulldozer);
-
-        cal.set(2018, Calendar.JANUARY, 1);
-        date1 = cal;
-        cal.set(2018, Calendar.JULY, 1);
-        date2 = cal;
-        cal.set(2018, Calendar.OCTOBER, 4);
-        date3 = cal;
+        date1 = LocalDateTime.of(2018 ,1,1, 0, 0);
+        date2 = LocalDateTime.of(2018, 7, 1, 0, 0);
+        date3 = LocalDateTime.of(2018, 10, 1, 0, 0);
 
         revision1 = new Revision(false, date1, bulldozer);
         revision2 = new Revision(true, date2, bulldozer);
@@ -82,8 +77,7 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void createRevisionWithFutureDateTest() {
-        Calendar futureDay = Calendar.getInstance();
-        futureDay.set(Calendar.YEAR, 2100);
+        LocalDateTime futureDay = LocalDateTime.of(2100, 10 , 10, 0, 0);
         Revision revision = new Revision(true, futureDay, bulldozer);
         revisionDao.create(revision);
     }
@@ -148,12 +142,15 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(r, revision1);
     }
 
-
     @Test
-    public void findByMachine() {
+    public void findByMachineTest() {
         List<Revision> revisions = revisionDao.findByMachine(bulldozer);
         Assert.assertEquals(revisions.size(), 2);
     }
 
-
+    @Test
+    public void findLastRevisionByMachineTest(){
+        Revision revision = revisionDao.findLastRevisionByMachine(bulldozer);
+        Assert.assertEquals(revision,revision2);
+    }
 }

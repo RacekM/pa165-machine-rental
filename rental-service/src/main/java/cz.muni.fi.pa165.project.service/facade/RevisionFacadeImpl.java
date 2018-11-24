@@ -9,9 +9,6 @@ import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RevisionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -50,10 +47,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 
     @Override
     public Long createRevision(RevisionCreateDTO revisionCreateDTO) {
-        Revision revision = new Revision();
-        revision.setResult(revisionCreateDTO.getResult());
-        revision.setDate(revisionCreateDTO.getDate());
-        revision.setMachine(machineService.findById(revisionCreateDTO.getMachine().getId()));
+        Revision revision = beanMappingService.mapTo(revisionCreateDTO, Revision.class);
         revisionService.create(revision);
         return revision.getId();
     }
@@ -64,5 +58,11 @@ public class RevisionFacadeImpl implements RevisionFacade {
         if (revision != null) {
             revisionService.remove(revision);
         }
+    }
+
+    @Override
+    public RevisionDTO getLastMachineRevision(MachineDTO machineDTO) {
+        Revision revision = revisionService.getLastMachineRevision(beanMappingService.mapTo(machineDTO, Machine.class));
+        return (revision == null) ? null : beanMappingService.mapTo(revision, RevisionDTO.class);
     }
 }

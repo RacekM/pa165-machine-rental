@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.Revision;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An interface that defines a service access to the {@link Rental} entity.
@@ -72,5 +74,13 @@ public interface RentalService {
      * @return true if rental can be created, false otherwise
      */
     boolean isValid(Rental rental);
+
+    /**
+     * Finds last revision of active rentals for Customer
+     *
+     * @param customer whose rentals we are considering
+     * @return map of rental and last revision of rented machine
+     */
+    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer);
 
 }

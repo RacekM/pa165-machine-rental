@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.project.facade;
 
 import cz.muni.fi.pa165.project.dto.CustomerCreateDTO;
 import cz.muni.fi.pa165.project.dto.CustomerDTO;
+import cz.muni.fi.pa165.project.enums.CustomerType;
 
 import java.util.List;
 
@@ -20,6 +21,10 @@ public interface CustomerFacade {
 
     void deleteCustomer(Long customerId);
 
-    //List<CustomerDTO> getAllByCustomerType(CustomerType customerType)
+    void updateCustomer(CustomerCreateDTO customerCreateDTO);
+
+    List<CustomerDTO> getAllByCustomerType(CustomerType customerType);
+
+
 
 }

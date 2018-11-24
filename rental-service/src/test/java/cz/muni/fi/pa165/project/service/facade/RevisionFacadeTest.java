@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -52,12 +53,10 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     public void testInit() {
         MockitoAnnotations.initMocks(this);
         machine = new Machine("Drill");
-        Calendar c = Calendar.getInstance();
-        c.set(2018, Calendar.OCTOBER, 1);
-        revision1 = new Revision(true, c, machine);
-        Calendar c2 = Calendar.getInstance();
-        c2.set(2018, Calendar.OCTOBER, 8);
-        revision2 = new Revision(true, c2, machine);
+        LocalDateTime time1 = LocalDateTime.of(2018, 10, 1, 0, 0);
+        revision1 = new Revision(true, time1, machine);
+        LocalDateTime time2 = LocalDateTime.of(2018, 10, 8, 0, 0);
+        revision2 = new Revision(true, time2, machine);
     }
 
     @Test
@@ -82,9 +81,8 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     public void createTest() {
         RevisionCreateDTO revisionCreateDTO = new RevisionCreateDTO();
         revisionCreateDTO.setMachine(beanMappingService.mapTo(machine, MachineDTO.class));
-        Calendar c = Calendar.getInstance();
-        c.set(2018, Calendar.OCTOBER, 12);
-        revisionCreateDTO.setDate(c);
+        LocalDateTime time = LocalDateTime.of(2018, 10, 12, 0, 0);
+        revisionCreateDTO.setDate(time);
         machineService.create(machine);
         revisionFacade.createRevision(revisionCreateDTO);
         verify(revisionService).create(any(Revision.class));

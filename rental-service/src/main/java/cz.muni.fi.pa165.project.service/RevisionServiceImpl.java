@@ -45,4 +45,9 @@ public class RevisionServiceImpl implements RevisionService{
     public void update(Revision revision) {
         revisionDao.update(revision);
     }
+
+    @Override
+    public Revision getLastMachineRevision(Machine machine) {
+        return revisionDao.findLastRevisionByMachine(machine);
+    }
 }

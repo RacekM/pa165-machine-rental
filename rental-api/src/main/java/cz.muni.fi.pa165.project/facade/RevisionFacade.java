@@ -19,4 +19,6 @@ public interface RevisionFacade {
     Long createRevision(RevisionCreateDTO revisionCreateDTO);
 
     void deleteRevision(Long revisionId);
+
+    RevisionDTO getLastMachineRevision(MachineDTO machineDTO);
 }
