@@ -1,9 +1,6 @@
 package cz.muni.fi.pa165.project.service.facade;
 
-import cz.muni.fi.pa165.project.dto.CustomerDTO;
-import cz.muni.fi.pa165.project.dto.MachineDTO;
-import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
-import cz.muni.fi.pa165.project.dto.RentalDTO;
+import cz.muni.fi.pa165.project.dto.*;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
@@ -31,9 +28,9 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Tests for the {@link RentalFacade}.
@@ -164,6 +161,33 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         rentalFacade.deleteRental(testingRental1.getId());
         verify(rentalService).findById(testingRental1.getId());
         verify(rentalService).remove(testingRental1);
+    }
+
+    @Test
+    public void changeFeedbackTest() {
+        String newFeedback = "NewFeedback";
+        doAnswer(invocationOnMock -> {
+            testingRental1.setFeedback(newFeedback);
+            return null;
+        }).when(rentalService).changeFeedback(testingRental1, newFeedback);
+
+        RentalChangeFeedbackDTO rentalChangeFeedbackDTO = new RentalChangeFeedbackDTO();
+        rentalChangeFeedbackDTO.setRental(beanMappingService.mapTo(testingRental1, RentalDTO.class));
+        rentalChangeFeedbackDTO.setFeedback(newFeedback);
+
+        rentalFacade.changeRentalFeedback(rentalChangeFeedbackDTO);
+        verify(rentalService).changeFeedback(any(Rental.class), eq(newFeedback));
+        assertEquals(testingRental1.getFeedback(), newFeedback);
+    }
+
+
+    @Test
+    public void isValidRentalTest() {
+        RentalCreateDTO rentalCreateDTO = new RentalCreateDTO();
+
+        when(rentalService.isValid(any(Rental.class))).thenReturn(true);
+        assertTrue(rentalFacade.isValidRental(rentalCreateDTO));
+        verify(rentalService).isValid(any(Rental.class));
     }
 
 }

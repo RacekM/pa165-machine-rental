@@ -59,10 +59,28 @@ public interface RentalService {
     void remove(Rental rental);
 
     /**
+     * Changes feedback of rental.
+     *
+     * @param rental      rental, whose feedback will be changed
+     * @param newFeedback new feedback
+     */
+    void changeFeedback(Rental rental, String newFeedback);
+
+
+    /**
+     * Checks if rental can be created from the timeline point of view.
+     *
+     * @param rental rental to validate
+     * @return true if rental can be created, false otherwise
+     */
+    boolean isValid(Rental rental);
+
+    /**
      * Finds last revision of active rentals for Customer
      *
      * @param customer whose rentals we are considering
      * @return map of rental and last revision of rented machine
      */
     Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer);
+
 }

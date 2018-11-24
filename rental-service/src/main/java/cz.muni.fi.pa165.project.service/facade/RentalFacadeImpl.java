@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.project.service.facade;
 
+import cz.muni.fi.pa165.project.dto.RentalChangeFeedbackDTO;
 import cz.muni.fi.pa165.project.dto.CustomerDTO;
 import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
 import cz.muni.fi.pa165.project.dto.RentalDTO;
@@ -43,10 +44,7 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public Long createRental(RentalCreateDTO rentalCreateDTO) {
-        Rental rental = new Rental();
-        rental.setDateOfRental(rentalCreateDTO.getDateOfRental());
-        rental.setReturnDate(rentalCreateDTO.getReturnDate());
-        rental.setFeedback(rentalCreateDTO.getFeedback());
+        Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
         rental.setMachine(machineService.findById(rentalCreateDTO.getMachine().getId()));
         rental.setCustomer(customerService.findById(rentalCreateDTO.getCustomer().getId()));
         rentalService.create(rental);
@@ -84,9 +82,21 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
+    public void changeRentalFeedback(RentalChangeFeedbackDTO rentalChangeFeedbackDTO) {
+        Rental rental = beanMappingService.mapTo(rentalChangeFeedbackDTO.getRental(), Rental.class);
+        rentalService.changeFeedback(rental, rentalChangeFeedbackDTO.getFeedback());
+    }
+
+    @Override
+    public boolean isValidRental(RentalCreateDTO rentalCreateDTO) {
+        return rentalService.isValid(beanMappingService.mapTo(rentalCreateDTO, Rental.class));
+    }
+
+    @Override
     public Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(CustomerDTO customerDTO){
         Map<Rental, Revision> result = rentalService.activeRentalsWithLastRevisionByCustomer(
                 beanMappingService.mapTo(customerDTO, Customer.class));
         return beanMappingService.mapTo(result, RentalDTO.class, RevisionDTO.class);
     }
+
 }
