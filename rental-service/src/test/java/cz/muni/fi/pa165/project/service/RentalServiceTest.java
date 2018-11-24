@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     private Rental testRental;
     private Rental testRentalWithoutId;
+    private List<Rental> testExistingRentals;
 
     @BeforeMethod
     public void preparetestRental() {
@@ -72,6 +74,26 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalWithoutId.setFeedback("TestFeedback.");
         testRentalWithoutId.setCustomer(customer);
         testRentalWithoutId.setMachine(machine);
+
+        Rental testRentalFuture = new Rental();
+        testRentalFuture.setId(3L);
+        testRentalFuture.setDateOfRental(LocalDateTime.now().minusDays(3));
+        testRentalFuture.setReturnDate(LocalDateTime.now().minusDays(2));
+        testRentalFuture.setFeedback("TestFeedback.");
+        testRentalFuture.setCustomer(customer);
+        testRentalFuture.setMachine(machine);
+
+        Rental testRentalPast = new Rental();
+        testRentalPast.setId(4L);
+        testRentalPast.setDateOfRental(LocalDateTime.now().plusDays(2));
+        testRentalPast.setReturnDate(LocalDateTime.now().plusDays(3));
+        testRentalPast.setFeedback("TestFeedback.");
+        testRentalPast.setCustomer(customer);
+        testRentalPast.setMachine(machine);
+
+        testExistingRentals = new ArrayList<>();
+        testExistingRentals.add(testRentalFuture);
+        testExistingRentals.add(testRentalPast);
     }
 
     @Test
@@ -237,6 +259,70 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         rentalService.changeFeedback(testRental, "NewFeedback");
         verify(rentalDao).update(testRental);
         assertEquals(testRental.getFeedback(), "NewFeedback");
+    }
+
+    @Test
+    public void isValidCorrectDatesTest() {
+        testRental.setDateOfRental(LocalDateTime.now());
+        testRental.setReturnDate(LocalDateTime.now().plusDays(1));
+
+        when(rentalDao.findAll()).thenReturn(new ArrayList<>());
+        Assert.assertTrue(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidIncorrectDatesWrongTimelineTest() {
+        testRental.setDateOfRental(LocalDateTime.now().plusDays(1));
+        testRental.setReturnDate(LocalDateTime.now());
+
+        when(rentalDao.findAll()).thenReturn(new ArrayList<>());
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidIncorrectDatesSameDateTimeTest() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        testRental.setDateOfRental(dateTime);
+        testRental.setReturnDate(dateTime);
+
+        when(rentalDao.findAll()).thenReturn(new ArrayList<>());
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidNotOverlappingTest() {
+        testRental.setDateOfRental(LocalDateTime.now().minusDays(1));
+        testRental.setReturnDate(LocalDateTime.now().plusDays(1));
+
+        when(rentalDao.findAll()).thenReturn(testExistingRentals);
+        Assert.assertTrue(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidPastOverlapingTest() {
+        testRental.setDateOfRental(LocalDateTime.now().minusDays(2));
+        testRental.setReturnDate(LocalDateTime.now().plusDays(1));
+
+        when(rentalDao.findAll()).thenReturn(testExistingRentals);
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidFutureOverlappingTest() {
+        testRental.setDateOfRental(LocalDateTime.now().minusDays(1));
+        testRental.setReturnDate(LocalDateTime.now().plusDays(2));
+
+        when(rentalDao.findAll()).thenReturn(testExistingRentals);
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidWholeIntervalsOverlappingTest() {
+        testRental.setDateOfRental(LocalDateTime.now().minusDays(4));
+        testRental.setReturnDate(LocalDateTime.now().plusDays(4));
+
+        when(rentalDao.findAll()).thenReturn(testExistingRentals);
+        Assert.assertFalse(rentalService.isValid(testRental));
     }
 
 }

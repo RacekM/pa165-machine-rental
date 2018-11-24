@@ -57,4 +57,12 @@ public interface RentalFacade {
      */
     void changeRentalFeedback(RentalChangeFeedbackDTO rentalChangeFeedbackDTO);
 
+
+    /**
+     * Checks if rental can be created from the timeline point of view.
+     *
+     * @param rentalCreateDTO rental to validate
+     * @return true if rentalCreateDTO can be created, false otherwise
+     */
+    boolean isValidRental(RentalCreateDTO rentalCreateDTO);
 }

@@ -83,4 +83,9 @@ public class RentalFacadeImpl implements RentalFacade {
         rentalService.changeFeedback(rental, rentalChangeFeedbackDTO.getFeedback());
     }
 
+    @Override
+    public boolean isValidRental(RentalCreateDTO rentalCreateDTO) {
+        return rentalService.isValid(beanMappingService.mapTo(rentalCreateDTO, Rental.class));
+    }
+
 }

@@ -64,4 +64,13 @@ public interface RentalService {
      */
     void changeFeedback(Rental rental, String newFeedback);
 
+
+    /**
+     * Checks if rental can be created from the timeline point of view.
+     *
+     * @param rental rental to validate
+     * @return true if rental can be created, false otherwise
+     */
+    boolean isValid(Rental rental);
+
 }
