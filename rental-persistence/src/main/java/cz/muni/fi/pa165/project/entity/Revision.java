@@ -4,8 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 
@@ -22,7 +20,6 @@ public class Revision {
 
     private boolean result;
 
-    @Temporal(TemporalType.DATE)
     @Past
     @NotNull
     @Column(nullable = false)

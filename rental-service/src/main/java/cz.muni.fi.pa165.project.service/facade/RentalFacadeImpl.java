@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.project.service.facade;
 
+import cz.muni.fi.pa165.project.dto.CustomerDTO;
 import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
 import cz.muni.fi.pa165.project.dto.RentalDTO;
+import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.CustomerService;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of {@link RentalFacade}
@@ -79,4 +83,10 @@ public class RentalFacadeImpl implements RentalFacade {
         }
     }
 
+    @Override
+    public Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(CustomerDTO customerDTO){
+        Map<Rental, Revision> result = rentalService.activeRentalsWithLastRevisionByCustomer(
+                beanMappingService.mapTo(customerDTO, Customer.class));
+        return beanMappingService.mapTo(result, RentalDTO.class, RevisionDTO.class);
+    }
 }

@@ -9,9 +9,6 @@ import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RevisionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;

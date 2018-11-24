@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
 import cz.muni.fi.pa165.project.entity.Customer;
-import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Map<Rental, Revision> rentedMachinesAndTheyrLastRevisionByCustomer(Customer customer) {
+    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer){
         List<Rental> rentals = rentalDao.findByCustomer(customer);
         Map<Rental, Revision> res= new HashMap<>();
         for (Rental r : rentals){

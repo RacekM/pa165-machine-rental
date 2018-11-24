@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.project.facade;
 
+import cz.muni.fi.pa165.project.dto.CustomerDTO;
 import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
 import cz.muni.fi.pa165.project.dto.RentalDTO;
+import cz.muni.fi.pa165.project.dto.RevisionDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * RentalFacade interface
@@ -48,5 +51,13 @@ public interface RentalFacade {
      * @param rentalId id of rental to remove
      */
     void deleteRental(Long rentalId);
+
+    /**
+     * Finds last revision of active rentals for Customer
+     *
+     * @param customerDTO whose rentals we are considering
+     * @return map of rental and last revision of rented machine
+     */
+    Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(CustomerDTO customerDTO);
 
 }

@@ -58,5 +58,11 @@ public interface RentalService {
      */
     void remove(Rental rental);
 
-    Map<Rental, Revision> rentedMachinesAndTheyrLastRevisionByCustomer(Customer customer);
+    /**
+     * Finds last revision of active rentals for Customer
+     *
+     * @param customer whose rentals we are considering
+     * @return map of rental and last revision of rented machine
+     */
+    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer);
 }
