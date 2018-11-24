@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.project.dto;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Objects;
 
 /**
