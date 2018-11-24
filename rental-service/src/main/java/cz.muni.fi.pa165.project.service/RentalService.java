@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.Revision;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An interface that defines a service access to the {@link Rental} entity.
@@ -56,4 +58,5 @@ public interface RentalService {
      */
     void remove(Rental rental);
 
+    Map<Rental, Revision> rentedMachinesAndTheyrLastRevisionByCustomer(Customer customer);
 }

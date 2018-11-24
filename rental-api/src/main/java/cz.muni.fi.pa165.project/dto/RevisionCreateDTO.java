@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.project.dto;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class RevisionCreateDTO {
     private boolean result;
     @NotNull
-    private Calendar date;
+    private LocalDateTime date;
     @NotNull
     private MachineDTO machine;
 
@@ -22,11 +23,11 @@ public class RevisionCreateDTO {
         this.result = result;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

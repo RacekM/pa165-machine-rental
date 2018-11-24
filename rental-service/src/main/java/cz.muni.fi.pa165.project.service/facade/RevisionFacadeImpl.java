@@ -65,4 +65,10 @@ public class RevisionFacadeImpl implements RevisionFacade {
             revisionService.remove(revision);
         }
     }
+
+    @Override
+    public RevisionDTO getLastMachineRevision(MachineDTO machineDTO) {
+        Revision revision = revisionService.getLastMachineRevision(beanMappingService.mapTo(machineDTO, Machine.class));
+        return (revision == null) ? null : beanMappingService.mapTo(revision, RevisionDTO.class);
+    }
 }
