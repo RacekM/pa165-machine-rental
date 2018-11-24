@@ -30,6 +30,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Tests for the {@link RentalFacade}.
@@ -177,6 +178,16 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         rentalFacade.changeRentalFeedback(rentalChangeFeedbackDTO);
         verify(rentalService).changeFeedback(any(Rental.class), eq(newFeedback));
         assertEquals(testingRental1.getFeedback(), newFeedback);
+    }
+
+
+    @Test
+    public void isValidRentalTest() {
+        RentalCreateDTO rentalCreateDTO = new RentalCreateDTO();
+
+        when(rentalService.isValid(any(Rental.class))).thenReturn(true);
+        assertTrue(rentalFacade.isValidRental(rentalCreateDTO));
+        verify(rentalService).isValid(any(Rental.class));
     }
 
 }
