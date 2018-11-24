@@ -47,10 +47,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 
     @Override
     public Long createRevision(RevisionCreateDTO revisionCreateDTO) {
-        Revision revision = new Revision();
-        revision.setResult(revisionCreateDTO.getResult());
-        revision.setDate(revisionCreateDTO.getDate());
-        revision.setMachine(machineService.findById(revisionCreateDTO.getMachine().getId()));
+        Revision revision = beanMappingService.mapTo(revisionCreateDTO, Revision.class);
         revisionService.create(revision);
         return revision.getId();
     }
