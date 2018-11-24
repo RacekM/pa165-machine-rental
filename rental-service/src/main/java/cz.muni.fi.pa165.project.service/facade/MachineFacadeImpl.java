@@ -41,8 +41,7 @@ public class MachineFacadeImpl implements MachineFacade {
 
     @Override
     public Long createMachine(MachineCreateDTO machineCreateDTO) {
-        Machine machine = new Machine();
-        machine.setName(machineCreateDTO.getName());
+        Machine machine = beanMappingService.mapTo(machineCreateDTO, Machine.class);
         machineService.create(machine);
         return machine.getId();
     }
