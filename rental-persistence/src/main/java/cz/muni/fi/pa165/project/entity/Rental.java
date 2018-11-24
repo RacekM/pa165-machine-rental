@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.project.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -17,7 +16,6 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Past
     @NotNull
     @Column(nullable = false)
     private LocalDateTime dateOfRental;
