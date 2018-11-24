@@ -56,4 +56,12 @@ public interface RentalService {
      */
     void remove(Rental rental);
 
+    /**
+     * Changes feedback of rental.
+     *
+     * @param rental      rental, whose feedback will be changed
+     * @param newFeedback new feedback
+     */
+    void changeFeedback(Rental rental, String newFeedback);
+
 }

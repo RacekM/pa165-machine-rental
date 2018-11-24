@@ -49,4 +49,10 @@ public class RentalServiceImpl implements RentalService {
         rentalDao.delete(rental);
     }
 
+    @Override
+    public void changeFeedback(Rental rental, String newFeedback) {
+        rental.setFeedback(newFeedback);
+        rentalDao.update(rental);
+    }
+
 }

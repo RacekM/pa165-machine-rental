@@ -232,5 +232,11 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         rentalService.remove(null);
     }
 
+    @Test
+    public void changeFeedbackTest() {
+        rentalService.changeFeedback(testRental, "NewFeedback");
+        verify(rentalDao).update(testRental);
+        assertEquals(testRental.getFeedback(), "NewFeedback");
+    }
 
 }
