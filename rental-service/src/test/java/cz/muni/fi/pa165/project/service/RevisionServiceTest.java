@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,17 +38,20 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
     private RevisionService revisionService;
 
     private Revision revision;
+    private Revision revision2;
+    private Revision revision3;
 
     @BeforeMethod
     public void testInit() {
         MockitoAnnotations.initMocks(this);
-        Machine machine = new Machine();
-        machine.setName("Drill");
-        revision = new Revision();
-        revision.setMachine(machine);
-        revision.setResult(true);
+        Machine machine = new Machine("Drill");
         LocalDateTime time = LocalDateTime.of(2018, 5, 5, 0, 0);
-        revision.setDate(time);
+        revision = new Revision(true, time, machine);
+        LocalDateTime time2 = LocalDateTime.of(2018, 5, 6, 0, 0);
+        revision2 = new Revision(true, time2, machine);
+        Machine machine2 = new Machine("bulldozer");
+        LocalDateTime time3 = LocalDateTime.of(2018, 5, 7, 0, 0);
+        revision3 = new Revision(true, time3, machine2);
     }
 
     @Test
@@ -128,4 +132,20 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
         revisionService.remove(null);
     }
 
+    @Test
+    public void findMachineRevisionsTest(){
+        List<Revision> list = Arrays.asList(revision, revision2);
+        when(revisionDao.findByMachine(revision.getMachine())).thenReturn(Collections.unmodifiableList(list));
+        List<Revision> result = revisionService.findMachineRevisions(revision.getMachine());
+        verify(revisionDao).findByMachine(revision.getMachine());
+        assertEquals(result, list);
+    }
+
+    @Test
+    public void getLastMachineRevisionTest(){
+        when(revisionDao.findLastRevisionByMachine(revision.getMachine())).thenReturn(revision2);
+        Revision revision = revisionService.getLastMachineRevision(this.revision.getMachine());
+        verify(revisionDao).findLastRevisionByMachine(this.revision.getMachine());
+        assertEquals(revision, revision2);
+    }
 }

@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -48,6 +47,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     private Machine machine;
     private Revision revision1;
     private Revision revision2;
+    private Revision revision3;
 
     @BeforeMethod
     public void testInit() {
@@ -57,6 +57,8 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         revision1 = new Revision(true, time1, machine);
         LocalDateTime time2 = LocalDateTime.of(2018, 10, 8, 0, 0);
         revision2 = new Revision(true, time2, machine);
+        LocalDateTime time3 = LocalDateTime.of(2018, 11, 8, 0, 0);
+        revision3 = new Revision(true, time3, new Machine("bulldozer"));
     }
 
     @Test
@@ -94,5 +96,23 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         revisionFacade.deleteRevision(revision1.getId());
         verify(revisionService).findById(revision1.getId());
         verify(revisionService).remove(revision1);
+    }
+
+    @Test
+    public void findMachineRevisionsTest(){
+        List<Revision> array = Arrays.asList(revision1, revision2);
+        when(revisionService.findMachineRevisions(machine)).thenReturn(array);
+        List<RevisionDTO> resultDTO = revisionFacade.getRevisionsOfMachine(beanMappingService.mapTo(machine, MachineDTO.class));
+        verify(revisionService).findMachineRevisions(machine);
+        List<Revision> result = beanMappingService.mapTo(resultDTO, Revision.class);
+        assertEquals(result, array);
+    }
+
+    @Test
+    public void getLastMachineRevisionTest() {
+        when(revisionService.getLastMachineRevision(machine)).thenReturn(revision2);
+        RevisionDTO revisionDTO = revisionFacade.getLastMachineRevision(beanMappingService.mapTo(machine, MachineDTO.class));
+        verify(revisionService).getLastMachineRevision(machine);
+        assertEquals(revision2, beanMappingService.mapTo(revisionDTO, Revision.class));
     }
 }
