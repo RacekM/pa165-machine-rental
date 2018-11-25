@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.project.dto.*;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.enums.CustomerType;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
@@ -23,7 +24,9 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -188,6 +191,23 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         when(rentalService.isValid(any(Rental.class))).thenReturn(true);
         assertTrue(rentalFacade.isValidRental(rentalCreateDTO));
         verify(rentalService).isValid(any(Rental.class));
+    }
+
+    @Test
+    public void activeRentalsWithLastRevisionByCustomerTest(){
+        Map<Rental, Revision> rentalRevisionMap = new HashMap<>();
+        when(rentalService.activeRentalsWithLastRevisionByCustomer(testingCustomer)).thenReturn(rentalRevisionMap);
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(1L);
+        customerDTO.setCustomerType(CustomerType.INDIVIDUAL);
+        customerDTO.setName("TestCustomer");
+
+        Map<RentalDTO, RevisionDTO> rentalDTORevisionDTOMap = rentalFacade.activeRentalsWithLastRevisionByCustomer(customerDTO);
+        verify(rentalService).activeRentalsWithLastRevisionByCustomer(testingCustomer);
+        Map<Rental, Revision> rentalRevisionMapResult = beanMappingService.mapTo(rentalDTORevisionDTOMap, Rental.class, Revision.class);
+        assertEquals(rentalRevisionMap, rentalRevisionMapResult);
+
     }
 
 }
