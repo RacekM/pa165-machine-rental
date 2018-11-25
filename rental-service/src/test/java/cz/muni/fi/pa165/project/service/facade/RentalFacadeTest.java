@@ -170,6 +170,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         customerService.create(beanMappingService.mapTo(customerDTO, Customer.class));
         machineService.create(beanMappingService.mapTo(machineDTO, Machine.class));
 
+        when(rentalService.isValid(any(Rental.class))).thenReturn(true);
         rentalFacade.createRental(rentalCreateDTO);
         verify(customerService).findById(customerDTO.getId());
         verify(machineService).findById(machineDTO.getId());
@@ -208,6 +209,16 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
 
         when(rentalService.isValid(any(Rental.class))).thenReturn(true);
         assertTrue(rentalFacade.isValidRental(rentalCreateDTO));
+        verify(rentalService).isValid(any(Rental.class));
+    }
+
+    @Test(expectedExceptions = {IllegalArgumentException.class})
+    public void isValidRentalInvalidDatesTest() {
+        testingRental1.setDateOfRental(LocalDateTime.now().plusDays(1));
+        testingRental1.setReturnDate(LocalDateTime.now().minusDays(1));
+
+        when(rentalService.isValid(any(Rental.class))).thenReturn(false);
+        rentalFacade.createRental(beanMappingService.mapTo(testingRental1, RentalCreateDTO.class));
         verify(rentalService).isValid(any(Rental.class));
     }
 
