@@ -325,4 +325,34 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertFalse(rentalService.isValid(testRental));
     }
 
+    @Test
+    public void isValidOverlappingDatesTest() {
+        testRental.setDateOfRental(LocalDateTime.of(2000, 1, 1, 1, 3));
+        testRental.setReturnDate(LocalDateTime.of(2010, 1, 1, 1, 1));
+        Rental r = new Rental();
+        r.setDateOfRental(LocalDateTime.of(2000, 1, 1, 1, 1));
+        r.setReturnDate(LocalDateTime.of(2000, 1, 1, 1, 2));
+        testExistingRentals.add(r);
+        when(rentalDao.findAll()).thenReturn(testExistingRentals);
+
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void isValidNullDatesTest() {
+        testRental.setDateOfRental(null);
+        testRental.setReturnDate(null);
+
+        Assert.assertFalse(rentalService.isValid(testRental));
+    }
+
+    @Test
+    public void findByCustomerTest() {
+        when(rentalDao.findByCustomer(any(Customer.class))).thenReturn(testExistingRentals);
+        List<Rental> rentals = rentalService.findByCustomer(new Customer());
+        assertThat(rentals, is(testExistingRentals));
+        verify(rentalDao).findByCustomer(any(Customer.class));
+    }
+
+
 }
