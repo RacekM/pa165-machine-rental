@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.enums.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -17,7 +18,6 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -92,29 +92,29 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(rental, matusOne);
     }
 
-    @Test(expectedExceptions = {ConstraintViolationException.class})
+    @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeOne() {
         Rental rental = new Rental(null, timeTomorrow,
                 "feedback", machineOne, customerAdam);
         rentalDao.create(rental);
     }
 
-    @Test(expectedExceptions = {ConstraintViolationException.class})
+    @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeTwo() {
         rentalDao.create(new Rental(timeNow, null, "feedback", machineOne, customerAdam));
     }
 
-    @Test(expectedExceptions = {ConstraintViolationException.class})
+    @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeThree() {
         rentalDao.create(new Rental(timeNow, timeTomorrow, null, machineOne, customerAdam));
     }
 
-    @Test(expectedExceptions = {ConstraintViolationException.class})
+    @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeFour() {
         rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", null, customerAdam));
     }
 
-    @Test(expectedExceptions = {ConstraintViolationException.class})
+    @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeFive() {
         rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", machineOne, null));
     }

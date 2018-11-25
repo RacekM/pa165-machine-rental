@@ -17,6 +17,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.persistence.ValidationMode;
 import javax.sql.DataSource;
 
 /**
@@ -49,6 +50,7 @@ public class PersistenceApplicationContext {
         jpaFactoryBean.setDataSource(db());
         jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        jpaFactoryBean.setValidationMode(ValidationMode.NONE);
         return jpaFactoryBean;
     }
 
