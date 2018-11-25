@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.project.PersistenceApplicationContext;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -15,9 +16,7 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -75,20 +74,13 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(persistedRevision, revision);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void createRevisionWithFutureDateTest() {
-        LocalDateTime futureDay = LocalDateTime.of(2100, 10 , 10, 0, 0);
-        Revision revision = new Revision(true, futureDay, bulldozer);
-        revisionDao.create(revision);
-    }
-
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createRevisionWithNullMachineTest() {
         Revision revision = new Revision(true, date1, null);
         revisionDao.create(revision);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createRevisionWithNullDateTest() {
         Revision revision = new Revision(true, null, bulldozer);
         revisionDao.create(revision);

@@ -1,10 +1,6 @@
 package cz.muni.fi.pa165.project.service.facade;
 
-import cz.muni.fi.pa165.project.dto.RentalChangeFeedbackDTO;
-import cz.muni.fi.pa165.project.dto.CustomerDTO;
-import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
-import cz.muni.fi.pa165.project.dto.RentalDTO;
-import cz.muni.fi.pa165.project.dto.RevisionDTO;
+import cz.muni.fi.pa165.project.dto.*;
 import cz.muni.fi.pa165.project.entity.Customer;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
@@ -47,6 +43,11 @@ public class RentalFacadeImpl implements RentalFacade {
         Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
         rental.setMachine(machineService.findById(rentalCreateDTO.getMachine().getId()));
         rental.setCustomer(customerService.findById(rentalCreateDTO.getCustomer().getId()));
+
+        if (!rentalService.isValid(rental)) {
+            throw new IllegalArgumentException("New rental is invalid.");
+        }
+
         rentalService.create(rental);
 
         return rental.getId();

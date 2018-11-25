@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.dao;
 import cz.muni.fi.pa165.project.PersistenceApplicationContext;
 import cz.muni.fi.pa165.project.entity.Machine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,7 +15,6 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -56,7 +56,7 @@ public class MachineDaoImplTest extends AbstractTestNGSpringContextTests {
         machineDao.create(null);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createMachineWithNullName(){
         machineDao.create(new Machine(null));
 

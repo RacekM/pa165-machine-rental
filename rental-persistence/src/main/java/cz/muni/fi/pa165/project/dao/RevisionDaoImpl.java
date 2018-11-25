@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +41,7 @@ public class RevisionDaoImpl implements RevisionDao {
 
     @Override
     public void delete(Revision revision) {
-        entityManager.remove(entityManager.merge(revision));
+        entityManager.remove(revision);
     }
 
     @Override
