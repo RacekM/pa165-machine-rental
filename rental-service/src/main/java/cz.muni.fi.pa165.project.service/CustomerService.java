@@ -11,7 +11,9 @@ import java.util.List;
  * @author Martin Sisak, 445384
  */
 public interface CustomerService {
+
     /**
+     *  Finds customer by his id
      *
      * @param customerId Identifier for customer
      * @return Found customer if data storage contains it, null otherwise
@@ -20,30 +22,35 @@ public interface CustomerService {
 
     /**
      * Finds all customers
+     *
      * @return List of all customers from data storage
      */
     List<Customer> findAll();
 
     /**
      * Creates new customer
+     *
      * @param customer Customer to create
      */
     void create(Customer customer);
 
     /**
      * Deletes customer
+     *
      * @param customer Customer to delete
      */
     void remove(Customer customer);
 
     /**
      * Updates customer
+     *
      * @param customer Customer to update
      */
     void update(Customer customer);
 
     /**
      * Finds all customers with specified CustomerType
+     *
      * @param customerType Type of customer
      * @return List of customers with specified CustomerType
      */
