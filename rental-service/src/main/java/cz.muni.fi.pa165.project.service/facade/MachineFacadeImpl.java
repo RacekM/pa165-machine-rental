@@ -17,7 +17,6 @@ import java.util.List;
  *
  * @author Matus Racek (mat.racek@gmail.com)
  */
-
 @Service
 @Transactional
 public class MachineFacadeImpl implements MachineFacade {
