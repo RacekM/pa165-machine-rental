@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.RevisionService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
 /**
  * @author Juraj Vandor
  */
-
+@Service
+@Transactional
 public class RevisionFacadeImpl implements RevisionFacade {
     @Inject
     private RevisionService revisionService;

@@ -7,6 +7,8 @@ import cz.muni.fi.pa165.project.enums.CustomerType;
 import cz.muni.fi.pa165.project.facade.CustomerFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
 import cz.muni.fi.pa165.project.service.CustomerService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
  *
  * @author Martin Sisak, 445384
  */
+@Service
+@Transactional
 public class CustomerFacadeImpl implements CustomerFacade {
 
     @Inject
