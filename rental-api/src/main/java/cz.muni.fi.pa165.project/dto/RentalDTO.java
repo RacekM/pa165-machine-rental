@@ -1,55 +1,33 @@
-package cz.muni.fi.pa165.project.entity;
+package cz.muni.fi.pa165.project.dto;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- *  Rental Entity
- * @author Martin Sisak (445384@mail.muni.cz)
+ * RentalDTO entity
+ *
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
-@Entity
-public class Rental {
+public class RentalDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(nullable = false)
     private LocalDateTime dateOfRental;
 
-    @NotNull
-    @Column(nullable = false)
     private LocalDateTime returnDate;
 
-    @NotNull
-    @Column(nullable = false)
     private String feedback;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    private Machine machine;
+    private MachineDTO machine;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    private Customer customer;
-
-    public Rental() {
-
-    }
-
-    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, Customer customer) {
-        this.dateOfRental = dateOfRental;
-        this.returnDate = returnDate;
-        this.feedback = feedback;
-        this.machine = machine;
-        this.customer = customer;
-    }
+    private CustomerDTO customer;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getDateOfRental() {
@@ -60,18 +38,6 @@ public class Rental {
         this.dateOfRental = dateOfRental;
     }
 
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public Machine getMachine() { return machine; }
-
-    public Customer getCustomer() { return customer; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
@@ -80,23 +46,35 @@ public class Rental {
         this.returnDate = returnDate;
     }
 
+    public String getFeedback() {
+        return feedback;
+    }
+
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
 
-    public void setMachine(Machine machine) {
+    public MachineDTO getMachine() {
+        return machine;
+    }
+
+    public void setMachine(MachineDTO machine) {
         this.machine = machine;
     }
 
-    public void setCustomer(Customer customer) {
+    public CustomerDTO getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rental)) return false;
-        Rental rental = (Rental) o;
+        if (!(o instanceof RentalDTO)) return false;
+        RentalDTO rental = (RentalDTO) o;
         return Objects.equals(getDateOfRental(), rental.getDateOfRental()) &&
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
                 Objects.equals(getFeedback(), rental.getFeedback()) &&
@@ -112,7 +90,7 @@ public class Rental {
 
     @Override
     public String toString() {
-        return "Rental{" +
+        return "RentalDTO{" +
                 "id=" + id +
                 ", dateOfRental=" + dateOfRental +
                 ", returnDate=" + returnDate +
@@ -121,4 +99,5 @@ public class Rental {
                 ", customer=" + customer +
                 '}';
     }
+
 }

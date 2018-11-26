@@ -3,7 +3,7 @@ package cz.muni.fi.pa165.project.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -20,11 +20,10 @@ public class Revision {
 
     private boolean result;
 
-    @Temporal(TemporalType.DATE)
     @Past
     @NotNull
     @Column(nullable = false)
-    private Date date;
+    private LocalDateTime date;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -32,7 +31,7 @@ public class Revision {
 
     public Revision(){}
 
-    public Revision(boolean result, Date date, Machine machine) {
+    public Revision(boolean result, LocalDateTime date, Machine machine) {
         this.result = result;
         this.date = date;
         this.machine = machine;
@@ -46,7 +45,7 @@ public class Revision {
         return result;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -58,7 +57,7 @@ public class Revision {
         this.result = result;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

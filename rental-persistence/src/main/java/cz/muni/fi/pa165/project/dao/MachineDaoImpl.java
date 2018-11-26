@@ -41,6 +41,6 @@ public class MachineDaoImpl implements MachineDao {
 
     @Override
     public void delete(Machine machine) {
-        entityManager.remove(entityManager.merge(machine));
+        entityManager.remove(machine);
     }
 }

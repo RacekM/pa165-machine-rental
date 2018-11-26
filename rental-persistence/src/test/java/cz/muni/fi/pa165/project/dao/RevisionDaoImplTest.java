@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.project.PersistenceApplicationContext;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -15,9 +16,7 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,9 +36,9 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
     @Autowired
     public MachineDao machineDao;
 
-    private Date date1;
-    private Date date2;
-    private Date date3;
+    private LocalDateTime date1;
+    private LocalDateTime date2;
+    private LocalDateTime date3;
     private Machine excavator;
     private Machine bulldozer;
     private Revision revision1;
@@ -48,19 +47,13 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void createRevisions() {
-        Calendar cal = Calendar.getInstance();
-
         excavator = new Machine("excavator");
         machineDao.create(excavator);
         bulldozer = new Machine("bulldozer");
         machineDao.create(bulldozer);
-
-        cal.set(2018, Calendar.JANUARY, 1);
-        date1 = cal.getTime();
-        cal.set(2018, Calendar.JULY, 1);
-        date2 = cal.getTime();
-        cal.set(2018, Calendar.OCTOBER, 4);
-        date3 = cal.getTime();
+        date1 = LocalDateTime.of(2018 ,1,1, 0, 0);
+        date2 = LocalDateTime.of(2018, 7, 1, 0, 0);
+        date3 = LocalDateTime.of(2018, 10, 1, 0, 0);
 
         revision1 = new Revision(false, date1, bulldozer);
         revision2 = new Revision(true, date2, bulldozer);
@@ -81,20 +74,13 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(persistedRevision, revision);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void createRevisionWithFutureDateTest() {
-        Date futureDay = new Date(Long.MAX_VALUE);
-        Revision revision = new Revision(true, futureDay, bulldozer);
-        revisionDao.create(revision);
-    }
-
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createRevisionWithNullMachineTest() {
         Revision revision = new Revision(true, date1, null);
         revisionDao.create(revision);
     }
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createRevisionWithNullDateTest() {
         Revision revision = new Revision(true, null, bulldozer);
         revisionDao.create(revision);
@@ -133,7 +119,7 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteNonExistingRevisionTest() {
-        Revision notExistingRevision = new Revision(false, new Date(0), bulldozer);
+        Revision notExistingRevision = new Revision(false, date2, bulldozer);
         revisionDao.delete(notExistingRevision);
         Assert.assertEquals(entityManager.createQuery("SELECT r FROM Revision r", Revision.class).getResultList().size(), 3);
     }
@@ -148,12 +134,15 @@ public class RevisionDaoImplTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(r, revision1);
     }
 
-
     @Test
-    public void findByMachine() {
+    public void findByMachineTest() {
         List<Revision> revisions = revisionDao.findByMachine(bulldozer);
         Assert.assertEquals(revisions.size(), 2);
     }
 
-
+    @Test
+    public void findLastRevisionByMachineTest(){
+        Revision revision = revisionDao.findLastRevisionByMachine(bulldozer);
+        Assert.assertEquals(revision,revision2);
+    }
 }
