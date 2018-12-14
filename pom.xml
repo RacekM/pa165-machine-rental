@@ -115,6 +115,8 @@
         <module>rental-persistence</module>
         <module>rental-api</module>
         <module>rental-service</module>
+        <module>rental-angular</module>
+        <module>rental-sample-data</module>
     </modules>
 
 </project>
