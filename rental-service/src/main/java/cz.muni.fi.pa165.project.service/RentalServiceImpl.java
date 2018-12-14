@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public boolean isValid(Rental rental) {
-        if (rental.getDateOfRental() == null || rental.getReturnDate() == null) {
+        if (rental.getDateOfRental() == null || rental.getReturnDate() == null || rental.getMachine() == null) {
             return false;
         }
 
@@ -75,28 +74,18 @@ public class RentalServiceImpl implements RentalService {
 
         List<Rental> existingRentals = findAll();
         for (Rental existingRental : existingRentals) {
-            boolean isBefore = existingRental.getReturnDate().isBefore(rental.getDateOfRental()) &&
-                    isNotSameDay(existingRental.getReturnDate(), rental.getDateOfRental());
-            boolean isAfter = existingRental.getDateOfRental().isAfter(rental.getReturnDate()) &&
-                    isNotSameDay(existingRental.getDateOfRental(), rental.getReturnDate());
+            if (!rental.getMachine().equals(existingRental.getMachine())) {
+                continue;
+            }
 
-            if (!(isBefore || isAfter)) {
+            boolean isBefore = existingRental.getReturnDate().toLocalDate().isBefore(rental.getDateOfRental().toLocalDate());
+            boolean isAfter = existingRental.getDateOfRental().toLocalDate().isAfter(rental.getReturnDate().toLocalDate());
+
+            if (!isBefore && !isAfter) {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Checks if two dates are the same day.
-     *
-     * @param dateTime1 first date
-     * @param dateTime2 second date
-     * @return true if both dates are same day, false otherwise
-     */
-    private boolean isNotSameDay(LocalDateTime dateTime1, LocalDateTime dateTime2) {
-        return dateTime1.getDayOfYear() != dateTime2.getDayOfYear() ||
-                dateTime1.getYear() != dateTime2.getYear();
     }
 
     @Override
