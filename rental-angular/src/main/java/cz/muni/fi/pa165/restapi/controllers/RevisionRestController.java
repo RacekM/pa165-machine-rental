@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.restapi.controllers;
 import cz.muni.fi.pa165.project.dto.MachineDTO;
 import cz.muni.fi.pa165.project.dto.RevisionCreateDTO;
 import cz.muni.fi.pa165.project.dto.RevisionDTO;
+import cz.muni.fi.pa165.project.facade.MachineFacade;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
 import cz.muni.fi.pa165.restapi.exceptions.ResourceNotFoundException;
@@ -36,13 +37,16 @@ public class RevisionRestController {
 
     private final static Logger log = LoggerFactory.getLogger(RevisionRestController.class);
     private RevisionFacade revisionFacade;
+    private MachineFacade machineFacade;
     private RevisionResourceAssembler revisionResourceAssembler;
 
     public RevisionRestController(
             @Autowired RevisionFacade revisionFacade,
+            @Autowired MachineFacade machineFacade,
             @Autowired RevisionResourceAssembler revisionResourceAssembler
     ) {
         this.revisionFacade = revisionFacade;
+        this.machineFacade = machineFacade;
         this.revisionResourceAssembler = revisionResourceAssembler;
     }
 
@@ -52,9 +56,10 @@ public class RevisionRestController {
      * @return list of revisions
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<RevisionResource>> revisions() {
+    public HttpEntity<Resources<RevisionResource>> revisions(@RequestParam(value = "machine", required = false) Long machine) {
         log.debug("rest revisions()");
-        List<RevisionDTO> allRevisions = revisionFacade.getAllRevisions();
+        List<RevisionDTO> allRevisions = machine == null ? revisionFacade.getAllRevisions() :
+                revisionFacade.getRevisionsOfMachine(machineFacade.getMachineById(machine));
         Resources<RevisionResource> productsResources = new Resources<>(
                 revisionResourceAssembler.toResources(allRevisions),
                 linkTo(RevisionRestController.class).withSelfRel(),

@@ -83,9 +83,14 @@ eshopControllers.controller('AdminMachinesCtrl',
                     $rootScope.errorAlert = 'Cannot delete machine "' + machine.name;
                 }
             );
-        };$scope.createRevision = function (machine) {
+        };
+        $scope.createRevision = function (machine) {
             console.log("addRevision to machine " + machine.id + ' (' + machine.name + ')');
-            $location.path("/admin/newrevision").search({machine: machine});
+            $location.path("/admin/newrevision").search({machine: machine.id});
+        };
+        $scope.showRevisions = function (machine) {
+            console.log("show revisions of machine " + machine.id + ' (' + machine.name + ')');
+            $location.path("/admin/revisions").search({machine: machine.id});
         };
     });
 
@@ -117,17 +122,24 @@ eshopControllers.controller('AdminNewMachineCtrl',
 
 
 
-function loadAdminRevisions($http, $scope) {
-    $http.get('/pa165/api/v1/revisions').then(function (response) {
-        $scope.revisions = response.data.content;
-        console.log('AJAX loaded all revisions ');
-    });
+function loadAdminRevisions($http, $scope, $routeParams) {
+    if ($routeParams.machine != null) {
+        $http.get('/pa165/api/v1/revisions?machine=' + $routeParams.machine).then(function (response) {
+            $scope.revisions = response.data.content;
+            console.log('AJAX loaded all revisions ');
+        });
+    } else {
+        $http.get('/pa165/api/v1/revisions').then(function (response) {
+            $scope.revisions = response.data.content;
+            console.log('AJAX loaded all revisions ');
+        });
+    }
 }
 
 eshopControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all machines
-        loadAdminRevisions($http, $scope);
+        loadAdminRevisions($http, $scope, $routeParams);
         // function called when Delete button is clicked
         $scope.deleteRevision = function (revision) {
             console.log("deleting revision with id=" + revision.id + ' (machine: ' + revision.machine.name + ')');
@@ -155,12 +167,15 @@ eshopControllers.controller('AdminNewRevisionCtrl',
         //set object bound to form fields
         $scope.revision = {
             'machine': $routeParams.machine,
+            'result': true,
+            //'date': new Date()
         };
         // function called when submit button is clicked, creates product on server
         $scope.create = function (revision) {
+            console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
             $http({
                 method: 'POST',
-                url: '/pa165/api/v1/revision/create',
+                url: '/pa165/api/v1/revisions/create',
                 data: revision
             }).then(function success(response) {
                 console.log('created revision');

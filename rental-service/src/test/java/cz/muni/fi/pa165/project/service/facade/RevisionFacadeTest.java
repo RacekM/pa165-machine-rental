@@ -82,7 +82,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     @Test
     public void createTest() {
         RevisionCreateDTO revisionCreateDTO = new RevisionCreateDTO();
-        revisionCreateDTO.setMachine(beanMappingService.mapTo(machine, MachineDTO.class));
+        revisionCreateDTO.setMachine(machine.getId());
         LocalDateTime time = LocalDateTime.of(2018, 10, 12, 0, 0);
         revisionCreateDTO.setDate(time);
         machineService.create(machine);
