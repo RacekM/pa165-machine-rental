@@ -68,6 +68,20 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void getByUsernameTest(){
+        when(userDao.findByUsername(this.user.getUsername())).thenReturn(this.user);
+        User user = userService.findByUsername(this.user.getUsername());
+        verify(userDao).findByUsername(this.user.getUsername());
+        assertEquals(this.user, user);
+    }
+
+    @Test
+    public void authenticateTest(){
+        user.setPasswordHash("100:e2693149f279b:f0cafa1");
+        assertFalse(userService.authenticate(this.user, "password"));
+    }
+
+    @Test
     public void getByNonExistingIdTest(){
         long id = -1;
         when(userDao.findById(id)).thenReturn(null);
@@ -119,6 +133,18 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
         doThrow(new NullPointerException()).when(userDao).create(null);
         userService.create(null);
 
+    }
+
+    @Test
+    public void registerUserTest(){
+        userService.registerUser(user, "password");
+        verify(userDao).create(user);
+    }
+
+    @Test
+    public void isAdminTest(){
+        when(userDao.findById(user.getId())).thenReturn(user);
+        assertFalse(userService.isAdmin(user));
     }
 
     @Test

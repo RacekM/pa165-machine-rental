@@ -21,16 +21,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false)
-//    @NotNull
-    //todo unique
+    @NotNull
+    @Column(unique = true)
     private String username;
 
-//    @NotNull
+    @NotNull
     private String passwordHash;
 
     @Size(max = 560)
-    @NotBlank
     @NotNull
     @Column(nullable = false)
     private String name;
