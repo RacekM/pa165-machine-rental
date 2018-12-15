@@ -1,14 +1,14 @@
 package cz.muni.fi.pa165.project.service.facade;
 
 import cz.muni.fi.pa165.project.dto.*;
-import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
-import cz.muni.fi.pa165.project.service.UserService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RentalService;
+import cz.muni.fi.pa165.project.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class RentalFacadeImpl implements RentalFacade {
     public Long createRental(RentalCreateDTO rentalCreateDTO) {
         Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
         rental.setMachine(machineService.findById(rentalCreateDTO.getMachine().getId()));
-        rental.setUser(userService.findById(rentalCreateDTO.getCustomer().getId()));
+        rental.setUser(userService.findById(rentalCreateDTO.getUser().getId()));
 
         if (!rentalService.isValid(rental)) {
             throw new IllegalArgumentException("New rental is invalid.");

@@ -1,16 +1,16 @@
 package cz.muni.fi.pa165.project.service.facade;
 
 import cz.muni.fi.pa165.project.dto.*;
-import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.enums.UserType;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
-import cz.muni.fi.pa165.project.service.UserService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RentalService;
+import cz.muni.fi.pa165.project.service.UserService;
 import cz.muni.fi.pa165.project.service.configuration.ServiceConfiguration;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -151,10 +151,10 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createRentalTest() {
-        UserDTO customerDTO = new UserDTO();
-        customerDTO.setId(1L);
-        customerDTO.setName("CustomerDTO 1");
-        customerDTO.setUserType(UserType.INDIVIDUAL);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setName("CustomerDTO 1");
+        userDTO.setUserType(UserType.INDIVIDUAL);
 
         MachineDTO machineDTO = new MachineDTO();
         machineDTO.setId(1L);
@@ -164,15 +164,15 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         rentalCreateDTO.setDateOfRental(LocalDateTime.now().minusDays(1));
         rentalCreateDTO.setReturnDate(LocalDateTime.now().plusDays(1));
         rentalCreateDTO.setFeedback("Feedback 3");
-        rentalCreateDTO.setCustomer(customerDTO);
+        rentalCreateDTO.setUser(userDTO);
         rentalCreateDTO.setMachine(machineDTO);
 
-        userService.create(beanMappingService.mapTo(customerDTO, User.class));
+        userService.create(beanMappingService.mapTo(userDTO, User.class));
         machineService.create(beanMappingService.mapTo(machineDTO, Machine.class));
 
         when(rentalService.isValid(any(Rental.class))).thenReturn(true);
         rentalFacade.createRental(rentalCreateDTO);
-        verify(userService).findById(customerDTO.getId());
+        verify(userService).findById(userDTO.getId());
         verify(machineService).findById(machineDTO.getId());
         verify(rentalService).create(any(Rental.class));
     }
