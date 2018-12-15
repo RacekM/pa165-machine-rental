@@ -4,8 +4,6 @@ import cz.muni.fi.pa165.project.dto.MachineDTO;
 import cz.muni.fi.pa165.restapi.controllers.MachinesRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -23,12 +21,9 @@ public class MachineResourceAssembler extends ResourceAssemblerSupport<MachineDT
 
 
     private final static Logger log = LoggerFactory.getLogger(MachineResourceAssembler.class);
-    private EntityLinks entityLinks;
 
-    public MachineResourceAssembler(@SuppressWarnings("SpringJavaAutowiringInspection")
-                                    @Autowired EntityLinks entityLinks) {
+    public MachineResourceAssembler() {
         super(MachinesRestController.class, MachineResource.class);
-        this.entityLinks = entityLinks;
     }
 
     @Override
