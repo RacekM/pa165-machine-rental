@@ -44,7 +44,7 @@ public class ProtectFilter implements Filter {
             return;
         }
         UserAuthenticateDTO userAuthenticateDTO = new UserAuthenticateDTO();
-        userAuthenticateDTO.setUserName(logname);
+        userAuthenticateDTO.setUsername(logname);
         userAuthenticateDTO.setPassword(password);
         if (!userFacade.isAdmin(matchingUser)) {
             log.warn("user not admin {}", matchingUser);

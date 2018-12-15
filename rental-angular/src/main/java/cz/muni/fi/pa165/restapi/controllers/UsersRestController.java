@@ -92,7 +92,6 @@ public class UsersRestController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteUser(@PathVariable("id") long id) {
-        System.out.println("DELETING User");
         log.debug("rest deleteUser({})", id);
         try {
             userFacade.deleteUser(id);

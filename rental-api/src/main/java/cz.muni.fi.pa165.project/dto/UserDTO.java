@@ -17,7 +17,7 @@ public class UserDTO {
 
     private UserType userType;
 
-    private String userName;
+    private String username;
 
     private String passwordHash;
 
@@ -29,12 +29,12 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() { return name; }
@@ -64,7 +64,7 @@ public class UserDTO {
         UserDTO customer = (UserDTO) o;
         return Objects.equals(getName(), customer.getName()) &&
                 Objects.equals(getPasswordHash(), customer.getPasswordHash()) &&
-                Objects.equals(getUserName(), customer.getUserName()) &&
+                Objects.equals(getUsername(), customer.getUsername()) &&
                 getUserType() == customer.getUserType();
     }
 
@@ -78,7 +78,7 @@ public class UserDTO {
         return "UserDTO{" +
                 "name='" + getName() + '\'' +
                 ", userType=" + getUserType() +
-                ", userName='" + getUserName() + '\'' +
+                ", userName='" + getUsername() + '\'' +
                 ", passwordHash='" + getPasswordHash() + '\'' +
                 '}';
     }

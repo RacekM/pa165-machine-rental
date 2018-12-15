@@ -14,15 +14,15 @@ import java.util.Objects;
 
 public class UserAuthenticateDTO {
 
-    private String userName;
+    private String username;
     private String password;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword()
@@ -41,7 +41,7 @@ public class UserAuthenticateDTO {
         if (!(o instanceof UserAuthenticateDTO)) return false;
         UserAuthenticateDTO customer = (UserAuthenticateDTO) o;
         return Objects.equals(getPassword(), customer.getPassword()) &&
-                Objects.equals(getUserName(), customer.getUserName());
+                Objects.equals(getUsername(), customer.getUsername());
     }
 
     @Override
@@ -52,8 +52,8 @@ public class UserAuthenticateDTO {
     @Override
     public String toString() {
         return "UserAuthenticateDTO{" +
-                "userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
+                "userName='" + getUsername() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 '}';
     }
 }

@@ -13,21 +13,21 @@ import org.springframework.hateoas.core.Relation;
  * @author Matus Racek (445411@mail.muni.cz)
  */
 @Relation(value = "user", collectionRelation = "users")
-@JsonPropertyOrder({"id", "name", "userName", "password", "userType"})
+@JsonPropertyOrder({"id", "name", "username", "passwordHash", "userType"})
 public class UserResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
     private long dtoId;
     private String name;
-    private String userName;
-    private String password;
+    private String username;
+    private String passwordHash;
     private UserType userType;
 
     public UserResource(UserDTO dto) {
         this.dtoId = dto.getId();
         this.name = dto.getName();
-        this.userName = dto.getUserName();
-        this.password = dto.getPasswordHash();
+        this.username = dto.getUsername();
+        this.passwordHash = dto.getPasswordHash();
         this.userType = dto.getUserType();
     }
 
@@ -47,20 +47,20 @@ public class UserResource extends ResourceSupport {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public UserType getUserType() {

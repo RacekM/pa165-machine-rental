@@ -98,7 +98,7 @@ rentalControllers.controller('AdminUsersCtrl',
                     console.log('deleted user ' + user.id + ' on server');
                     //display confirmation alert
                     $rootScope.successAlert = 'Deleted user "' + user.name + '"';
-                    //load new list of all machines
+                    //load new list of all users
                     loadAdminUsers($http, $scope);
                 },
                 function error(response) {
@@ -141,12 +141,11 @@ rentalControllers.controller('AdminNewUserCtrl',
         //prepare data for selection lists
         $scope.userTypes = ['ADMIN', 'LEGAL_PERSON', 'INDIVIDUAL'];
         //set object bound to form fields
-        $scope.machine = {
+        $scope.user = {
             'name': '',
-            'userName': '',
-            'password': '',
+            'username': '',
+            'passwordHash': '',
             'userType': $scope.userTypes[0]
-
         };
         // function called when submit button is clicked, creates product on server
         $scope.create = function (user) {
