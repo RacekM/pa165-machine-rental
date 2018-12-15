@@ -7,9 +7,9 @@ import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
 /**
- * Category rendered to JSON. The @Relation annotation specifies its name in HAL rendering of collections.
+ * Machine rendered to JSON. The @Relation annotation specifies its name in HAL rendering of collections.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 @Relation(value = "machine", collectionRelation = "machines")
 @JsonPropertyOrder({"id", "name"})

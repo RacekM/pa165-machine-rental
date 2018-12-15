@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.project.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ public class Machine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @NotNull
     @Column(nullable = false)
     private String name;

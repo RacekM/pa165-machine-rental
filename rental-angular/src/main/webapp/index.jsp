@@ -29,16 +29,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">PA165 AngularJS eShop</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">PA165 Machine Rental</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#!/shopping">Go shopping</a></li>
+                <li><a href="#!/renting">Go renting</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#!/admin/machines">Machines</a></li>
-                        <li><a href="#!/admin/categories">Categories</a></li>
                     </ul>
                 </li>
             </ul>

@@ -9,12 +9,14 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.lang.reflect.Method;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- * Assembles a HATEOS-compliant representation of a category from a CategoryDTO.
+ * Assembles a HATEOS-compliant representation of a machine from a MachineDTO.
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Adam Vanko (445310@mail.muni.cz)
  */
 @Component
 public class MachineResourceAssembler extends ResourceAssemblerSupport<MachineDTO, MachineResource> {
@@ -30,20 +32,17 @@ public class MachineResourceAssembler extends ResourceAssemblerSupport<MachineDT
     }
 
     @Override
-    public MachineResource toResource(MachineDTO categoryDTO) {
-        long id = categoryDTO.getId();
-        MachineResource categoryResource = new MachineResource(categoryDTO);
+    public MachineResource toResource(MachineDTO machineDTO) {
+        long id = machineDTO.getId();
+        MachineResource machineResource = new MachineResource(machineDTO);
         try {
-            /*Link catLink = entityLinks.linkForSingleResource(MachineDTO.class, id).withSelfRel();
-            categoryResource.add(catLink);
+            machineResource.add(linkTo(MachinesRestController.class).slash(machineDTO.getId()).withSelfRel());
 
-            Link productsLink = entityLinks.linkForSingleResource(MachineDTO.class, id).slash("/products").withRel("products");
-            */
-            categoryResource.add(new ArrayList<>());
-
+            Method deleteMachine = MachinesRestController.class.getMethod("deleteMachine", long.class);
+            machineResource.add(linkTo(deleteMachine.getDeclaringClass(), deleteMachine, id).withRel("delete"));
         } catch (Exception ex) {
             log.error("cannot link HATEOAS", ex);
         }
-        return categoryResource;
+        return machineResource;
     }
 }

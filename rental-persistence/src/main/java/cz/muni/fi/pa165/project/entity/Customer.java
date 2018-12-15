@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.project.entity;
 import cz.muni.fi.pa165.project.enums.CustomerType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class Customer {
     private Long id;
 
     @Size(max = 560)
+    @NotBlank
     @NotNull
     @Column(nullable = false)
     private String name;
