@@ -34,7 +34,7 @@
     <div class="form-group">
         <label for="usertype" class="col-sm-2 control-label">UserType</label>
         <div class="col-sm-10">
-            <select id="usertype" name="usertype" class="form-control" ng-model="user.usertype">
+            <select id="usertype" name="usertype" class="form-control" ng-model="user.userType">
                 <option ng-repeat="usertype in userTypes" value="{{usertype}}">{{usertype}}</option>
             </select>
         </div>
@@ -42,6 +42,6 @@
 
 
     <!-- show disabled button if form is not valid -->
-    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(machine)">Create user
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(user)">Create user
     </button>
 </form>

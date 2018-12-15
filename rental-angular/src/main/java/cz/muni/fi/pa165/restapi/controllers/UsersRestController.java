@@ -1,16 +1,10 @@
 package cz.muni.fi.pa165.restapi.controllers;
 
-import cz.muni.fi.pa165.project.dto.MachineCreateDTO;
-import cz.muni.fi.pa165.project.dto.MachineDTO;
-import cz.muni.fi.pa165.project.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.project.dto.UserDTO;
-import cz.muni.fi.pa165.project.facade.MachineFacade;
 import cz.muni.fi.pa165.project.facade.UserFacade;
 import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
 import cz.muni.fi.pa165.restapi.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.restapi.exceptions.ServerProblemException;
-import cz.muni.fi.pa165.restapi.hateoas.MachineResource;
-import cz.muni.fi.pa165.restapi.hateoas.MachineResourceAssembler;
 import cz.muni.fi.pa165.restapi.hateoas.UserResource;
 import cz.muni.fi.pa165.restapi.hateoas.UserResourceAssembler;
 import org.slf4j.Logger;
@@ -39,7 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @ExposesResourceFor(UserDTO.class)
 @RequestMapping("/users")
 public class UsersRestController {
-    private final static Logger log = LoggerFactory.getLogger(MachinesRestController.class);
+    private final static Logger log = LoggerFactory.getLogger(UsersRestController.class);
     private UserFacade userFacade;
     private UserResourceAssembler userResourceAssembler;
 
@@ -63,7 +57,7 @@ public class UsersRestController {
         Resources<UserResource> userResources = new Resources<>(
                 userResourceAssembler.toResources(allUsers),
                 linkTo(UsersRestController.class).withSelfRel());
-                //linkTo(UsersRestController.class).slash("/create").withRel("create"));
+        linkTo(UsersRestController.class).slash("/create").withRel("create");
         return new ResponseEntity<>(userResources, HttpStatus.OK);
     }
 

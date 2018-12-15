@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.restapi.hateoas;
 
 import cz.muni.fi.pa165.project.dto.UserDTO;
-import cz.muni.fi.pa165.restapi.controllers.MachinesRestController;
 import cz.muni.fi.pa165.restapi.controllers.UsersRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +19,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 public class UserResourceAssembler extends ResourceAssemblerSupport<UserDTO, UserResource> {
 
-    private final static Logger log = LoggerFactory.getLogger(MachineResourceAssembler.class);
+    private final static Logger log = LoggerFactory.getLogger(UserResourceAssembler.class);
 
     public UserResourceAssembler() {
-        super(MachinesRestController.class, UserResource.class);
+        super(UsersRestController.class, UserResource.class);
     }
 
     @Override
