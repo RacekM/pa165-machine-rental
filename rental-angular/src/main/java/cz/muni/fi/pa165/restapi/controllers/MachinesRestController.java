@@ -35,7 +35,7 @@ public class MachinesRestController {
     private final static Logger log = LoggerFactory.getLogger(MachinesRestController.class);
     private MachineFacade machineFacade;
     //private MachineResourceAssembler machineResourceAssembler;
-    private EntityLinks entityLinks;
+    //private EntityLinks entityLinks;
 
     public MachinesRestController(
             @Autowired MachineFacade machineFacade//,
@@ -45,7 +45,7 @@ public class MachinesRestController {
     ) {
         this.machineFacade = machineFacade;
         //this.machineResourceAssembler = machineResourceAssembler;
-        this.entityLinks = entityLinks;
+        //this.entityLinks = entityLinks;
     }
 
     /**
