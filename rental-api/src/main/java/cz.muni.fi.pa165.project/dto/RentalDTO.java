@@ -20,7 +20,7 @@ public class RentalDTO {
 
     private MachineDTO machine;
 
-    private CustomerDTO customer;
+    private UserDTO customer;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class RentalDTO {
         this.machine = machine;
     }
 
-    public CustomerDTO getCustomer() {
+    public UserDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerDTO customer) {
+    public void setCustomer(UserDTO customer) {
         this.customer = customer;
     }
 

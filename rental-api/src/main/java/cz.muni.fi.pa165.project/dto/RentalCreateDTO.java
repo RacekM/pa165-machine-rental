@@ -26,7 +26,7 @@ public class RentalCreateDTO {
     private MachineDTO machine;
 
     @NotNull
-    private CustomerDTO customer;
+    private UserDTO customer;
 
     public LocalDateTime getDateOfRental() {
         return dateOfRental;
@@ -60,11 +60,11 @@ public class RentalCreateDTO {
         this.machine = machine;
     }
 
-    public CustomerDTO getCustomer() {
+    public UserDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerDTO customer) {
+    public void setCustomer(UserDTO customer) {
         this.customer = customer;
     }
 

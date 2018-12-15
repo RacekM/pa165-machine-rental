@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.project.dao;
 
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Rental;
 
 import java.util.List;
@@ -35,12 +35,12 @@ public interface RentalDao {
     Rental findById(Long id);
 
     /**
-     * Finds all rentals made by one customer.
+     * Finds all rentals made by one user.
      *
-     * @param customer customer whose rentals to find
-     * @return List of rentals associated with customer.
+     * @param user user whose rentals to find
+     * @return List of rentals associated with user.
      */
-    List<Rental> findByCustomer(Customer customer);
+    List<Rental> findByCustomer(User user);
 
     /**
      * Finds all rentals in data storage.

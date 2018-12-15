@@ -34,18 +34,18 @@ public class Rental {
 
     @ManyToOne(optional = false)
     @NotNull
-    private Customer customer;
+    private User user;
 
     public Rental() {
 
     }
 
-    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, Customer customer) {
+    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, User user) {
         this.dateOfRental = dateOfRental;
         this.returnDate = returnDate;
         this.feedback = feedback;
         this.machine = machine;
-        this.customer = customer;
+        this.user = user;
     }
 
     public Long getId() {
@@ -66,7 +66,7 @@ public class Rental {
 
     public Machine getMachine() { return machine; }
 
-    public Customer getCustomer() { return customer; }
+    public User getUser() { return user; }
 
     public void setId(Long id) {
         this.id = id;
@@ -88,8 +88,8 @@ public class Rental {
         this.machine = machine;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -101,13 +101,13 @@ public class Rental {
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
                 Objects.equals(getFeedback(), rental.getFeedback()) &&
                 Objects.equals(getMachine(), rental.getMachine()) &&
-                Objects.equals(getCustomer(), rental.getCustomer());
+                Objects.equals(getUser(), rental.getUser());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateOfRental, returnDate, feedback, machine, customer);
+        return Objects.hash(dateOfRental, returnDate, feedback, machine, user);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Rental {
                 ", returnDate=" + returnDate +
                 ", feedback='" + feedback + '\'' +
                 ", machine=" + machine +
-                ", customer=" + customer +
+                ", user=" + user +
                 '}';
     }
 }

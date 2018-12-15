@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.project.dao;
 
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Rental;
 import org.springframework.stereotype.Repository;
 
@@ -36,11 +36,11 @@ public class RentalDaoImpl implements RentalDao {
     }
 
     @Override
-    public List<Rental> findByCustomer(Customer customer) {
+    public List<Rental> findByCustomer(User user) {
         TypedQuery<Rental> query = entityManager.createQuery(
                 "SELECT r FROM Rental r WHERE r.customer = :customerId", Rental.class);
 
-        query.setParameter("customerId", customer);
+        query.setParameter("customerId", user);
         return query.getResultList();
     }
 

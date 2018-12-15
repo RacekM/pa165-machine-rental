@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.project.sampledata;
 
 import cz.muni.fi.pa165.project.entity.Machine;
+import cz.muni.fi.pa165.project.entity.User;
+import cz.muni.fi.pa165.project.enums.UserType;
 import cz.muni.fi.pa165.project.service.MachineService;
+import cz.muni.fi.pa165.project.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     @Autowired
     private MachineService machineService;
 
+    @Autowired
+    private UserService userService;
+
     private static Date daysBeforeNow(int days) {
         return Date.from(ZonedDateTime.now().minusDays(days).toInstant());
     }
@@ -38,33 +44,34 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     @Override
     public void loadData() throws IOException {
-        Machine machineHammer = Machine("Hammer");
-        Machine machineShovel = Machine("Shovel");
-        Machine machineDrill = Machine("Drill");
-        Machine machineWaterPump = Machine("Water Pump");
-        Machine machineExcavator = Machine("Excavator");
+        Machine machineHammer = machine("Hammer");
+        Machine machineShovel = machine("Shovel");
+        Machine machineDrill = machine("Drill");
+        Machine machineWaterPump = machine("Water Pump");
+        Machine machineExcavator = machine("Excavator");
         log.info("Loaded rental machines");
+
+        User admin = user("Fero", "admin", "admin", UserType.ADMIN);
+        User customer1 = user("Jano", "user1", "user1", UserType.INDIVIDUAL);
+        User customer2 = user("Jozo", "user2", "user2", UserType.LEGAL_PERSON);
+
     }
 
-    private Machine Machine(String name) {
+    private Machine machine(String name) {
         Machine m = new Machine();
         m.setName(name);
         machineService.create(m);
         return m;
     }
 
-/*
-    private User user(String password, String givenName, String surname, String email, String phone, Date joined, String address) {
+
+    private User user(String name, String username, String password, UserType userType) {
         User u = new User();
-        u.setGivenName(givenName);
-        u.setSurname(surname);
-        u.setEmail(email);
-        u.setPhone(phone);
-        u.setAddress(address);
-        u.setJoinedDate(joined);
-        if(password.equals("admin")) u.setAdmin(true);
-        userService.registerUser(u, password);
+        u.setPasswordHash(password);
+        u.setName(name);
+        u.setUsername(username);
+        u.setUserType(userType);
+        userService.create(u);
         return u;
     }
-*/
 }

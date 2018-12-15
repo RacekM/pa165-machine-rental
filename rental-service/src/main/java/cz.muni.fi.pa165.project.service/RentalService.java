@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.project.service;
 
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
 
@@ -37,12 +37,12 @@ public interface RentalService {
     Rental findById(Long id);
 
     /**
-     * Finds all rentals made by one customer.
+     * Finds all rentals made by one user.
      *
-     * @param customer customer whose rentals to find
-     * @return List of rentals associated with customer.
+     * @param user user whose rentals to find
+     * @return List of rentals associated with user.
      */
-    List<Rental> findByCustomer(Customer customer);
+    List<Rental> findByCustomer(User user);
 
     /**
      * Finds all rentals.
@@ -76,11 +76,11 @@ public interface RentalService {
     boolean isValid(Rental rental);
 
     /**
-     * Finds last revision of active rentals for Customer
+     * Finds last revision of active rentals for User
      *
-     * @param customer whose rentals we are considering
+     * @param user whose rentals we are considering
      * @return map of rental and last revision of rented machine
      */
-    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer);
+    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(User user);
 
 }
