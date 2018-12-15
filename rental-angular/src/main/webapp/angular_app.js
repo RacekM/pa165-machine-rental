@@ -17,6 +17,9 @@ pa165eshopApp.config(['$routeProvider',
         }).when('/category/:categoryId', {
             templateUrl: 'partials/category_detail.html',
             controller: 'CategoryDetailCtrl'
+        }).when('/admin/machines', {
+            templateUrl: 'partials/admin_machines.html',
+            controller: 'AdminMachinesCtrl'
         }).when('/admin/categories', {
             templateUrl: 'partials/admin_categories.html',
             controller: 'AdminCategoriesCtrl'
@@ -49,6 +52,7 @@ pa165eshopApp.run(function ($rootScope) {
 
 
 /* Controllers */
+
 
 
 /*
@@ -122,7 +126,6 @@ function loadAdminProducts($http, $scope) {
         console.log('AJAX loaded all products ');
     });
 }
-
 eshopControllers.controller('AdminProductsCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all products
@@ -155,7 +158,6 @@ function loadAdminCategories($http, $scope) {
         console.log('AJAX loaded all categories ');
     });
 }
-
 eshopControllers.controller('AdminCategoriesCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all categories
@@ -174,6 +176,39 @@ eshopControllers.controller('AdminCategoriesCtrl',
                 function error(response) {
                     console.log('server returned error');
                     $rootScope.errorAlert = 'Cannot delete category "' + category.name + '"! It is used in an order.';
+                }
+            );
+        };
+    });
+
+/*
+ * Admin Categories page
+ */
+function loadAdminMachines($http, $scope) {
+    $http.get('/pa165/api/v1/machines').then(function (response) {
+        $scope.machines = response.data._embedded.machines;
+        console.log('AJAX loaded all machines ');
+    });
+}
+
+eshopControllers.controller('AdminMachinesCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        //initial load of all categories
+        loadAdminMachines($http, $scope);
+        // function called when Delete button is clicked
+        $scope.deleteMachine = function (machine) {
+            console.log("deleting machine with id=" + machine.id + ' (' + machine.name + ')');
+            $http.delete(machine._links.delete.href).then(
+                function success(response) {
+                    console.log('deleted machine ' + machine.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted machine "' + machine.name + '"';
+                    //load new list of all products
+                    loadAdminMachines($http, $scope);
+                },
+                function error(response) {
+                    console.log('server returned error');
+                    $rootScope.errorAlert = 'Cannot delete machine "' + machine.name + '"! It is used in an order.';
                 }
             );
         };
