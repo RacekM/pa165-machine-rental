@@ -61,7 +61,7 @@ function loadAdminMachines($http, $scope) {
 }
 
 eshopControllers.controller('AdminMachinesCtrl',
-    function ($scope, $rootScope, $routeParams, $http) {
+    function ($scope, $rootScope, $routeParams, $http, $location) {
         //initial load of all machines
         loadAdminMachines($http, $scope);
         // function called when Delete button is clicked
@@ -83,6 +83,9 @@ eshopControllers.controller('AdminMachinesCtrl',
                     $rootScope.errorAlert = 'Cannot delete machine "' + machine.name;
                 }
             );
+        };$scope.createRevision = function (machine) {
+            console.log("addRevision to machine " + machine.id + ' (' + machine.name + ')');
+            $location.path("/admin/newrevision").search({machine: machine});
         };
     });
 
@@ -151,11 +154,10 @@ eshopControllers.controller('AdminNewRevisionCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
         //set object bound to form fields
         $scope.revision = {
-            'result': ''
-
+            'machine': $routeParams.machine,
         };
         // function called when submit button is clicked, creates product on server
-        $scope.create = function (machine) {
+        $scope.create = function (revision) {
             $http({
                 method: 'POST',
                 url: '/pa165/api/v1/revision/create',
