@@ -1,11 +1,11 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
-import cz.muni.fi.pa165.project.enums.CustomerType;
+import cz.muni.fi.pa165.project.enums.UserType;
 import cz.muni.fi.pa165.project.service.configuration.ServiceConfiguration;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -56,10 +56,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     public void preparetestRental() {
         MockitoAnnotations.initMocks(this);
 
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setName("TestCustomer");
-        customer.setCustomerType(CustomerType.INDIVIDUAL);
+        User user = new User();
+        user.setId(1L);
+        user.setName("TestCustomer");
+        user.setUserType(UserType.INDIVIDUAL);
 
         Machine machine = new Machine();
         machine.setId(1L);
@@ -70,14 +70,14 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRental.setDateOfRental(LocalDateTime.now().minusDays(1));
         testRental.setReturnDate(LocalDateTime.now().plusDays(1));
         testRental.setFeedback("TestFeedback.");
-        testRental.setCustomer(customer);
+        testRental.setUser(user);
         testRental.setMachine(machine);
 
         testRentalWithoutId = new Rental();
         testRentalWithoutId.setDateOfRental(LocalDateTime.now().minusDays(1));
         testRentalWithoutId.setReturnDate(LocalDateTime.now().plusDays(1));
         testRentalWithoutId.setFeedback("TestFeedback.");
-        testRentalWithoutId.setCustomer(customer);
+        testRentalWithoutId.setUser(user);
         testRentalWithoutId.setMachine(machine);
 
         revision = new Revision();
@@ -92,7 +92,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalSameMachineFuture.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRentalSameMachineFuture.setReturnDate(LocalDateTime.now().minusDays(2));
         testRentalSameMachineFuture.setFeedback("TestFeedback.");
-        testRentalSameMachineFuture.setCustomer(customer);
+        testRentalSameMachineFuture.setUser(user);
         testRentalSameMachineFuture.setMachine(machine);
 
         Rental testRentalSameMachinePast = new Rental();
@@ -100,7 +100,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalSameMachinePast.setDateOfRental(LocalDateTime.now().plusDays(2));
         testRentalSameMachinePast.setReturnDate(LocalDateTime.now().plusDays(3));
         testRentalSameMachinePast.setFeedback("TestFeedback.");
-        testRentalSameMachinePast.setCustomer(customer);
+        testRentalSameMachinePast.setUser(user);
         testRentalSameMachinePast.setMachine(machine);
 
         testExistingRentalsSameMachine = new ArrayList<>();
@@ -120,7 +120,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalDifferentMachineFuture.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRentalDifferentMachineFuture.setReturnDate(LocalDateTime.now().minusDays(2));
         testRentalDifferentMachineFuture.setFeedback("TestFeedback.");
-        testRentalDifferentMachineFuture.setCustomer(customer);
+        testRentalDifferentMachineFuture.setUser(user);
         testRentalDifferentMachineFuture.setMachine(machine2);
 
         Rental testRentalDifferentMachinePast = new Rental();
@@ -128,7 +128,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalDifferentMachinePast.setDateOfRental(LocalDateTime.now().plusDays(2));
         testRentalDifferentMachinePast.setReturnDate(LocalDateTime.now().plusDays(3));
         testRentalDifferentMachinePast.setFeedback("TestFeedback.");
-        testRentalDifferentMachinePast.setCustomer(customer);
+        testRentalDifferentMachinePast.setUser(user);
         testRentalDifferentMachinePast.setMachine(machine3);
 
         testExistingRentalsDifferentMachine = new ArrayList<>();
@@ -220,7 +220,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = DataIntegrityViolationException.class)
     public void createRentalWithInvalidCustomerNullTest() {
-        testRental.setCustomer(null);
+        testRental.setUser(null);
         doThrow(new DataIntegrityViolationException("")).when(rentalDao).create(testRental);
         rentalService.create(testRental);
     }
@@ -269,7 +269,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = DataIntegrityViolationException.class)
     public void updateRentalWithInvalidCustomerNullTest() {
-        testRental.setCustomer(null);
+        testRental.setUser(null);
         doThrow(new DataIntegrityViolationException("")).when(rentalDao).update(testRental);
         rentalService.update(testRental);
     }
@@ -435,10 +435,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByCustomerTest() {
-        when(rentalDao.findByCustomer(any(Customer.class))).thenReturn(testExistingRentalsSameMachine);
-        List<Rental> rentals = rentalService.findByCustomer(new Customer());
+        when(rentalDao.findByCustomer(any(User.class))).thenReturn(testExistingRentalsSameMachine);
+        List<Rental> rentals = rentalService.findByCustomer(new User());
         assertThat(rentals, is(testExistingRentalsSameMachine));
-        verify(rentalDao).findByCustomer(any(Customer.class));
+        verify(rentalDao).findByCustomer(any(User.class));
     }
 
     @Test
@@ -447,14 +447,14 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalRevisionMap.put(testRentalWithoutId, revision);
 
         List<Rental> rentalList = Arrays.asList(testRental, testRentalWithoutId);
-        when(rentalDao.findByCustomer(testRental.getCustomer())).thenReturn(rentalList);
+        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentalList);
         when(revisionService.getLastMachineRevision(testRental.getMachine())).thenReturn(revision);
-        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getCustomer());
+        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(testRentalRevisionMap, map);
         assertEquals(2, testExistingRentalsSameMachine.size());
         assertTrue(map.containsKey(testRental));
         assertTrue(map.containsKey(testRentalWithoutId));
-        verify(rentalDao).findByCustomer(testRental.getCustomer());
+        verify(rentalDao).findByCustomer(testRental.getUser());
         verify(revisionService, atLeastOnce()).getLastMachineRevision(testRental.getMachine());
 
     }
@@ -464,11 +464,11 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRental.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRental.setReturnDate(LocalDateTime.now().minusDays(2));
         List<Rental> rentals = Collections.singletonList(testRental);
-        when(rentalDao.findByCustomer(testRental.getCustomer())).thenReturn(rentals);
-        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getCustomer());
+        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentals);
+        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(0, map.size());
         assertFalse(map.containsKey(testRental));
-        verify(rentalDao).findByCustomer(testRental.getCustomer());
+        verify(rentalDao).findByCustomer(testRental.getUser());
 
     }
 
@@ -477,23 +477,23 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalWithoutId.setDateOfRental(LocalDateTime.now().minusDays(5));
         testRentalWithoutId.setReturnDate(LocalDateTime.now().minusDays(3));
         List<Rental> rentals = Arrays.asList(testRentalWithoutId, testRental);
-        when(rentalDao.findByCustomer(testRentalWithoutId.getCustomer())).thenReturn(rentals);
-        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRentalWithoutId.getCustomer());
+        when(rentalDao.findByCustomer(testRentalWithoutId.getUser())).thenReturn(rentals);
+        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRentalWithoutId.getUser());
         assertEquals(1, map.size());
         assertTrue(map.containsKey(testRental));
         assertFalse(map.containsKey(testRentalWithoutId));
-        verify(rentalDao).findByCustomer(testRentalWithoutId.getCustomer());
+        verify(rentalDao).findByCustomer(testRentalWithoutId.getUser());
         verify(revisionService, atLeastOnce()).getLastMachineRevision(testRentalWithoutId.getMachine());
     }
 
     @Test
     public void activeRentalsWithLastRevisionByCustomerWithoutRentalsTest() {
         List<Rental> rentals = Collections.EMPTY_LIST;
-        when(rentalDao.findByCustomer(testRental.getCustomer())).thenReturn(rentals);
-        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getCustomer());
+        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentals);
+        Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(testRentalRevisionMap, map);
         assertEquals(0, map.size());
-        verify(rentalDao).findByCustomer(testRental.getCustomer());
+        verify(rentalDao).findByCustomer(testRental.getUser());
     }
 
     @Test

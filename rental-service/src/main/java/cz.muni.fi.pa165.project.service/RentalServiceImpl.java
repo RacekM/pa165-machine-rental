@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
 import org.springframework.stereotype.Service;
@@ -42,8 +42,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<Rental> findByCustomer(Customer customer) {
-        return rentalDao.findByCustomer(customer);
+    public List<Rental> findByCustomer(User user) {
+        return rentalDao.findByCustomer(user);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer){
-        List<Rental> rentals = rentalDao.findByCustomer(customer);
+    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(User user){
+        List<Rental> rentals = rentalDao.findByCustomer(user);
         Map<Rental, Revision> res= new HashMap<>();
         for (Rental r : rentals){
             if (r.getReturnDate().isAfter(LocalDateTime.now()))

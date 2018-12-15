@@ -19,7 +19,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @Component
 public class MachineResourceAssembler extends ResourceAssemblerSupport<MachineDTO, MachineResource> {
 
-
     private final static Logger log = LoggerFactory.getLogger(MachineResourceAssembler.class);
 
     public MachineResourceAssembler() {

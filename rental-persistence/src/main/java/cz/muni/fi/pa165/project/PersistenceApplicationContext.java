@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.project;
 
-import cz.muni.fi.pa165.project.dao.CustomerDao;
+import cz.muni.fi.pa165.project.dao.UserDao;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,7 +26,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackages = "cz.muni.fi.pa165.project", basePackageClasses = {CustomerDao.class})
+@ComponentScan(basePackages = "cz.muni.fi.pa165.project", basePackageClasses = {UserDao.class})
 public class PersistenceApplicationContext {
 
     @Bean
