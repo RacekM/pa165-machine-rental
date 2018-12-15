@@ -17,6 +17,12 @@ pa165eshopApp.config(['$routeProvider',
         }).when('/admin/newmachine', {
             templateUrl: 'partials/admin_new_machine.html',
             controller: 'AdminNewMachineCtrl'
+        }).when('/admin/revisions', {
+            templateUrl: 'partials/admin_revisions.html',
+            controller: 'AdminRevisionCtrl'
+        }).when('/admin/newrevision', {
+            templateUrl: 'partials/admin_new_revision.html',
+            controller: 'AdminNewRevisionCtrl'
         }).otherwise({redirectTo: '/renting'});
     }]);
 
@@ -102,6 +108,68 @@ eshopControllers.controller('AdminNewMachineCtrl',
             }, function error(response) {
                 //display error
                 $scope.errorAlert = 'Cannot create machine !';
+            });
+        };
+    });
+
+
+
+function loadAdminRevisions($http, $scope) {
+    $http.get('/pa165/api/v1/revisions').then(function (response) {
+        $scope.revisions = response.data.content;
+        console.log('AJAX loaded all revisions ');
+    });
+}
+
+eshopControllers.controller('AdminRevisionCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        //initial load of all machines
+        loadAdminRevisions($http, $scope);
+        // function called when Delete button is clicked
+        $scope.deleteRevision = function (revision) {
+            console.log("deleting revision with id=" + revision.id + ' (machine: ' + revision.machine.name + ')');
+            var deleteLink = revision.links.find(function (link) {
+                return link.rel === "delete"
+            });
+            $http.delete(deleteLink.href).then(
+                function success(response) {
+                    console.log('deleted revision ' + revision.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted revision of"' + revision.machine.name + '"';
+                    //load new list of all machines
+                    loadAdminRevisions($http, $scope);
+                },
+                function error(response) {
+                    console.log('server returned error');
+                    $rootScope.errorAlert = 'Cannot delete revision "' + revision.id;
+                }
+            );
+        };
+    });
+
+eshopControllers.controller('AdminNewRevisionCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        //set object bound to form fields
+        $scope.revision = {
+            'result': ''
+
+        };
+        // function called when submit button is clicked, creates product on server
+        $scope.create = function (machine) {
+            $http({
+                method: 'POST',
+                url: '/pa165/api/v1/revision/create',
+                data: revision
+            }).then(function success(response) {
+                console.log('created revision');
+                var createdRevision = response.data;
+                //display confirmation alert
+                $rootScope.successAlert = 'A new revision "' + createdRevision.id + '" was created';
+                //change view to list of machines
+                $location.path("/admin/machines");
+            }, function error(response) {
+                //display error
+                $scope.errorAlert = 'Cannot create revision !';
             });
         };
     });
