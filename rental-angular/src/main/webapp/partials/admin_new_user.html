@@ -1,0 +1,47 @@
+<form name="form" novalidate class="form-horizontal">
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            <input placeholder="name" id="name" type="text" ng-minlength="1" name="name" class="form-control"
+                   ng-model="user.name" required/>
+            <p class="help-block" ng-show="form.name.$error.required">name is required</p>
+            <p class="help-block" ng-show="form.name.$error.minlength">name cannot be empty</p>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <label for="name" class="col-sm-2 control-label">Username</label>
+        <div class="col-sm-10">
+            <input placeholder="username" id="username" type="text" ng-minlength="1" name="username" class="form-control"
+                   ng-model="user.username" required/>
+            <p class="help-block" ng-show="form.name.$error.required">username is required</p>
+            <p class="help-block" ng-show="form.name.$error.minlength">username cannot be empty</p>
+        </div>
+    </div>
+
+
+    <div class="form-group" ng-class="{'has-error': !(form.name.$valid)}">
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div class="col-sm-10">
+            <input placeholder="password" id="password" type="text" ng-minlength="1" name="password" class="form-control"
+                   ng-model="user.passwordHash" required/>
+            <p class="help-block" ng-show="form.name.$error.required">password is required</p>
+            <p class="help-block" ng-show="form.name.$error.minlength">password cannot be empty</p>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="usertype" class="col-sm-2 control-label">UserType</label>
+        <div class="col-sm-10">
+            <select id="usertype" name="usertype" class="form-control" ng-model="user.usertype">
+                <option ng-repeat="usertype in userTypes" value="{{usertype}}">{{usertype}}</option>
+            </select>
+        </div>
+    </div>
+
+
+    <!-- show disabled button if form is not valid -->
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(machine)">Create user
+    </button>
+</form>
