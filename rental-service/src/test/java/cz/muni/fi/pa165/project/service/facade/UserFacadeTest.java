@@ -82,14 +82,14 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
         assertEquals(customersList, customersResultList);
     }
 
-//    @Test
-//    public void createCustomerTest(){
-//        CustomerCreateDTO customerCreateDTO = new CustomerCreateDTO();
-//        customerCreateDTO.setName("new customer");
-//        customerCreateDTO.setUserType(UserType.INDIVIDUAL);
-//        userFacade.registerUser(customerCreateDTO);
-//        verify(userService).create(any(User.class));
-//    }
+    @Test
+    public void registerUserTest(){
+        UserDTO customerCreateDTO = new UserDTO();
+        customerCreateDTO.setName("new customer");
+        customerCreateDTO.setUserType(UserType.INDIVIDUAL);
+        userFacade.registerUser(customerCreateDTO, "password");
+        verify(userService).registerUser(any(User.class), any(String.class));
+    }
 
     @Test
     public void deleteCustomerTest(){
