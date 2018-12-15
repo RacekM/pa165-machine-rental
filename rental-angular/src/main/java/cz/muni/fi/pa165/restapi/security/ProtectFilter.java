@@ -15,7 +15,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
 
-@WebFilter(urlPatterns = {"/admin/*", "/user/*", "/product/*", "/category/*"})
+@WebFilter(urlPatterns = {"/admin/*"})
 public class ProtectFilter implements Filter {
 
     final static Logger log = LoggerFactory.getLogger(ProtectFilter.class);
@@ -23,7 +23,6 @@ public class ProtectFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest r, ServletResponse s, FilterChain chain) throws IOException, ServletException {
-        System.out.println("OOOOOOOOOOOOOOOOOOOOOOoook");
         HttpServletRequest request = (HttpServletRequest) r;
         HttpServletResponse response = (HttpServletResponse) s;
 
@@ -59,7 +58,6 @@ public class ProtectFilter implements Filter {
         }
         request.setAttribute("authenticatedUser", matchingUser);
         chain.doFilter(request, response);
-        throw new RuntimeException("ddddddddd");
     }
 
 
@@ -74,7 +72,7 @@ public class ProtectFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

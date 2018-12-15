@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.restapi.config;
 
+import cz.muni.fi.pa165.restapi.security.ProtectFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 /**
  * Replaces web.xml file.
@@ -28,6 +31,11 @@ public class RestStartInitializer extends AbstractAnnotationConfigDispatcherServ
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return null;
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{new ProtectFilter()};
     }
 
 }

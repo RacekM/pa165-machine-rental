@@ -43,7 +43,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     }
 
     @Override
-    public void loadData() throws IOException {
+    public void loadData() {
         Machine machineHammer = machine("Hammer");
         Machine machineShovel = machine("Shovel");
         Machine machineDrill = machine("Drill");
@@ -67,11 +67,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     private User user(String name, String username, String password, UserType userType) {
         User u = new User();
-        u.setPasswordHash(password);
         u.setName(name);
         u.setUsername(username);
         u.setUserType(userType);
-        userService.create(u);
+        userService.registerUser(u, password);
         return u;
     }
 }

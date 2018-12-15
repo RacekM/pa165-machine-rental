@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(User user, String plainPassword) {
         user.setPasswordHash(createHash(plainPassword));
+        userDao.create(user);
     }
 
     @Override
