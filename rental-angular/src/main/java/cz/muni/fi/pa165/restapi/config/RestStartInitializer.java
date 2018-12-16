@@ -25,7 +25,7 @@ public class RestStartInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/api/v1/*"};
+        return new String[]{"/rest/*"};
     }
 
     @Override

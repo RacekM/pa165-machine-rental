@@ -63,14 +63,14 @@ rentalControllers.controller('MyRentalsCtrl', function ($scope, $http) {
  */
 
 function loadMachines($http, $scope) {
-    $http.get('/pa165/api/v1/machines').then(function (response) {
+    $http.get('/pa165/rest/machines').then(function (response) {
         $scope.machines = response.data.content;
         console.log('AJAX loaded all machines ');
     });
 }
 
 function loadAdminUsers($http, $scope) {
-    $http.get('/pa165/api/v1/users').then(function (response) {
+    $http.get('/pa165/rest/users').then(function (response) {
         $scope.users = response.data.content;
         console.log('AJAX loaded all users ');
     });
@@ -147,7 +147,7 @@ rentalControllers.controller('AdminNewMachineCtrl',
         $scope.create = function (machine) {
             $http({
                 method: 'POST',
-                url: '/pa165/api/v1/machines/create',
+                url: '/pa165/rest/machines/create',
                 data: machine
             }).then(function success(response) {
                 console.log('created machine');
@@ -178,7 +178,7 @@ rentalControllers.controller('AdminNewUserCtrl',
         $scope.create = function (user) {
             $http({
                 method: 'POST',
-                url: '/pa165/api/v1/users/create',
+                url: '/pa165/rest/users/create',
                 data: user
             }).then(function success(response) {
                 console.log('created user');
@@ -199,12 +199,12 @@ rentalControllers.controller('AdminNewUserCtrl',
 
 function loadAdminRevisions($http, $scope, machine) {
     if (machine) {
-        $http.get('/pa165/api/v1/revisions?machine=' + machine).then(function (response) {
+        $http.get('/pa165/rest/revisions?machine=' + machine).then(function (response) {
             $scope.revisions = response.data.content;
             console.log('AJAX loaded all revisions for given machine');
         });
     } else {
-        $http.get('/pa165/api/v1/revisions').then(function (response) {
+        $http.get('/pa165/rest/revisions').then(function (response) {
             $scope.revisions = response.data.content;
             console.log('AJAX loaded all revisions ');
         });
@@ -215,7 +215,7 @@ rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         $scope.machine = $routeParams.machine;
         if ($routeParams.machine){
-            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+            $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
                 $scope.machineName = response.data.name;
             });
         }
@@ -253,11 +253,11 @@ rentalControllers.controller('AdminNewRevisionCtrl',
             'date': new Date()
         };
         if (!$routeParams.machine) {
-            $http.get('/pa165/api/v1/machines').then(function (response) {
+            $http.get('/pa165/rest/machines').then(function (response) {
                 $scope.machines = response.data.content;
             });
         } else {
-            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+            $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
                 $scope.machine = response.data.name;
             });
         }
@@ -271,7 +271,7 @@ rentalControllers.controller('AdminNewRevisionCtrl',
             } else {
                 $http({
                     method: 'POST',
-                    url: '/pa165/api/v1/revisions/create',
+                    url: '/pa165/rest/revisions/create',
                     data: revision
                 }).then(function success(response) {
                     console.log('created revision');
@@ -294,7 +294,7 @@ rentalControllers.controller('AdminNewRevisionCtrl',
 
 
 function loadAdminRentals($http, $scope){
-    $http.get('/pa165/api/v1/rentals').then(function (response) {
+    $http.get('/pa165/rest/rentals').then(function (response) {
         $scope.rentals = response.data.content;
         console.log('AJAX loaded all rentals ');
     });
@@ -342,21 +342,21 @@ rentalControllers.controller('AdminNewRentalCtrl',
         };
 
         if (!$routeParams.machine) {
-            $http.get('/pa165/api/v1/machines').then(function (response) {
+            $http.get('/pa165/rest/machines').then(function (response) {
                 $scope.machines = response.data.content;
             });
         } else {
-            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+            $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
                 $scope.machine = response.data.name;
             });
         }
 
         if (!$routeParams.user) {
-            $http.get('/pa165/api/v1/users').then(function (response) {
+            $http.get('/pa165/rest/users').then(function (response) {
                 $scope.users = response.data.content;
             });
         } else {
-            $http.get('/pa165/api/v1/users/' + $routeParams.user).then(function (response) {
+            $http.get('/pa165/rest/users/' + $routeParams.user).then(function (response) {
                 $scope.user = response.data.name;
             });
         }
@@ -377,7 +377,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
             }else {
                 $http({
                     method: 'POST',
-                    url: '/pa165/api/v1/rentals/create',
+                    url: '/pa165/rest/rentals/create',
                     data: rental
                 }).then(function success(response) {
                     console.log('created rental');
