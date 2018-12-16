@@ -51,7 +51,7 @@ public class RevisionRestController {
     }
 
     /**
-     * Produces list of all revisions in JSON.
+     * Produces list of all revisions (for machine) in JSON.
      *
      * @return list of revisions
      */
@@ -65,6 +65,20 @@ public class RevisionRestController {
                 linkTo(RevisionRestController.class).withSelfRel(),
                 linkTo(RevisionRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(productsResources, HttpStatus.OK);
+    }
+
+    /**
+     * Produces last revision of machine in JSON.
+     *
+     * @return last revision
+     */
+    @RequestMapping(value = "/last", method = RequestMethod.GET)
+    public HttpEntity<RevisionResource> lastRevision(@RequestParam(value = "machine", required = false) Long machine) {
+        log.debug("rest last_revision()");
+        RevisionDTO revision = revisionFacade.getLastMachineRevision(machineFacade.getMachineById(machine));
+        if (revision == null) throw new ResourceNotFoundException("revision not found");
+        RevisionResource productsResource = revisionResourceAssembler.toResource(revision);
+        return new HttpEntity<>(productsResource);
     }
 
     /**
