@@ -8,7 +8,13 @@ var rentalControllers = angular.module('rentalControllers', []);
 /* Configures URL fragment routing, e.g. #/machine/1  */
 pa165rentalApp.config(['$routeProvider',
     function ($routeProvider) {
-        $routeProvider.when('/renting', {templateUrl: 'partials/main_page.html', controller: 'MainPageCtrl'}).
+        $routeProvider.when('/', {
+            templateUrl: 'partials/main_page.html',
+            controller: 'MainPageCtrl'
+        }).when('/machines', {
+            templateUrl: 'partials/machines.html',
+            controller: 'MachinesCtrl'
+        }).when('/my_rentals', {templateUrl: 'partials/my_rentals.html', controller: 'MyRentalsCtrl'}).
         when('/admin/machines', {templateUrl: 'partials/admin_machines.html', controller: 'AdminMachinesCtrl'}).
         when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
         when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
@@ -42,12 +48,21 @@ rentalControllers.controller('MainPageCtrl', function ($scope, $http) {
     console.log("main page");
 });
 
+rentalControllers.controller('MachinesCtrl',
+    function ($scope, $rootScope, $routeParams, $http, $location) {
+        //initial load of all machines
+        loadMachines($http, $scope);
+    });
+
+rentalControllers.controller('MyRentalsCtrl', function ($scope, $http) {
+    console.log("user's rentals page");
+});
 
 /*
  * Administration interface
  */
 
-function loadAdminMachines($http, $scope) {
+function loadMachines($http, $scope) {
     $http.get('/pa165/api/v1/machines').then(function (response) {
         $scope.machines = response.data.content;
         console.log('AJAX loaded all machines ');
@@ -64,7 +79,7 @@ function loadAdminUsers($http, $scope) {
 rentalControllers.controller('AdminMachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
         //initial load of all machines
-        loadAdminMachines($http, $scope);
+        loadMachines($http, $scope);
         // function called when Delete button is clicked
         $scope.deleteMachine = function (machine) {
             console.log("deleting machine with id=" + machine.id + ' (' + machine.name + ')');
@@ -77,7 +92,7 @@ rentalControllers.controller('AdminMachinesCtrl',
                     //display confirmation alert
                     $rootScope.successAlert = 'Deleted machine "' + machine.name + '"';
                     //load new list of all machines
-                    loadAdminMachines($http, $scope);
+                    loadMachines($http, $scope);
                 },
                 function error(response) {
                     console.log('server returned error');
