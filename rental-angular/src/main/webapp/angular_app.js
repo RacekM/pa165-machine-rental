@@ -7,15 +7,20 @@ var rentalControllers = angular.module('rentalControllers', []);
 
 /* Configures URL fragment routing, e.g. #/machine/1  */
 pa165rentalApp.config(['$routeProvider',
-    function ($routeProvider) {
-        $routeProvider.when('/renting', {templateUrl: 'partials/main_page.html', controller: 'MainPageCtrl'}).
+    function ($routeProvider, $httpProvider) {
+        $routeProvider.
+        when('/renting', {templateUrl: 'partials/main_page.html', controller: 'MainPageCtrl'}).
         when('/admin/machines', {templateUrl: 'partials/admin_machines.html', controller: 'AdminMachinesCtrl'}).
         when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
         when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
         when('/admin/newuser', {templateUrl: 'partials/admin_new_user.html', controller: 'AdminNewUserCtrl'}).
         when('/admin/revisions', {templateUrl: 'partials/admin_revisions.html', controller: 'AdminRevisionCtrl'}).
         when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
+        when('/login', {templateUrl : 'partials/login.html', controller : 'security'}).
         otherwise({redirectTo: '/renting'});
+        //todo toto to rozbije
+        //$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+
     }]);
 
 /*
@@ -266,6 +271,14 @@ rentalControllers.controller('AdminNewRevisionCtrl',
                 });
             }
         };
+    });
+
+
+/* login */
+
+rentalControllers.controller('security',
+    function ($scope, $rootScope, $routeParams, $http) {
+
     });
 
 
