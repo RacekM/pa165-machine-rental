@@ -2,34 +2,26 @@
 
 /* Defines application and its dependencies */
 
-var pa165eshopApp = angular.module('pa165eshopApp', ['ngRoute', 'eshopControllers']);
-var eshopControllers = angular.module('eshopControllers', []);
+var pa165rentalApp = angular.module('pa165rentalApp', ['ngRoute', 'rentalControllers']);
+var rentalControllers = angular.module('rentalControllers', []);
 
-/* Configures URL fragment routing, e.g. #/product/1  */
-pa165eshopApp.config(['$routeProvider',
+/* Configures URL fragment routing, e.g. #/machine/1  */
+pa165rentalApp.config(['$routeProvider',
     function ($routeProvider) {
-        $routeProvider.when('/renting', {
-            templateUrl: 'partials/main_page.html',
-            controller: 'MainPageCtrl'
-        }).when('/admin/machines', {
-            templateUrl: 'partials/admin_machines.html',
-            controller: 'AdminMachinesCtrl'
-        }).when('/admin/newmachine', {
-            templateUrl: 'partials/admin_new_machine.html',
-            controller: 'AdminNewMachineCtrl'
-        }).when('/admin/revisions', {
-            templateUrl: 'partials/admin_revisions.html',
-            controller: 'AdminRevisionCtrl'
-        }).when('/admin/newrevision', {
-            templateUrl: 'partials/admin_new_revision.html',
-            controller: 'AdminNewRevisionCtrl'
-        }).otherwise({redirectTo: '/renting'});
+        $routeProvider.when('/renting', {templateUrl: 'partials/main_page.html', controller: 'MainPageCtrl'}).
+        when('/admin/machines', {templateUrl: 'partials/admin_machines.html', controller: 'AdminMachinesCtrl'}).
+        when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
+        when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
+        when('/admin/newuser', {templateUrl: 'partials/admin_new_user.html', controller: 'AdminNewUserCtrl'}).
+        when('/admin/revisions', {templateUrl: 'partials/admin_revisions.html', controller: 'AdminRevisionCtrl'}).
+        when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
+        otherwise({redirectTo: '/renting'});
     }]);
 
 /*
  * alert closing functions defined in root scope to be available in every template
  */
-pa165eshopApp.run(function ($rootScope) {
+pa165rentalApp.run(function ($rootScope) {
     $rootScope.hideSuccessAlert = function () {
         $rootScope.successAlert = undefined;
     };
@@ -44,7 +36,7 @@ pa165eshopApp.run(function ($rootScope) {
 
 /* Controllers */
 
-eshopControllers.controller('MainPageCtrl', function ($scope, $http) {
+rentalControllers.controller('MainPageCtrl', function ($scope, $http) {
     console.log("main page");
 });
 
@@ -57,6 +49,13 @@ function loadAdminMachines($http, $scope) {
     $http.get('/pa165/api/v1/machines').then(function (response) {
         $scope.machines = response.data.content;
         console.log('AJAX loaded all machines ');
+    });
+}
+
+function loadAdminUsers($http, $scope) {
+    $http.get('/pa165/api/v1/users').then(function (response) {
+        $scope.users = response.data.content;
+        console.log('AJAX loaded all users ');
     });
 }
 
@@ -94,7 +93,34 @@ eshopControllers.controller('AdminMachinesCtrl',
         };
     });
 
-eshopControllers.controller('AdminNewMachineCtrl',
+rentalControllers.controller('AdminUsersCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        //initial load of all users
+        loadAdminUsers($http, $scope);
+        // function called when Delete button is clicked
+        $scope.deleteUser = function (user) {
+            console.log("deleting user with id=" + user.id + ' (' + user.name + ')');
+            var deleteLink = user.links.find(function (link) {
+                return link.rel === "delete"
+            });
+            $http.delete(deleteLink.href).then(
+                function success(response) {
+                    console.log('deleted user ' + user.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted user "' + user.name + '"';
+                    //load new list of all users
+                    loadAdminUsers($http, $scope);
+                },
+                function error(response) {
+                    console.log('server returned error');
+                    $rootScope.errorAlert = 'Cannot delete user "' + user.name;
+                }
+            );
+        };
+    });
+
+
+rentalControllers.controller('AdminNewMachineCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
         //set object bound to form fields
         $scope.machine = {
@@ -119,6 +145,38 @@ eshopControllers.controller('AdminNewMachineCtrl',
             });
         };
     });
+
+rentalControllers.controller('AdminNewUserCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        //prepare data for selection lists
+        $scope.userTypes = ['ADMIN', 'LEGAL_PERSON', 'INDIVIDUAL'];
+        //set object bound to form fields
+        $scope.user = {
+            'name': '',
+            'username': '',
+            'passwordHash': '',
+            'userType': $scope.userTypes[0]
+        };
+        // function called when submit button is clicked, creates product on server
+        $scope.create = function (user) {
+            $http({
+                method: 'POST',
+                url: '/pa165/api/v1/users/create',
+                data: user
+            }).then(function success(response) {
+                console.log('created user');
+                var createdUser = response.data;
+                //display confirmation alert
+                $rootScope.successAlert = 'A new user "' + createdUser.name + '" was created';
+                //change view to list of users
+                $location.path("/admin/users");
+            }, function error(response) {
+                //display error
+                $scope.errorAlert = 'Cannot create user !';
+            });
+        };
+    });
+
 
 
 
@@ -215,7 +273,7 @@ eshopControllers.controller('AdminNewRevisionCtrl',
 // defines new directive (HTML attribute "convert-to-int") for conversion between string and int
 // of the value of a selection list in a form
 // without this, the value of the selected option is always a string, not an integer
-eshopControllers.directive('convertToInt', function () {
+rentalControllers.directive('convertToInt', function () {
     return {
         require: 'ngModel',
         link: function (scope, element, attrs, ngModel) {

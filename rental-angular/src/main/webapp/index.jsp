@@ -46,6 +46,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#!/admin/machines">Machines</a></li>
                         <li><a href="#!/admin/revisions">Revisions</a></li>
+                        <li><a href="#!/admin/users">Users</a></li>
                     </ul>
                 </li>
             </ul>
@@ -55,7 +56,7 @@
 
 <div class="container">
 
-    <div ng-app="pa165eshopApp"><!-- AngularJS takes care of this element -->
+    <div ng-app="pa165rentalApp"><!-- AngularJS takes care of this element -->
 
         <!-- Bootstrap-styled alerts, visible when $rootScope.xxxAlert is defined -->
         <div ng-show="warningAlert" class="alert alert-warning alert-dismissible" role="alert">

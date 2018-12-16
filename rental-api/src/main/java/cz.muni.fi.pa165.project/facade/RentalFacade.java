@@ -1,10 +1,6 @@
 package cz.muni.fi.pa165.project.facade;
 
-import cz.muni.fi.pa165.project.dto.RentalChangeFeedbackDTO;
-import cz.muni.fi.pa165.project.dto.CustomerDTO;
-import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
-import cz.muni.fi.pa165.project.dto.RentalDTO;
-import cz.muni.fi.pa165.project.dto.RevisionDTO;
+import cz.muni.fi.pa165.project.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +33,7 @@ public interface RentalFacade {
      * @param customerId id of customer whose rentals to find
      * @return List of rentals associated with customer.
      */
-    List<RentalDTO> getRentalsByCustomer(Long customerId);
+    List<RentalDTO> getRentalsByUser(Long customerId);
 
     /**
      * Gets all rentals.
@@ -75,6 +71,6 @@ public interface RentalFacade {
      * @param customerDTO whose rentals we are considering
      * @return map of rental and last revision of rented machine
      */
-    Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(CustomerDTO customerDTO);
+    Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(UserDTO customerDTO);
 
 }

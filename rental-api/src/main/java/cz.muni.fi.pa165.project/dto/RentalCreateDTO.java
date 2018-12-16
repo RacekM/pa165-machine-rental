@@ -26,7 +26,7 @@ public class RentalCreateDTO {
     private MachineDTO machine;
 
     @NotNull
-    private CustomerDTO customer;
+    private UserDTO user;
 
     public LocalDateTime getDateOfRental() {
         return dateOfRental;
@@ -60,12 +60,12 @@ public class RentalCreateDTO {
         this.machine = machine;
     }
 
-    public CustomerDTO getCustomer() {
-        return customer;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setCustomer(CustomerDTO customer) {
-        this.customer = customer;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     @Override
@@ -77,13 +77,13 @@ public class RentalCreateDTO {
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
                 Objects.equals(getFeedback(), rental.getFeedback()) &&
                 Objects.equals(getMachine(), rental.getMachine()) &&
-                Objects.equals(getCustomer(), rental.getCustomer());
+                Objects.equals(getUser(), rental.getUser());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateOfRental, returnDate, feedback, machine, customer);
+        return Objects.hash(dateOfRental, returnDate, feedback, machine, user);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class RentalCreateDTO {
                 ", returnDate=" + returnDate +
                 ", feedback='" + feedback + '\'' +
                 ", machine=" + machine +
-                ", customer=" + customer +
+                ", user=" + user +
                 '}';
     }
 
