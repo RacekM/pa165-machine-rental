@@ -15,6 +15,8 @@ pa165rentalApp.config(['$routeProvider',
         when('/admin/newuser', {templateUrl: 'partials/admin_new_user.html', controller: 'AdminNewUserCtrl'}).
         when('/admin/revisions', {templateUrl: 'partials/admin_revisions.html', controller: 'AdminRevisionCtrl'}).
         when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
+        when('/admin/rentals', {templateUrl: 'partials/admin_rentals.html', controller: 'AdminRentalCtrl'}).
+        when('/admin/newrental', {templateUrl: 'partials/admin_new_rental.html', controller: 'AdminNewRentalCtrl'}).
         otherwise({redirectTo: '/renting'});
     }]);
 
@@ -269,6 +271,108 @@ rentalControllers.controller('AdminNewRevisionCtrl',
                 }).catch(function error(response) {
                     //display error
                     $rootScope.errorAlert = 'Cannot create revision !';
+                });
+            }
+        };
+    });
+
+
+
+function loadAdminRentals($http, $scope){
+    $http.get('/pa165/api/v1/rentals').then(function (response) {
+        $scope.rentals = response.data.content;
+        console.log('AJAX loaded all rentals ');
+    });
+
+}
+
+
+
+rentalControllers.controller('AdminRentalCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        //initial load of all machines
+        loadAdminRentals($http, $scope, $routeParams);
+        // function called when Delete button is clicked
+        $scope.deleteRental = function (rental) {
+            console.log("deleting rental with id=" + rental.id + '(machine: ' + rental.machine.name + ', user: ' + rental.user.name + ')');
+            var deleteLink = rental.links.find(function (link) {
+                return link.rel === "delete"
+            });
+            $http.delete(deleteLink.href).then(
+                function success(response) {
+                    console.log('deleted rental ' + rental.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted rental of"' + rental.machine.name + '"' + ' rented by ' + '"' + rental.user.name + '"';
+                    //load new list of all machines
+                    loadAdminRentals($http, $scope);
+                },
+                function error(response) {
+                    console.log('server returned error');
+                    $rootScope.errorAlert = 'Cannot delete rental "' + rental.id;
+                }
+            );
+        };
+
+    });
+
+rentalControllers.controller('AdminNewRentalCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        //set object bound to form fields
+        $scope.rental = {
+            'machine': $routeParams.machine,
+            'user': $routeParams.user,
+            'dateOfRental': new Date(),
+            'returnDate': new Date(),
+            'feedback': ''
+        };
+
+        if (!$routeParams.machine) {
+            $http.get('/pa165/api/v1/machines').then(function (response) {
+                $scope.machines = response.data.content;
+            });
+        } else {
+            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+                $scope.machine = response.data.name;
+            });
+        }
+
+        if (!$routeParams.user) {
+            $http.get('/pa165/api/v1/users').then(function (response) {
+                $scope.users = response.data.content;
+            });
+        } else {
+            $http.get('/pa165/api/v1/users/' + $routeParams.user).then(function (response) {
+                $scope.user = response.data.name;
+            });
+        }
+
+        // function called when submit button is clicked, creates product on server
+        $scope.create = function (rental) {
+            console.log("creating post request" + rental.id + " " + rental.machine + " " + rental.user + " " + rental.dateOfRental +
+            " " + rental.returnDate + " " + rental.feedback);
+
+            if (!rental.machine){
+                $rootScope.errorAlert = 'empty machine !';
+            }else if (!rental.user) {
+                $rootScope.errorAlert = 'empty user !';
+            }else if (rental.dateOfRental < Date.now()){
+                $rootScope.errorAlert = 'Date of renting can not be in past !';
+            }else if (rental.returnDate < Date.now()) {
+                $rootScope.errorAlert = 'Date of return can not be in past !';
+            }else {
+                $http({
+                    method: 'POST',
+                    url: '/pa165/api/v1/rentals/create',
+                    data: rental
+                }).then(function success(response) {
+                    console.log('created rental');
+                    var createdRental = response.data;
+                    //display confirmation alert
+                    $rootScope.successAlert = 'A new rental "' + createdRental.id + '" was created';
+                    $location.path("/admin/rentals");
+                }).catch(function error(response) {
+                    //display error
+                    $rootScope.errorAlert = 'Cannot create rental, machine is already rented for this time';
                 });
             }
         };

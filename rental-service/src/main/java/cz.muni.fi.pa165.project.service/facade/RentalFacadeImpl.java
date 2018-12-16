@@ -40,9 +40,11 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public Long createRental(RentalCreateDTO rentalCreateDTO) {
-        Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
-        rental.setMachine(machineService.findById(rentalCreateDTO.getMachine().getId()));
-        rental.setUser(userService.findById(rentalCreateDTO.getUser().getId()));
+        //Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
+        Rental rental = new Rental(rentalCreateDTO.getDateOfRental(), rentalCreateDTO.getReturnDate(), rentalCreateDTO.getFeedback()
+        , machineService.findById(rentalCreateDTO.getMachine()), userService.findById(rentalCreateDTO.getUser()));
+        rental.setMachine(machineService.findById(rentalCreateDTO.getMachine()));
+        rental.setUser(userService.findById(rentalCreateDTO.getUser()));
 
         if (!rentalService.isValid(rental)) {
             throw new IllegalArgumentException("New rental is invalid.");

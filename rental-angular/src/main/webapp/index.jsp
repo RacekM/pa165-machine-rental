@@ -47,6 +47,7 @@
                         <li><a href="#!/admin/machines">Machines</a></li>
                         <li><a href="#!/admin/revisions">Revisions</a></li>
                         <li><a href="#!/admin/users">Users</a></li>
+                        <li><a href="#!/admin/rentals">Rentals</a></li>
                     </ul>
                 </li>
             </ul>
