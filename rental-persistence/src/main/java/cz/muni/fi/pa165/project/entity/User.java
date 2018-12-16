@@ -1,12 +1,16 @@
 package cz.muni.fi.pa165.project.entity;
 
 import cz.muni.fi.pa165.project.enums.UserType;
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,6 +40,11 @@ public class User {
     @Enumerated
     @NotNull
     private UserType userType;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Rental> rentals = new ArrayList<>();
 
     public User() {
     }
@@ -83,6 +92,10 @@ public class User {
 
     public UserType getUserType() {
         return userType;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
     }
 
     @Override

@@ -1,8 +1,15 @@
 package cz.muni.fi.pa165.project.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,6 +28,16 @@ public class Machine {
     @NotNull
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Revision> revisions = new ArrayList<Revision>();
+
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Rental> rentals= new ArrayList<Rental>();
 
     public Machine() {
     }
@@ -43,6 +60,14 @@ public class Machine {
 
     public String getName() {
         return name;
+    }
+
+    public List<Revision> getRevisions() {
+        return revisions;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
     }
 
     @Override
