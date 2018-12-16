@@ -260,6 +260,11 @@ rentalControllers.controller('AdminNewRevisionCtrl',
             $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
                 $scope.machine = response.data.name;
             });
+            $http.get('/pa165/rest/revisions/last?machine=' + $routeParams.machine).then(function (response) {
+                $scope.lastRevision = response.data.result;
+            }).catch(function error(response) {
+                $scope.lastRevision = 'no revision'
+            });
         }
         // function called when submit button is clicked, creates product on server
         $scope.create = function (revision) {
