@@ -196,6 +196,12 @@ function loadAdminRevisions($http, $scope, machine) {
 
 rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        $scope.machine = $routeParams.machine;
+        if ($routeParams.machine){
+            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+                $scope.machineName = response.data.name;
+            });
+        }
         //initial load of all machines
         loadAdminRevisions($http, $scope, $routeParams.machine);
         // function called when Delete button is clicked

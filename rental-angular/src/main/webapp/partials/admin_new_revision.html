@@ -7,7 +7,7 @@
     <div class="form-group" ng-if="showMachines">
         <label for="machine" class="col-sm-2 control-label">Machine</label>
         <div class="col-sm-10">
-            <select id="machine" class="form-control" ng-model="revision.machine" required convert-to-int>
+            <select id="machine" class="form-control" ng-model="revision.machine" convert-to-int>
                 <option ng-repeat="machine in machines" value="{{machine.id}}">{{machine.name}}</option>
             </select>
             <p class="help-block" ng-show="form.name.$error.required">name is required</p>

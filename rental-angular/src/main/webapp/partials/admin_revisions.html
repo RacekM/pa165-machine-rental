@@ -1,10 +1,16 @@
 <h1>Administration of revisions</h1>
 
+<h3 ng-if="machineName">Revisions for {{machineName}}</h3>
 
 <!-- button for adding a new revision -->
-<a href="#!/admin/newrevision" class="btn btn-primary">
+<a href="#!/admin/newrevision" class="btn btn-primary" ng-if="!machine">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     New revision
+</a>
+
+<a href="#!/admin/newrevision/?machine={{machine}}" class="btn btn-primary" ng-if="machine">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New revision for {{machineName}}
 </a>
 
 <table class="table">
