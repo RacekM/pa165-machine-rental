@@ -368,16 +368,24 @@ rentalControllers.controller('AdminNewRentalCtrl',
 
         // function called when submit button is clicked, creates product on server
         $scope.create = function (rental) {
+            // so only date part + hours and minutes is used
+            rental.dateOfRental.setHours(rental.dateOfRental.getHours(), rental.dateOfRental.getMinutes(), 0, 0);
+            rental.returnDate.setHours(rental.returnDate.getHours(), rental.returnDate.getMinutes(), 0, 0);
+
             console.log("creating post request" + rental.id + " " + rental.machine + " " + rental.user + " " + rental.dateOfRental +
             " " + rental.returnDate + " " + rental.feedback);
+
+            // take only date part and hours and minutes from actual date, Date.now return number of millisceonds since epocha
+            var nowDatePart = new Date(Date.now());
+            nowDatePart.setHours(nowDatePart.getHours(), nowDatePart.getMinutes(), 0, 0);
 
             if (!rental.machine){
                 $rootScope.errorAlert = 'empty machine !';
             }else if (!rental.user) {
                 $rootScope.errorAlert = 'empty user !';
-            }else if (rental.dateOfRental < Date.now()){
+            } else if (rental.dateOfRental < nowDatePart) {
                 $rootScope.errorAlert = 'Date of renting can not be in past !';
-            }else if (rental.returnDate < Date.now()) {
+            } else if (rental.returnDate < nowDatePart) {
                 $rootScope.errorAlert = 'Date of return can not be in past !';
             }else {
                 $http({
