@@ -315,7 +315,8 @@ rentalControllers.controller('AdminNewRentalCtrl',
             'machine': $routeParams.machine,
             'user': $routeParams.user,
             'dateOfRental': new Date(),
-            'returnDate': new Date()
+            'returnDate': new Date(),
+            'feedback': ''
         };
 
         if (!$routeParams.machine) {
@@ -341,7 +342,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
         // function called when submit button is clicked, creates product on server
         $scope.create = function (rental) {
             console.log("creating post request" + rental.id + " " + rental.machine + " " + rental.user + " " + rental.dateOfRental +
-            " " + rental.returnDate);
+            " " + rental.returnDate + " " + rental.feedback);
             if (!rental.machine){
                 $rootScope.errorAlert = 'empty machine !';
             }else if (!rental.user) {
@@ -363,7 +364,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
                     $location.path("/admin/rentals");
                 }).catch(function error(response) {
                     //display error
-                    $rootScope.errorAlert = 'Cannot create rental !';
+                    $rootScope.errorAlert = 'Cannot create rental !' + response.valueOf();
                 });
             }
         };
