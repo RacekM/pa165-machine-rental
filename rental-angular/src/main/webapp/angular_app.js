@@ -59,7 +59,7 @@ function loadAdminUsers($http, $scope) {
     });
 }
 
-eshopControllers.controller('AdminMachinesCtrl',
+rentalControllers.controller('AdminMachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
         //initial load of all machines
         loadAdminMachines($http, $scope);
@@ -194,7 +194,7 @@ function loadAdminRevisions($http, $scope, $routeParams) {
     }
 }
 
-eshopControllers.controller('AdminRevisionCtrl',
+rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all machines
         loadAdminRevisions($http, $scope, $routeParams);
@@ -220,7 +220,7 @@ eshopControllers.controller('AdminRevisionCtrl',
         };
     });
 
-eshopControllers.controller('AdminNewRevisionCtrl',
+rentalControllers.controller('AdminNewRevisionCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
         //set object bound to form fields
         $scope.showMachines = !$routeParams.machine;
