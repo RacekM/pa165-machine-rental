@@ -368,20 +368,16 @@ rentalControllers.controller('AdminNewRentalCtrl',
 
         // function called when submit button is clicked, creates product on server
         $scope.create = function (rental) {
-            // so only date part is used
-            rental.dateOfRental.setHours(2, 0, 0, 0);
-            rental.returnDate.setHours(2, 0, 0, 0);
+            // so only date part + hours and minutes is used
+            rental.dateOfRental.setHours(rental.dateOfRental.getHours(), rental.dateOfRental.getMinutes(), 0, 0);
+            rental.returnDate.setHours(rental.returnDate.getHours(), rental.returnDate.getMinutes(), 0, 0);
 
             console.log("creating post request" + rental.id + " " + rental.machine + " " + rental.user + " " + rental.dateOfRental +
             " " + rental.returnDate + " " + rental.feedback);
 
-            // take only date part from actual date, Date.now return number of millisceonds since epocha
+            // take only date part and hours and minutes from actual date, Date.now return number of millisceonds since epocha
             var nowDatePart = new Date(Date.now());
-            nowDatePart.setHours(2, 0, 0, 0);
-
-            /*console.log("dateOfRental=", rental.dateOfRental);
-            console.log("returnDate=", rental.returnDate);
-            console.log("nowDatePart=", nowDatePart);*/
+            nowDatePart.setHours(nowDatePart.getHours(), nowDatePart.getMinutes(), 0, 0);
 
             if (!rental.machine){
                 $rootScope.errorAlert = 'empty machine !';
