@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.project.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,21 +14,23 @@ import java.util.Objects;
  */
 public class RentalCreateDTO {
 
-    @Past
+    //@Past
     @NotNull
-    private LocalDateTime dateOfRental;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime dateOfRental = LocalDateTime.now();
 
     @NotNull
-    private LocalDateTime returnDate;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
 
     @NotNull
     private String feedback;
 
     @NotNull
-    private MachineDTO machine;
+    private Long machine;
 
     @NotNull
-    private UserDTO user;
+    private Long user;
 
     public LocalDateTime getDateOfRental() {
         return dateOfRental;
@@ -52,19 +56,19 @@ public class RentalCreateDTO {
         this.feedback = feedback;
     }
 
-    public MachineDTO getMachine() {
+    public Long getMachine() {
         return machine;
     }
 
-    public void setMachine(MachineDTO machine) {
+    public void setMachine(Long machine) {
         this.machine = machine;
     }
 
-    public UserDTO getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(Long user) {
         this.user = user;
     }
 

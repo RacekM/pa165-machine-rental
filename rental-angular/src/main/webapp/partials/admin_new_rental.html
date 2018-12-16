@@ -1,0 +1,42 @@
+<h1>Creation of new rental</h1>
+
+<form name="form" novalidate class="form-horizontal">
+    <div class="form-group">
+        <label for="machine" class="col-sm-2 control-label">Machine</label>
+        <div class="col-sm-10">
+            <select id="machine" class="form-control" ng-model="rental.machine" required convert-to-int>
+                <option ng-repeat="machine in machines" value="{{machine.id}}">{{machine.name}}</option>
+            </select>
+            <p class="help-block" ng-show="form.name.$error.required">name is required</p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="user" class="col-sm-2 control-label">User</label>
+        <div class="col-sm-10">
+            <select id="user" class="form-control" ng-model="rental.user" required convert-to-int>
+                <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
+            </select>
+            <p class="help-block" ng-show="form.name.$error.required">name is required</p>
+        </div>
+    </div>
+
+    <div class="form-group" >
+        <label for="dateOfRental" class="col-sm-2 control-label">Date of Rental</label>
+        <div class="col-sm-10">
+            <input type="date" id="dateOfRental" name="dateOfRental" ng-model="rental.dateOfRental">
+        </div>
+    </div>
+
+    <div class="form-group" >
+        <label for="returnDate" class="col-sm-2 control-label">Return Date</label>
+        <div class="col-sm-10">
+            <input type="date" id="returnDate" name="date" ng-model="rental.returnDate">
+        </div>
+    </div>
+
+
+    <!-- show disabled button if form is not valid -->
+    <button ng-disabled="!form.$valid" class="btn btn-primary" type="submit" ng-click="create(revision)">Create rental
+    </button>
+</form>
