@@ -180,11 +180,11 @@ rentalControllers.controller('AdminNewUserCtrl',
 
 
 
-function loadAdminRevisions($http, $scope, $routeParams) {
-    if ($routeParams.machine != null) {
-        $http.get('/pa165/api/v1/revisions?machine=' + $routeParams.machine).then(function (response) {
+function loadAdminRevisions($http, $scope, machine) {
+    if (machine) {
+        $http.get('/pa165/api/v1/revisions?machine=' + machine).then(function (response) {
             $scope.revisions = response.data.content;
-            console.log('AJAX loaded all revisions ');
+            console.log('AJAX loaded all revisions for given machine');
         });
     } else {
         $http.get('/pa165/api/v1/revisions').then(function (response) {
@@ -197,7 +197,7 @@ function loadAdminRevisions($http, $scope, $routeParams) {
 rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all machines
-        loadAdminRevisions($http, $scope, $routeParams);
+        loadAdminRevisions($http, $scope, $routeParams.machine);
         // function called when Delete button is clicked
         $scope.deleteRevision = function (revision) {
             console.log("deleting revision with id=" + revision.id + ' (machine: ' + revision.machine.name + ')');
@@ -210,7 +210,7 @@ rentalControllers.controller('AdminRevisionCtrl',
                     //display confirmation alert
                     $rootScope.successAlert = 'Deleted revision of"' + revision.machine.name + '"';
                     //load new list of all machines
-                    loadAdminRevisions($http, $scope);
+                    loadAdminRevisions($http, $scope, $routeParams.machine);
                 },
                 function error(response) {
                     console.log('server returned error');
