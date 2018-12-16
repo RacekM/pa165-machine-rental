@@ -243,8 +243,9 @@ rentalControllers.controller('AdminNewRevisionCtrl',
             console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
             if (!revision.machine){
                 $rootScope.errorAlert = 'empty machine !';
-            }
-            else {
+            }else if (revision.date > Date.now()){
+                $rootScope.errorAlert = 'Date of revision can not be in future !';
+            } else {
                 $http({
                     method: 'POST',
                     url: '/pa165/api/v1/revisions/create',
