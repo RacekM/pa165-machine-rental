@@ -7,6 +7,8 @@ import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
 
+import java.time.format.DateTimeFormatter;
+
 
 /**
  * @author Juraj Vandor
@@ -25,7 +27,7 @@ public class RevisionResource extends ResourceSupport {
         this.dtoId = dto.getId();
         this.result = dto.getResult() ? "passed" : "failed";
         this.machine = dto.getMachine();
-        this.date = dto.getDate().toString();
+        this.date = dto.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public long getDtoId() {

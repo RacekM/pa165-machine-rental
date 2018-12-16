@@ -227,7 +227,7 @@ rentalControllers.controller('AdminNewRevisionCtrl',
         $scope.revision = {
             'machine': $routeParams.machine,
             'result': true,
-            //'date': new Date()
+            'date': new Date()
         };
         if (!$routeParams.machine) {
             $http.get('/pa165/api/v1/machines').then(function (response) {

@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.project.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,6 +13,7 @@ import java.util.Objects;
 public class RevisionCreateDTO {
     private boolean result;
     @NotNull
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime date = LocalDateTime.now();
     @NotNull
     private Long machine;
