@@ -165,29 +165,47 @@ eshopControllers.controller('AdminRevisionCtrl',
 eshopControllers.controller('AdminNewRevisionCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
         //set object bound to form fields
+        $scope.showMachines = !$routeParams.machine;
         $scope.revision = {
             'machine': $routeParams.machine,
             'result': true,
             //'date': new Date()
         };
+        if (!$routeParams.machine) {
+            $http.get('/pa165/api/v1/machines').then(function (response) {
+                $scope.machines = response.data.content;
+            });
+        } else {
+            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+                $scope.machine = response.data.name;
+            });
+        }
         // function called when submit button is clicked, creates product on server
         $scope.create = function (revision) {
             console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
-            $http({
-                method: 'POST',
-                url: '/pa165/api/v1/revisions/create',
-                data: revision
-            }).then(function success(response) {
-                console.log('created revision');
-                var createdRevision = response.data;
-                //display confirmation alert
-                $rootScope.successAlert = 'A new revision "' + createdRevision.id + '" was created';
-                //change view to list of machines
-                $location.path("/admin/machines");
-            }, function error(response) {
-                //display error
-                $scope.errorAlert = 'Cannot create revision !';
-            });
+            if (!revision.machine){
+                $rootScope.errorAlert = 'empty machine !';
+            }
+            else {
+                $http({
+                    method: 'POST',
+                    url: '/pa165/api/v1/revisions/create',
+                    data: revision
+                }).then(function success(response) {
+                    console.log('created revision');
+                    var createdRevision = response.data;
+                    //display confirmation alert
+                    $rootScope.successAlert = 'A new revision "' + createdRevision.id + '" was created';
+                    if (!$routeParams.machine) {
+                        $location.path("/admin/revisions");
+                    } else {
+                        $location.path("/admin/revisions").search({machine: $routeParams.machine});
+                    }
+                }).catch(function error(response) {
+                    //display error
+                    $rootScope.errorAlert = 'Cannot create revision !';
+                });
+            }
         };
     });
 
