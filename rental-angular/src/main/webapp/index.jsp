@@ -16,6 +16,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/angular_app.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker();
+        } );
+    </script>
 </head>
 <body>
 <!-- navigation bar -->
@@ -38,6 +45,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#!/admin/machines">Machines</a></li>
+                        <li><a href="#!/admin/revisions">Revisions</a></li>
                         <li><a href="#!/admin/users">Users</a></li>
                     </ul>
                 </li>

@@ -13,6 +13,8 @@ pa165rentalApp.config(['$routeProvider',
         when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
         when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
         when('/admin/newuser', {templateUrl: 'partials/admin_new_user.html', controller: 'AdminNewUserCtrl'}).
+        when('/admin/revisions', {templateUrl: 'partials/admin_revisions.html', controller: 'AdminRevisionCtrl'}).
+        when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
         otherwise({redirectTo: '/renting'});
     }]);
 
@@ -58,7 +60,7 @@ function loadAdminUsers($http, $scope) {
 }
 
 rentalControllers.controller('AdminMachinesCtrl',
-    function ($scope, $rootScope, $routeParams, $http) {
+    function ($scope, $rootScope, $routeParams, $http, $location) {
         //initial load of all machines
         loadAdminMachines($http, $scope);
         // function called when Delete button is clicked
@@ -80,6 +82,14 @@ rentalControllers.controller('AdminMachinesCtrl',
                     $rootScope.errorAlert = 'Cannot delete machine "' + machine.name;
                 }
             );
+        };
+        $scope.createRevision = function (machine) {
+            console.log("addRevision to machine " + machine.id + ' (' + machine.name + ')');
+            $location.path("/admin/newrevision").search({machine: machine.id});
+        };
+        $scope.showRevisions = function (machine) {
+            console.log("show revisions of machine " + machine.id + ' (' + machine.name + ')');
+            $location.path("/admin/revisions").search({machine: machine.id});
         };
     });
 
@@ -167,6 +177,95 @@ rentalControllers.controller('AdminNewUserCtrl',
         };
     });
 
+
+
+
+function loadAdminRevisions($http, $scope, $routeParams) {
+    if ($routeParams.machine != null) {
+        $http.get('/pa165/api/v1/revisions?machine=' + $routeParams.machine).then(function (response) {
+            $scope.revisions = response.data.content;
+            console.log('AJAX loaded all revisions ');
+        });
+    } else {
+        $http.get('/pa165/api/v1/revisions').then(function (response) {
+            $scope.revisions = response.data.content;
+            console.log('AJAX loaded all revisions ');
+        });
+    }
+}
+
+rentalControllers.controller('AdminRevisionCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        //initial load of all machines
+        loadAdminRevisions($http, $scope, $routeParams);
+        // function called when Delete button is clicked
+        $scope.deleteRevision = function (revision) {
+            console.log("deleting revision with id=" + revision.id + ' (machine: ' + revision.machine.name + ')');
+            var deleteLink = revision.links.find(function (link) {
+                return link.rel === "delete"
+            });
+            $http.delete(deleteLink.href).then(
+                function success(response) {
+                    console.log('deleted revision ' + revision.id + ' on server');
+                    //display confirmation alert
+                    $rootScope.successAlert = 'Deleted revision of"' + revision.machine.name + '"';
+                    //load new list of all machines
+                    loadAdminRevisions($http, $scope);
+                },
+                function error(response) {
+                    console.log('server returned error');
+                    $rootScope.errorAlert = 'Cannot delete revision "' + revision.id;
+                }
+            );
+        };
+    });
+
+rentalControllers.controller('AdminNewRevisionCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        //set object bound to form fields
+        $scope.showMachines = !$routeParams.machine;
+        $scope.revision = {
+            'machine': $routeParams.machine,
+            'result': true,
+            'date': new Date()
+        };
+        if (!$routeParams.machine) {
+            $http.get('/pa165/api/v1/machines').then(function (response) {
+                $scope.machines = response.data.content;
+            });
+        } else {
+            $http.get('/pa165/api/v1/machines/' + $routeParams.machine).then(function (response) {
+                $scope.machine = response.data.name;
+            });
+        }
+        // function called when submit button is clicked, creates product on server
+        $scope.create = function (revision) {
+            console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
+            if (!revision.machine){
+                $rootScope.errorAlert = 'empty machine !';
+            }
+            else {
+                $http({
+                    method: 'POST',
+                    url: '/pa165/api/v1/revisions/create',
+                    data: revision
+                }).then(function success(response) {
+                    console.log('created revision');
+                    var createdRevision = response.data;
+                    //display confirmation alert
+                    $rootScope.successAlert = 'A new revision "' + createdRevision.id + '" was created';
+                    if (!$routeParams.machine) {
+                        $location.path("/admin/revisions");
+                    } else {
+                        $location.path("/admin/revisions").search({machine: $routeParams.machine});
+                    }
+                }).catch(function error(response) {
+                    //display error
+                    $rootScope.errorAlert = 'Cannot create revision !';
+                });
+            }
+        };
+    });
 
 
 /* Utilities */

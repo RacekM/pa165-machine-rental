@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.facade.RevisionFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
+import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RevisionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ import java.util.List;
 public class RevisionFacadeImpl implements RevisionFacade {
     @Inject
     private RevisionService revisionService;
+    @Inject
+    private MachineService machineService;
 
     @Inject
     private BeanMappingService beanMappingService;
@@ -46,7 +49,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 
     @Override
     public Long createRevision(RevisionCreateDTO revisionCreateDTO) {
-        Revision revision = beanMappingService.mapTo(revisionCreateDTO, Revision.class);
+        Revision revision = new Revision(revisionCreateDTO.getResult(), revisionCreateDTO.getDate(), machineService.findById(revisionCreateDTO.getMachine()));
         revisionService.create(revision);
         return revision.getId();
     }
