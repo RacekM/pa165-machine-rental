@@ -1,0 +1,35 @@
+<h1>Administration of rentals</h1>
+
+<h3 ng-if="machineName">Rentals of {{machineName}}</h3>
+
+<!-- button for adding a new rental -->
+<a href="#!/admin/newrental" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New rental
+</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>machine name</th>
+        <th>user name</th>
+        <th>date of rental</th>
+        <th>return date</th>
+        <th>note</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="rental in rentals track by $index">
+        <td>{{rental.id}}</td>
+        <td>{{rental.machine.name}}</td>
+        <td>{{rental.user.name}}</td>
+        <td>{{rental.dateOfRental}}</td>
+        <td>{{rental.returnDate}}</td>
+        <td>{{rental.note}}</td>
+        <td>
+            <button ng-click="deleteRental(rental)" type="submit" class="btn btn-primary">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

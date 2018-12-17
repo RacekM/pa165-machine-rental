@@ -18,6 +18,7 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
+            <version>3.0.0</version>
             <scope>test</scope><!-- conflicts with tomcat libraries, needed only for tests anyway -->
         </dependency>
         <dependency>

@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.project.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,9 +13,10 @@ import java.util.Objects;
 public class RevisionCreateDTO {
     private boolean result;
     @NotNull
-    private LocalDateTime date;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime date = LocalDateTime.now();
     @NotNull
-    private MachineDTO machine;
+    private Long machine;
 
     public boolean getResult() {
         return result;
@@ -30,11 +34,11 @@ public class RevisionCreateDTO {
         this.date = date;
     }
 
-    public MachineDTO getMachine() {
+    public Long getMachine() {
         return machine;
     }
 
-    public void setMachine(MachineDTO machine) {
+    public void setMachine(Long machine) {
         this.machine = machine;
     }
 
@@ -45,7 +49,7 @@ public class RevisionCreateDTO {
         RevisionDTO that = (RevisionDTO) o;
         return getResult() == that.getResult() &&
                 Objects.equals(getDate(), that.getDate()) &&
-                Objects.equals(getMachine(), that.getMachine());
+                Objects.equals(getMachine(), that.getMachine().getId());
     }
 
     @Override

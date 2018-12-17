@@ -1,14 +1,15 @@
 package cz.muni.fi.pa165.project.service.facade;
 
 import cz.muni.fi.pa165.project.dto.*;
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.service.BeanMappingService;
-import cz.muni.fi.pa165.project.service.CustomerService;
 import cz.muni.fi.pa165.project.service.MachineService;
 import cz.muni.fi.pa165.project.service.RentalService;
+import cz.muni.fi.pa165.project.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ public class RentalFacadeImpl implements RentalFacade {
     private RentalService rentalService;
 
     @Inject
-    private CustomerService customerService;
+    private UserService userService;
 
     @Inject
     private MachineService machineService;
@@ -40,9 +41,11 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public Long createRental(RentalCreateDTO rentalCreateDTO) {
-        Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
-        rental.setMachine(machineService.findById(rentalCreateDTO.getMachine().getId()));
-        rental.setCustomer(customerService.findById(rentalCreateDTO.getCustomer().getId()));
+        //Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
+        Rental rental = new Rental(rentalCreateDTO.getDateOfRental(), rentalCreateDTO.getReturnDate(), rentalCreateDTO.getNote()
+        , machineService.findById(rentalCreateDTO.getMachine()), userService.findById(rentalCreateDTO.getUser()));
+        rental.setMachine(machineService.findById(rentalCreateDTO.getMachine()));
+        rental.setUser(userService.findById(rentalCreateDTO.getUser()));
 
         if (!rentalService.isValid(rental)) {
             throw new IllegalArgumentException("New rental is invalid.");
@@ -60,11 +63,21 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public List<RentalDTO> getRentalsByCustomer(Long customerId) {
-        Customer customer = customerService.findById(customerId);
+    public List<RentalDTO> getRentalsByUser(Long customerId) {
+        User user = userService.findById(customerId);
         List<RentalDTO> rentalDTOs = new ArrayList<>();
-        if (customer != null) {
-            rentalDTOs = beanMappingService.mapTo(rentalService.findByCustomer(customer), RentalDTO.class);
+        if (user != null) {
+            rentalDTOs = beanMappingService.mapTo(rentalService.findByCustomer(user), RentalDTO.class);
+        }
+        return rentalDTOs;
+    }
+
+    @Override
+    public List<RentalDTO> getRentalsByMachine(Long machineId) {
+        Machine machine = machineService.findById(machineId);
+        List<RentalDTO> rentalDTOs = new ArrayList<>();
+        if (machine != null) {
+            rentalDTOs = beanMappingService.mapTo(rentalService.findByMachine(machine), RentalDTO.class);
         }
         return rentalDTOs;
     }
@@ -83,9 +96,9 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public void changeRentalFeedback(RentalChangeFeedbackDTO rentalChangeFeedbackDTO) {
-        Rental rental = beanMappingService.mapTo(rentalChangeFeedbackDTO.getRental(), Rental.class);
-        rentalService.changeFeedback(rental, rentalChangeFeedbackDTO.getFeedback());
+    public void changeRentalNote(RentalChangeNoteDTO rentalChangeNoteDTO) {
+        Rental rental = beanMappingService.mapTo(rentalChangeNoteDTO.getRental(), Rental.class);
+        rentalService.changeNote(rental, rentalChangeNoteDTO.getNote());
     }
 
     @Override
@@ -94,9 +107,9 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(CustomerDTO customerDTO){
+    public Map<RentalDTO, RevisionDTO> activeRentalsWithLastRevisionByCustomer(UserDTO customerDTO){
         Map<Rental, Revision> result = rentalService.activeRentalsWithLastRevisionByCustomer(
-                beanMappingService.mapTo(customerDTO, Customer.class));
+                beanMappingService.mapTo(customerDTO, User.class));
         return beanMappingService.mapTo(result, RentalDTO.class, RevisionDTO.class);
     }
 

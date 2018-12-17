@@ -25,7 +25,8 @@ public class Revision {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "machine_id", nullable = false)
     @NotNull
     private Machine machine;
 

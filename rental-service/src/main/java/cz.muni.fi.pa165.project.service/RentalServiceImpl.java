@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +43,13 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<Rental> findByCustomer(Customer customer) {
-        return rentalDao.findByCustomer(customer);
+    public List<Rental> findByCustomer(User user) {
+        return rentalDao.findByCustomer(user);
+    }
+
+    @Override
+    public List<Rental> findByMachine(Machine machine) {
+        return rentalDao.findByMachine(machine);
     }
 
     @Override
@@ -58,14 +63,14 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void changeFeedback(Rental rental, String newFeedback) {
-        rental.setFeedback(newFeedback);
+    public void changeNote(Rental rental, String newNote) {
+        rental.setNote(newNote);
         rentalDao.update(rental);
     }
 
     @Override
     public boolean isValid(Rental rental) {
-        if (rental.getDateOfRental() == null || rental.getReturnDate() == null) {
+        if (rental.getDateOfRental() == null || rental.getReturnDate() == null || rental.getMachine() == null) {
             return false;
         }
 
@@ -75,33 +80,23 @@ public class RentalServiceImpl implements RentalService {
 
         List<Rental> existingRentals = findAll();
         for (Rental existingRental : existingRentals) {
-            boolean isBefore = existingRental.getReturnDate().isBefore(rental.getDateOfRental()) &&
-                    isNotSameDay(existingRental.getReturnDate(), rental.getDateOfRental());
-            boolean isAfter = existingRental.getDateOfRental().isAfter(rental.getReturnDate()) &&
-                    isNotSameDay(existingRental.getDateOfRental(), rental.getReturnDate());
+            if (!rental.getMachine().equals(existingRental.getMachine())) {
+                continue;
+            }
 
-            if (!(isBefore || isAfter)) {
+            boolean isBefore = existingRental.getReturnDate().toLocalDate().isBefore(rental.getDateOfRental().toLocalDate());
+            boolean isAfter = existingRental.getDateOfRental().toLocalDate().isAfter(rental.getReturnDate().toLocalDate());
+
+            if (!isBefore && !isAfter) {
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * Checks if two dates are the same day.
-     *
-     * @param dateTime1 first date
-     * @param dateTime2 second date
-     * @return true if both dates are same day, false otherwise
-     */
-    private boolean isNotSameDay(LocalDateTime dateTime1, LocalDateTime dateTime2) {
-        return dateTime1.getDayOfYear() != dateTime2.getDayOfYear() ||
-                dateTime1.getYear() != dateTime2.getYear();
-    }
-
     @Override
-    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer){
-        List<Rental> rentals = rentalDao.findByCustomer(customer);
+    public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(User user){
+        List<Rental> rentals = rentalDao.findByCustomer(user);
         Map<Rental, Revision> res= new HashMap<>();
         for (Rental r : rentals){
             if (r.getReturnDate().isAfter(LocalDateTime.now()))

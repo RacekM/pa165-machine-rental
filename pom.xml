@@ -58,6 +58,21 @@
                         <target>${java.version}</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>1.7.0</version>
+                    <configuration>
+                        <container>
+                            <containerId>tomcat9x</containerId>
+                            <artifactInstaller>
+                                <groupId>org.apache.tomcat</groupId>
+                                <artifactId>tomcat</artifactId>
+                                <version>${tomcat.version}</version>
+                            </artifactInstaller>
+                        </container>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -115,6 +130,8 @@
         <module>rental-persistence</module>
         <module>rental-api</module>
         <module>rental-service</module>
+        <module>rental-angular</module>
+        <module>rental-sample-data</module>
     </modules>
 
 </project>
