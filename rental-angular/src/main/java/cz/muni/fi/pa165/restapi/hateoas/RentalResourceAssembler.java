@@ -11,6 +11,11 @@ import java.lang.reflect.Method;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+/**
+ * Assembles a HATEOS-compliant representation of a rental from a RentalDTO.
+ *
+ * @author Martin Sisak, 445384
+ */
 @Component
 public class RentalResourceAssembler extends ResourceAssemblerSupport<RentalDTO, RentalResource> {
 
