@@ -69,11 +69,22 @@ function loadMachines($http, $scope) {
     });
 }
 
-function loadAdminUsers($http, $scope) {
+function loadUsers($http, $scope) {
     $http.get('/pa165/rest/users').then(function (response) {
         $scope.users = response.data.content;
         console.log('AJAX loaded all users ');
     });
+}
+
+function countAdmins(users) {
+    var count = 0;
+    for (var i = 0; i < users.length; i++) {
+        console.log("userType=", users[i].userType);
+        if (users[i].userType === "ADMIN") {
+            count++;
+        }
+    }
+    return count;
 }
 
 rentalControllers.controller('AdminMachinesCtrl',
@@ -113,26 +124,38 @@ rentalControllers.controller('AdminMachinesCtrl',
 rentalControllers.controller('AdminUsersCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
         //initial load of all users
-        loadAdminUsers($http, $scope);
+        loadUsers($http, $scope);
         // function called when Delete button is clicked
         $scope.deleteUser = function (user) {
-            console.log("deleting user with id=" + user.id + ' (' + user.name + ')');
-            var deleteLink = user.links.find(function (link) {
-                return link.rel === "delete"
-            });
-            $http.delete(deleteLink.href).then(
-                function success(response) {
-                    console.log('deleted user ' + user.id + ' on server');
-                    //display confirmation alert
-                    $rootScope.successAlert = 'Deleted user "' + user.name + '"';
-                    //load new list of all users
-                    loadAdminUsers($http, $scope);
+            $http.get('/pa165/rest/users').then(function success(response) {
+                    var users = response.data.content;
+                    if (user.userType === "ADMIN" && countAdmins(users) <= 1) {
+                        console.log('cannot delete last admin');
+                        $rootScope.errorAlert = 'Cannot delete user "' + user.name + '" because he is last admin.';
+                        return;
+                    }
+
+                    console.log("deleting user with id=" + user.id + ' (' + user.name + ')');
+                    var deleteLink = user.links.find(function (link) {
+                        return link.rel === "delete"
+                    });
+                    $http.delete(deleteLink.href).then(
+                        function success(response) {
+                            console.log('deleted user ' + user.id + ' on server');
+                            //display confirmation alert
+                            $rootScope.successAlert = 'Deleted user "' + user.name + '"';
+                            //load new list of all users
+                            loadUsers($http, $scope);
+                        },
+                        function error(response) {
+                            console.log('server returned error');
+                            $rootScope.errorAlert = 'Cannot delete user "' + user.name;
+                        }
+                    );
                 },
                 function error(response) {
-                    console.log('server returned error');
-                    $rootScope.errorAlert = 'Cannot delete user "' + user.name;
-                }
-            );
+                    console.log('AJAX cannot get all users ');
+                });
         };
     });
 
