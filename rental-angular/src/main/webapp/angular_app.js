@@ -14,7 +14,7 @@ pa165rentalApp.config(['$routeProvider',
         }).when('/machines', {
             templateUrl: 'partials/machines.html',
             controller: 'MachinesCtrl'
-        }).when('/my_rentals', {templateUrl: 'partials/my_rentals.html', controller: 'MyRentalsCtrl'}).
+        }).
         when('/admin/machines', {templateUrl: 'partials/admin_machines.html', controller: 'AdminMachinesCtrl'}).
         when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
         when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
@@ -23,7 +23,7 @@ pa165rentalApp.config(['$routeProvider',
         when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
         when('/admin/rentals', {templateUrl: 'partials/admin_rentals.html', controller: 'AdminRentalCtrl'}).
         when('/admin/newrental', {templateUrl: 'partials/admin_new_rental.html', controller: 'AdminNewRentalCtrl'}).
-        otherwise({redirectTo: '/renting'});
+        otherwise({redirectTo: '/'});
     }]);
 
 /*
