@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.restapi.controllers;
 
-import cz.muni.fi.pa165.project.dto.MachineDTO;
 import cz.muni.fi.pa165.project.dto.RevisionCreateDTO;
 import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import cz.muni.fi.pa165.project.facade.MachineFacade;
@@ -31,16 +30,16 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @author Juraj Vandor
  */
 @RestController
-@ExposesResourceFor(MachineDTO.class)
+@ExposesResourceFor(RevisionDTO.class)
 @RequestMapping("/revisions")
-public class RevisionRestController {
+public class RevisionsRestController {
 
-    private final static Logger log = LoggerFactory.getLogger(RevisionRestController.class);
+    private final static Logger log = LoggerFactory.getLogger(RevisionsRestController.class);
     private RevisionFacade revisionFacade;
     private MachineFacade machineFacade;
     private RevisionResourceAssembler revisionResourceAssembler;
 
-    public RevisionRestController(
+    public RevisionsRestController(
             @Autowired RevisionFacade revisionFacade,
             @Autowired MachineFacade machineFacade,
             @Autowired RevisionResourceAssembler revisionResourceAssembler
@@ -62,8 +61,8 @@ public class RevisionRestController {
                 revisionFacade.getRevisionsOfMachine(machineFacade.getMachineById(machine));
         Resources<RevisionResource> productsResources = new Resources<>(
                 revisionResourceAssembler.toResources(allRevisions),
-                linkTo(RevisionRestController.class).withSelfRel(),
-                linkTo(RevisionRestController.class).slash("/create").withRel("create"));
+                linkTo(RevisionsRestController.class).withSelfRel(),
+                linkTo(RevisionsRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(productsResources, HttpStatus.OK);
     }
 
@@ -99,8 +98,10 @@ public class RevisionRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteRevision(@PathVariable("id") long id) {
+        System.out.println("DELETING REVISION");
         log.debug("rest deleteRevision({})", id);
         try {
+            System.out.println("deletingRevision in controller with id " + id);
             revisionFacade.deleteRevision(id);
         } catch (IllegalArgumentException ex) {
             log.error("revision " + id + " not found");

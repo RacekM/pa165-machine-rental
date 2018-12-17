@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  */
 
 @Relation(value = "rental", collectionRelation = "rentals")
-@JsonPropertyOrder({"id", "name"})
+@JsonPropertyOrder({"id", "dateOfRental", "returnDate", "feedback", "machine", "user"})
 public class RentalResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
