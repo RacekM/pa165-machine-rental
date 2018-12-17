@@ -1,6 +1,37 @@
 # pa165-machine-rental
 
-cURL commands for entity Machine
+#### Running the project
+
+1. Clone the repository 
+```
+git clone https://github.com/RacekM/pa165-machine-rental
+```
+2. Go into project folder
+```
+cd pa165-machine-rental
+```
+3. Run mvn clean install in root of the project
+```
+mvn clean install
+```
+4. Go to the rental-angular direcotory
+```
+cd rental-angular
+```
+5. Run mvn cargo:run to start the web server
+```
+mvn cargo:run
+```
+6. Visit http://localhost:8080/pa165
+Login with credentials if needed:
+As admin or user:
+```
+username = admin, password = admin
+username = user1, password = user1
+username = user2, password = user2
+```
+
+# cURL commands for entity Machine
 
 #### Machine.getAll:
 ```
