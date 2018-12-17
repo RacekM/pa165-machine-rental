@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.project.service.facade;
 
 import cz.muni.fi.pa165.project.dto.*;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
 import cz.muni.fi.pa165.project.entity.User;
@@ -67,6 +68,16 @@ public class RentalFacadeImpl implements RentalFacade {
         List<RentalDTO> rentalDTOs = new ArrayList<>();
         if (user != null) {
             rentalDTOs = beanMappingService.mapTo(rentalService.findByCustomer(user), RentalDTO.class);
+        }
+        return rentalDTOs;
+    }
+
+    @Override
+    public List<RentalDTO> getRentalsByMachine(Long machineId) {
+        Machine machine = machineService.findById(machineId);
+        List<RentalDTO> rentalDTOs = new ArrayList<>();
+        if (machine != null) {
+            rentalDTOs = beanMappingService.mapTo(rentalService.findByMachine(machine), RentalDTO.class);
         }
         return rentalDTOs;
     }

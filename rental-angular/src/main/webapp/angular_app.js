@@ -119,6 +119,10 @@ rentalControllers.controller('AdminMachinesCtrl',
             console.log("show revisions of machine " + machine.id + ' (' + machine.name + ')');
             $location.path("/admin/revisions").search({machine: machine.id});
         };
+        $scope.showRentals = function (machine) {
+            console.log("show rentals of machine " + machine.id + ' (' + machine.name + ')');
+            $location.path("/admin/rentals").search({machine: machine.id});
+        };
     });
 
 rentalControllers.controller('AdminUsersCtrl',
@@ -319,22 +323,29 @@ rentalControllers.controller('AdminNewRevisionCtrl',
         };
     });
 
-
-
-function loadAdminRentals($http, $scope){
-    $http.get('/pa165/rest/rentals').then(function (response) {
-        $scope.rentals = response.data.content;
-        console.log('AJAX loaded all rentals ');
-    });
-
+function loadAdminRentals($http, $scope, machine) {
+    if (machine){
+        $http.get('/pa165/rest/rentals?machine=' + machine).then(function (response) {
+            $scope.rentals = response.data.content;
+            console.log('AJAX loaded all revisions for given machine');
+        });
+    }else {
+        $http.get('/pa165/rest/rentals').then(function (response) {
+            $scope.rentals = response.data.content;
+            console.log('AJAX loaded all rentals ');
+        });
+    }
 }
-
-
 
 rentalControllers.controller('AdminRentalCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
-        //initial load of all machines
-        loadAdminRentals($http, $scope, $routeParams);
+        $scope.machine = $routeParams.machine;
+        if ($routeParams.machine){
+            $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
+                $scope.machineName = response.data.name;
+            });
+        }
+        loadAdminRentals($http, $scope, $routeParams.machine);
         // function called when Delete button is clicked
         $scope.deleteRental = function (rental) {
             console.log("deleting rental with id=" + rental.id + '(machine: ' + rental.machine.name + ', user: ' + rental.user.name + ')');

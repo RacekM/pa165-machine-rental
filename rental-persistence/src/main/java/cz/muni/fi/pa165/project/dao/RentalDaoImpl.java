@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.project.dao;
 
-import cz.muni.fi.pa165.project.entity.User;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -41,6 +42,14 @@ public class RentalDaoImpl implements RentalDao {
                 "SELECT r FROM Rental r WHERE r.customer = :customerId", Rental.class);
 
         query.setParameter("customerId", user);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Rental> findByMachine(Machine machine) {
+        TypedQuery<Rental> query = entityManager.createQuery(
+                "SELECT r FROM Rental r WHERE r.machine = :machineId", Rental.class);
+        query.setParameter("machineId", machine);
         return query.getResultList();
     }
 

@@ -1,9 +1,10 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
-import cz.muni.fi.pa165.project.entity.User;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -44,6 +45,11 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public List<Rental> findByCustomer(User user) {
         return rentalDao.findByCustomer(user);
+    }
+
+    @Override
+    public List<Rental> findByMachine(Machine machine) {
+        return rentalDao.findByMachine(machine);
     }
 
     @Override

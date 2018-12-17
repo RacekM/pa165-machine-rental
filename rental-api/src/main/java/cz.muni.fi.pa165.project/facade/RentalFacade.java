@@ -35,6 +35,8 @@ public interface RentalFacade {
      */
     List<RentalDTO> getRentalsByUser(Long customerId);
 
+    List<RentalDTO> getRentalsByMachine(Long machineId);
+
     /**
      * Gets all rentals.
      *

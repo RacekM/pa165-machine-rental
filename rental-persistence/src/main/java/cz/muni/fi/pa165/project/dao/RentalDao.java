@@ -1,7 +1,8 @@
 package cz.muni.fi.pa165.project.dao;
 
-import cz.muni.fi.pa165.project.entity.User;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.User;
 
 import java.util.List;
 
@@ -41,6 +42,9 @@ public interface RentalDao {
      * @return List of rentals associated with user.
      */
     List<Rental> findByCustomer(User user);
+
+
+    List<Rental> findByMachine(Machine machine);
 
     /**
      * Finds all rentals in data storage.
