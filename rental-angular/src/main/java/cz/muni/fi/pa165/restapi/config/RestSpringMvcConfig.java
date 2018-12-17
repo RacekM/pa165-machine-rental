@@ -39,7 +39,7 @@ import static org.springframework.hateoas.config.EnableHypermediaSupport.Hyperme
 @EnableWebMvc
 @Configuration
 @Import({RentalWithSampleDataConfiguration.class})
-@ComponentScan(basePackages = {"cz.muni.fi.pa165.restapi.controllers", "cz.muni.fi.pa165.restapi.hateoas"})
+@ComponentScan(basePackages = {"cz.muni.fi.pa165.restapi.exceptions","cz.muni.fi.pa165.restapi.controllers", "cz.muni.fi.pa165.restapi.hateoas"})
 public class RestSpringMvcConfig implements WebMvcConfigurer {
 
     @Bean
