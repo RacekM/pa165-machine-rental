@@ -1,7 +1,13 @@
 package cz.muni.fi.pa165.project.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,9 +22,24 @@ public class Machine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @NotNull
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "machine",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Revision> revisions = new ArrayList<Revision>();
+
+    @OneToMany(mappedBy = "machine",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Rental> rentals= new ArrayList<Rental>();
 
     public Machine() {
     }
@@ -41,6 +62,14 @@ public class Machine {
 
     public String getName() {
         return name;
+    }
+
+    public List<Revision> getRevisions() {
+        return revisions;
+    }
+
+    public List<Rental> getRentals() {
+        return rentals;
     }
 
     @Override

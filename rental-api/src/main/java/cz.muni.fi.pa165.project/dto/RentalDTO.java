@@ -16,11 +16,11 @@ public class RentalDTO {
 
     private LocalDateTime returnDate;
 
-    private String feedback;
+    private String note;
 
     private MachineDTO machine;
 
-    private CustomerDTO customer;
+    private UserDTO user;
 
     public Long getId() {
         return id;
@@ -46,12 +46,12 @@ public class RentalDTO {
         this.returnDate = returnDate;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNote() {
+        return note;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public MachineDTO getMachine() {
@@ -62,12 +62,12 @@ public class RentalDTO {
         this.machine = machine;
     }
 
-    public CustomerDTO getCustomer() {
-        return customer;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setCustomer(CustomerDTO customer) {
-        this.customer = customer;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     @Override
@@ -77,15 +77,15 @@ public class RentalDTO {
         RentalDTO rental = (RentalDTO) o;
         return Objects.equals(getDateOfRental(), rental.getDateOfRental()) &&
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
-                Objects.equals(getFeedback(), rental.getFeedback()) &&
+                Objects.equals(getNote(), rental.getNote()) &&
                 Objects.equals(getMachine(), rental.getMachine()) &&
-                Objects.equals(getCustomer(), rental.getCustomer());
+                Objects.equals(getUser(), rental.getUser());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateOfRental, returnDate, feedback, machine, customer);
+        return Objects.hash(dateOfRental, returnDate, note, machine, user);
     }
 
     @Override
@@ -94,9 +94,9 @@ public class RentalDTO {
                 "id=" + id +
                 ", dateOfRental=" + dateOfRental +
                 ", returnDate=" + returnDate +
-                ", feedback='" + feedback + '\'' +
+                ", note='" + note + '\'' +
                 ", machine=" + machine +
-                ", customer=" + customer +
+                ", user=" + user +
                 '}';
     }
 

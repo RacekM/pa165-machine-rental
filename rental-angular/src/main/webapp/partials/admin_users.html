@@ -1,0 +1,31 @@
+<h1>Administration of users</h1>
+
+<!-- button for adding a new machine -->
+<a href="#!/admin/newuser" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New user
+</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>username</th>
+        <th>passwordHash</th>
+        <th>user type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users track by $index">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.passwordHash}}</td>
+        <td>{{user.userType}}</td>
+        <td>
+            <button ng-click="deleteUser(user)" type="submit" class="btn btn-primary">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

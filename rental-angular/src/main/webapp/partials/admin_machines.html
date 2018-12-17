@@ -1,0 +1,34 @@
+<h1>Administration of machines</h1>
+
+<!-- button for adding a new machine -->
+<a href="#!/admin/newmachine" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    New machine
+</a>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>machine name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="machine in machines track by $index">
+        <td>{{machine.id}}</td>
+        <td>{{machine.name}}</td>
+        <td>
+            <button ng-click="deleteMachine(machine)" type="submit" class="btn btn-primary">Delete</button>
+        </td>
+        <td>
+            <button ng-click="showRevisions(machine)" type="submit" class="btn btn-primary">Show revisions</button>
+        </td>
+        <td>
+            <button ng-click="showRentals(machine)" type="submit" class="btn btn-primary">Show rentals</button>
+        </td>
+        <td>
+            <button ng-click="createRevision(machine)" type="submit" class="btn btn-primary">Add revision</button>
+        </td>
+    </tr>
+    </tbody>
+</table>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -53,11 +54,15 @@ public class RevisionDaoImpl implements RevisionDao {
 
     @Override
     public Revision findLastRevisionByMachine(Machine machine) {
-        return entityManager.createQuery(
+        TypedQuery q = entityManager.createQuery(
                 "SELECT r FROM Revision r WHERE r.date = (SELECT MAX(r2.date) FROM Revision r2 WHERE r2.machine = :machine) and r.machine = :machine",
                 Revision.class)
                 .setParameter("machine", machine)
-                .getSingleResult();
+                .setMaxResults(1);
+        List<Revision> r = q.getResultList();
+        if (r.size() == 0)
+            return null;
+        return r.get(0);
     }
 
 }

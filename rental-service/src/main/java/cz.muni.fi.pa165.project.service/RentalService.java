@@ -1,8 +1,9 @@
 package cz.muni.fi.pa165.project.service;
 
-import cz.muni.fi.pa165.project.entity.Customer;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,21 @@ public interface RentalService {
     Rental findById(Long id);
 
     /**
-     * Finds all rentals made by one customer.
+     * Finds all rentals made by one user.
      *
-     * @param customer customer whose rentals to find
-     * @return List of rentals associated with customer.
+     * @param user user whose rentals to find
+     * @return List of rentals associated with user.
      */
-    List<Rental> findByCustomer(Customer customer);
+    List<Rental> findByCustomer(User user);
+
+
+    /**
+     * Finds all rentals of machine
+     *
+     * @param machine u
+     * @return List of rentals associated with machine.
+     */
+    List<Rental> findByMachine(Machine machine);
 
     /**
      * Finds all rentals.
@@ -59,12 +69,12 @@ public interface RentalService {
     void remove(Rental rental);
 
     /**
-     * Changes feedback of rental.
+     * Changes note of rental.
      *
-     * @param rental      rental, whose feedback will be changed
-     * @param newFeedback new feedback
+     * @param rental      rental, whose note will be changed
+     * @param newNote new note
      */
-    void changeFeedback(Rental rental, String newFeedback);
+    void changeNote(Rental rental, String newNote);
 
 
     /**
@@ -76,11 +86,11 @@ public interface RentalService {
     boolean isValid(Rental rental);
 
     /**
-     * Finds last revision of active rentals for Customer
+     * Finds last revision of active rentals for User
      *
-     * @param customer whose rentals we are considering
+     * @param user whose rentals we are considering
      * @return map of rental and last revision of rented machine
      */
-    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(Customer customer);
+    Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(User user);
 
 }
