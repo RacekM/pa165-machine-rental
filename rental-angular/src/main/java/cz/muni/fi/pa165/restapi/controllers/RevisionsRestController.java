@@ -98,10 +98,8 @@ public class RevisionsRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteRevision(@PathVariable("id") long id) {
-        System.out.println("DELETING REVISION");
         log.debug("rest deleteRevision({})", id);
         try {
-            System.out.println("deletingRevision in controller with id " + id);
             revisionFacade.deleteRevision(id);
         } catch (IllegalArgumentException ex) {
             log.error("revision " + id + " not found");
