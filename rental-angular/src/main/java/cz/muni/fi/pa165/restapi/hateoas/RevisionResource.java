@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * @author Juraj Vandor
  */
-@Relation(value = "revision", collectionRelation = "revision")
-@JsonPropertyOrder({"id", "name"})
+@Relation(value = "revision", collectionRelation = "revisions")
+@JsonPropertyOrder({"id", "result", "machine", "date"})
 public class RevisionResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method

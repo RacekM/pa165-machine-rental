@@ -28,11 +28,13 @@ public class Rental {
     @Column(nullable = false)
     private String feedback;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "machine_id", nullable = false)
     @NotNull
     private Machine machine;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     private User user;
 

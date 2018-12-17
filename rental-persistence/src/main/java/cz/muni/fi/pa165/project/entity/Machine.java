@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.project.entity;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,14 +27,18 @@ public class Machine {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "machine",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Revision> revisions = new ArrayList<Revision>();
 
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "machine",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Rental> rentals= new ArrayList<Rental>();
 
     public Machine() {

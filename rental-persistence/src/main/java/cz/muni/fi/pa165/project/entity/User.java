@@ -1,10 +1,8 @@
 package cz.muni.fi.pa165.project.entity;
 
 import cz.muni.fi.pa165.project.enums.UserType;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,9 +39,11 @@ public class User {
     @NotNull
     private UserType userType;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Rental> rentals = new ArrayList<>();
 
     public User() {
