@@ -23,7 +23,7 @@ public class RentalCreateDTO {
     private LocalDateTime returnDate = LocalDateTime.now();
 
     @NotNull
-    private String feedback;
+    private String note;
 
     @NotNull
     private Long machine;
@@ -47,12 +47,12 @@ public class RentalCreateDTO {
         this.returnDate = returnDate;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNote() {
+        return note;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Long getMachine() {
@@ -78,7 +78,7 @@ public class RentalCreateDTO {
         RentalCreateDTO rental = (RentalCreateDTO) o;
         return Objects.equals(getDateOfRental(), rental.getDateOfRental()) &&
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
-                Objects.equals(getFeedback(), rental.getFeedback()) &&
+                Objects.equals(getNote(), rental.getNote()) &&
                 Objects.equals(getMachine(), rental.getMachine()) &&
                 Objects.equals(getUser(), rental.getUser());
     }
@@ -86,7 +86,7 @@ public class RentalCreateDTO {
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateOfRental, returnDate, feedback, machine, user);
+        return Objects.hash(dateOfRental, returnDate, note, machine, user);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class RentalCreateDTO {
         return "RentalCreateDTO{" +
                 ", dateOfRental=" + dateOfRental +
                 ", returnDate=" + returnDate +
-                ", feedback='" + feedback + '\'' +
+                ", note='" + note + '\'' +
                 ", machine=" + machine +
                 ", user=" + user +
                 '}';

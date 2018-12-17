@@ -42,7 +42,7 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public Long createRental(RentalCreateDTO rentalCreateDTO) {
         //Rental rental = beanMappingService.mapTo(rentalCreateDTO, Rental.class);
-        Rental rental = new Rental(rentalCreateDTO.getDateOfRental(), rentalCreateDTO.getReturnDate(), rentalCreateDTO.getFeedback()
+        Rental rental = new Rental(rentalCreateDTO.getDateOfRental(), rentalCreateDTO.getReturnDate(), rentalCreateDTO.getNote()
         , machineService.findById(rentalCreateDTO.getMachine()), userService.findById(rentalCreateDTO.getUser()));
         rental.setMachine(machineService.findById(rentalCreateDTO.getMachine()));
         rental.setUser(userService.findById(rentalCreateDTO.getUser()));
@@ -96,9 +96,9 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public void changeRentalFeedback(RentalChangeFeedbackDTO rentalChangeFeedbackDTO) {
-        Rental rental = beanMappingService.mapTo(rentalChangeFeedbackDTO.getRental(), Rental.class);
-        rentalService.changeFeedback(rental, rentalChangeFeedbackDTO.getFeedback());
+    public void changeRentalNote(RentalChangeNoteDTO rentalChangeNoteDTO) {
+        Rental rental = beanMappingService.mapTo(rentalChangeNoteDTO.getRental(), Rental.class);
+        rentalService.changeNote(rental, rentalChangeNoteDTO.getNote());
     }
 
     @Override

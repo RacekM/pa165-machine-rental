@@ -83,7 +83,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         testingRental1.setId(1L);
         testingRental1.setDateOfRental(LocalDateTime.now().minusDays(1));
         testingRental1.setReturnDate(LocalDateTime.now().plusDays(1));
-        testingRental1.setFeedback("Feedback 1");
+        testingRental1.setNote("Note 1");
         testingRental1.setUser(testingUser);
         testingRental1.setMachine(testingMachine);
 
@@ -91,7 +91,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         testingRental2.setId(2L);
         testingRental2.setDateOfRental(LocalDateTime.now().minusDays(1));
         testingRental2.setReturnDate(LocalDateTime.now().plusDays(1));
-        testingRental2.setFeedback("Feedback 2");
+        testingRental2.setNote("Note 2");
         testingRental2.setUser(testingUser);
         testingRental2.setMachine(testingMachine);
 
@@ -99,7 +99,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         testingRental3.setId(3L);
         testingRental3.setDateOfRental(LocalDateTime.now().minusDays(1));
         testingRental3.setReturnDate(LocalDateTime.now().plusDays(1));
-        testingRental3.setFeedback("Feedback 3");
+        testingRental3.setNote("Note 3");
         testingRental3.setUser(testingUser);
         testingRental3.setMachine(testingMachine);
     }
@@ -163,7 +163,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         RentalCreateDTO rentalCreateDTO = new RentalCreateDTO();
         rentalCreateDTO.setDateOfRental(LocalDateTime.now().minusDays(1));
         rentalCreateDTO.setReturnDate(LocalDateTime.now().plusDays(1));
-        rentalCreateDTO.setFeedback("Feedback 3");
+        rentalCreateDTO.setNote("Note 3");
         rentalCreateDTO.setUser(userDTO.getId());
         rentalCreateDTO.setMachine(machineDTO.getId());
 
@@ -186,20 +186,20 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void changeFeedbackTest() {
-        String newFeedback = "NewFeedback";
+    public void changeNoteTest() {
+        String newNote = "NewNote";
         doAnswer(invocationOnMock -> {
-            testingRental1.setFeedback(newFeedback);
+            testingRental1.setNote(newNote);
             return null;
-        }).when(rentalService).changeFeedback(testingRental1, newFeedback);
+        }).when(rentalService).changeNote(testingRental1, newNote);
 
-        RentalChangeFeedbackDTO rentalChangeFeedbackDTO = new RentalChangeFeedbackDTO();
-        rentalChangeFeedbackDTO.setRental(beanMappingService.mapTo(testingRental1, RentalDTO.class));
-        rentalChangeFeedbackDTO.setFeedback(newFeedback);
+        RentalChangeNoteDTO rentalChangeNoteDTO = new RentalChangeNoteDTO();
+        rentalChangeNoteDTO.setRental(beanMappingService.mapTo(testingRental1, RentalDTO.class));
+        rentalChangeNoteDTO.setNote(newNote);
 
-        rentalFacade.changeRentalFeedback(rentalChangeFeedbackDTO);
-        verify(rentalService).changeFeedback(any(Rental.class), eq(newFeedback));
-        assertEquals(testingRental1.getFeedback(), newFeedback);
+        rentalFacade.changeRentalNote(rentalChangeNoteDTO);
+        verify(rentalService).changeNote(any(Rental.class), eq(newNote));
+        assertEquals(testingRental1.getNote(), newNote);
     }
 
 

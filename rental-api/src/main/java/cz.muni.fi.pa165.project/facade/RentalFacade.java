@@ -52,11 +52,11 @@ public interface RentalFacade {
     void deleteRental(Long rentalId);
 
     /**
-     * Changes feedback of rental.
+     * Changes note of rental.
      *
-     * @param rentalChangeFeedbackDTO rental and feedback
+     * @param rentalChangeNoteDTO rental and note
      */
-    void changeRentalFeedback(RentalChangeFeedbackDTO rentalChangeFeedbackDTO);
+    void changeRentalNote(RentalChangeNoteDTO rentalChangeNoteDTO);
 
 
     /**

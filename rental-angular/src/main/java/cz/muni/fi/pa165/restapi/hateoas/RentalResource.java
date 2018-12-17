@@ -18,14 +18,14 @@ import java.time.format.DateTimeFormatter;
  */
 
 @Relation(value = "rental", collectionRelation = "rentals")
-@JsonPropertyOrder({"id", "dateOfRental", "returnDate", "feedback", "machine", "user"})
+@JsonPropertyOrder({"id", "dateOfRental", "returnDate", "note", "machine", "user"})
 public class RentalResource extends ResourceSupport {
 
     @JsonProperty("id") //ResourceSupport alrerady has getId() method
     private long dtoId;
     private String dateOfRental;
     private String returnDate;
-    private String feedback;
+    private String note;
     private MachineDTO machine;
     private UserDTO user;
 
@@ -33,7 +33,7 @@ public class RentalResource extends ResourceSupport {
         this.dtoId = dto.getId();
         this.dateOfRental = dto.getDateOfRental().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.returnDate = dto.getReturnDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.feedback = dto.getFeedback();
+        this.note = dto.getNote();
         this.machine = dto.getMachine();
         this.user = dto.getUser();
     }
@@ -62,12 +62,12 @@ public class RentalResource extends ResourceSupport {
         this.returnDate = returnDate;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNote() {
+        return note;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public MachineDTO getMachine() {
