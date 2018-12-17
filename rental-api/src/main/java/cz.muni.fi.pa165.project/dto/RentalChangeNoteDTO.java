@@ -3,15 +3,15 @@ package cz.muni.fi.pa165.project.dto;
 import java.util.Objects;
 
 /**
- * RentalChangeFeedbackDTO entity
+ * RentalChangeNoteDTO entity
  *
  * @author Adam Vanko (445310@mail.muni.cz)
  */
-public class RentalChangeFeedbackDTO {
+public class RentalChangeNoteDTO {
 
     private RentalDTO rental;
 
-    private String feedback;
+    private String note;
 
     public RentalDTO getRental() {
         return rental;
@@ -21,33 +21,33 @@ public class RentalChangeFeedbackDTO {
         this.rental = rental;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNote() {
+        return note;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RentalChangeFeedbackDTO)) return false;
-        RentalChangeFeedbackDTO rental = (RentalChangeFeedbackDTO) o;
+        if (!(o instanceof RentalChangeNoteDTO)) return false;
+        RentalChangeNoteDTO rental = (RentalChangeNoteDTO) o;
         return Objects.equals(getRental(), rental.getRental()) &&
-                Objects.equals(getFeedback(), rental.getFeedback());
+                Objects.equals(getNote(), rental.getNote());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rental, feedback);
+        return Objects.hash(rental, note);
     }
 
     @Override
     public String toString() {
-        return "RentalChangeFeedbackDTO{" +
+        return "RentalChangeNoteDTO{" +
                 "rental=" + rental +
-                ", feedback='" + feedback + '\'' +
+                ", note='" + note + '\'' +
                 '}';
     }
 

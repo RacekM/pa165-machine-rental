@@ -377,7 +377,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
             'user': $routeParams.user,
             'dateOfRental': new Date(),
             'returnDate': new Date(),
-            'feedback': ''
+            'note': ''
         };
 
         if (!$routeParams.machine) {
@@ -407,7 +407,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
             rental.returnDate.setHours(rental.returnDate.getHours(), rental.returnDate.getMinutes(), 0, 0);
 
             console.log("creating post request" + rental.id + " " + rental.machine + " " + rental.user + " " + rental.dateOfRental +
-            " " + rental.returnDate + " " + rental.feedback);
+            " " + rental.returnDate + " " + rental.note);
 
             // take only date part and hours and minutes from actual date, Date.now return number of millisceonds since epocha
             var nowDatePart = new Date(Date.now());

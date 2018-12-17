@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.project.dao;
 
 import cz.muni.fi.pa165.project.PersistenceApplicationContext;
-import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.enums.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -61,12 +61,12 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
 
         timeNow = LocalDateTime.now().minusMinutes(5);
         timeTomorrow = LocalDateTime.now().plusDays(1);
-        adamOne = new Rental(timeNow, timeTomorrow, "feedback", machineOne, userAdam);
+        adamOne = new Rental(timeNow, timeTomorrow, "note", machineOne, userAdam);
 
-        adamTwo = new Rental(timeNow, timeTomorrow, "feedback", machineTwo, userAdam);
+        adamTwo = new Rental(timeNow, timeTomorrow, "note", machineTwo, userAdam);
 
-        adamOneSecondTimeRented = new Rental(timeNow, timeTomorrow, "feedback", machineOne, userAdam);
-        matusOne = new Rental(timeNow, timeTomorrow, "feedback", machineOne, userMatus);
+        adamOneSecondTimeRented = new Rental(timeNow, timeTomorrow, "note", machineOne, userAdam);
+        matusOne = new Rental(timeNow, timeTomorrow, "note", machineOne, userMatus);
     }
 
     @Test
@@ -95,13 +95,13 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeOne() {
         Rental rental = new Rental(null, timeTomorrow,
-                "feedback", machineOne, userAdam);
+                "note", machineOne, userAdam);
         rentalDao.create(rental);
     }
 
     @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeTwo() {
-        rentalDao.create(new Rental(timeNow, null, "feedback", machineOne, userAdam));
+        rentalDao.create(new Rental(timeNow, null, "note", machineOne, userAdam));
     }
 
     @Test(expectedExceptions = {DataAccessException.class})
@@ -111,12 +111,12 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeFour() {
-        rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", null, userAdam));
+        rentalDao.create(new Rental(timeNow, timeTomorrow, "note", null, userAdam));
     }
 
     @Test(expectedExceptions = {DataAccessException.class})
     public void createRentalWithNullAttributeFive() {
-        rentalDao.create(new Rental(timeNow, timeTomorrow, "feedback", machineOne, null));
+        rentalDao.create(new Rental(timeNow, timeTomorrow, "note", machineOne, null));
     }
 
     @Test
@@ -163,7 +163,7 @@ public class RentalDaoImplTest extends AbstractTestNGSpringContextTests {
     @Test
     public void updateRentalTest() {
         entityManager.persist(adamOne);
-        adamOne.setFeedback("new feedback");
+        adamOne.setNote("new note");
         rentalDao.update(adamOne);
 
         Rental rental = entityManager.find(Rental.class, adamOne.getId());

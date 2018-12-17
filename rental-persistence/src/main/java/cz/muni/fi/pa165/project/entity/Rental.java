@@ -26,7 +26,7 @@ public class Rental {
 
     @NotNull
     @Column(nullable = false)
-    private String feedback;
+    private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "machine_id", nullable = false)
@@ -42,10 +42,10 @@ public class Rental {
 
     }
 
-    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, User user) {
+    public Rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String note, Machine machine, User user) {
         this.dateOfRental = dateOfRental;
         this.returnDate = returnDate;
-        this.feedback = feedback;
+        this.note = note;
         this.machine = machine;
         this.user = user;
     }
@@ -62,8 +62,8 @@ public class Rental {
         this.dateOfRental = dateOfRental;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getNote() {
+        return note;
     }
 
     public Machine getMachine() { return machine; }
@@ -82,8 +82,8 @@ public class Rental {
         this.returnDate = returnDate;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public void setMachine(Machine machine) {
@@ -101,7 +101,7 @@ public class Rental {
         Rental rental = (Rental) o;
         return Objects.equals(getDateOfRental(), rental.getDateOfRental()) &&
                 Objects.equals(getReturnDate(), rental.getReturnDate()) &&
-                Objects.equals(getFeedback(), rental.getFeedback()) &&
+                Objects.equals(getNote(), rental.getNote()) &&
                 Objects.equals(getMachine(), rental.getMachine()) &&
                 Objects.equals(getUser(), rental.getUser());
     }
@@ -109,7 +109,7 @@ public class Rental {
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateOfRental, returnDate, feedback, machine, user);
+        return Objects.hash(dateOfRental, returnDate, note, machine, user);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Rental {
                 "id=" + id +
                 ", dateOfRental=" + dateOfRental +
                 ", returnDate=" + returnDate +
-                ", feedback='" + feedback + '\'' +
+                ", note='" + note + '\'' +
                 ", machine=" + machine +
                 ", user=" + user +
                 '}';

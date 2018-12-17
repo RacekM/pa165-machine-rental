@@ -95,11 +95,11 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         return u;
     }
 
-    private Rental rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String feedback, Machine machine, User user){
-        Rental r = new Rental(dateOfRental, returnDate, feedback, machine, user);
+    private Rental rental(LocalDateTime dateOfRental, LocalDateTime returnDate, String note, Machine machine, User user){
+        Rental r = new Rental(dateOfRental, returnDate, note, machine, user);
         r.setDateOfRental(dateOfRental);
         r.setReturnDate(returnDate);
-        r.setFeedback(feedback);
+        r.setNote(note);
         r.setMachine(machine);
         r.setUser(user);
         rentalService.create(r);

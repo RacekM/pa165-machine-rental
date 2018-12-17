@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.project.service;
 
 import cz.muni.fi.pa165.project.dao.RentalDao;
-import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 import cz.muni.fi.pa165.project.enums.UserType;
 import cz.muni.fi.pa165.project.service.configuration.ServiceConfiguration;
 import org.mockito.InjectMocks;
@@ -69,14 +69,14 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRental.setId(1L);
         testRental.setDateOfRental(LocalDateTime.now().minusDays(1));
         testRental.setReturnDate(LocalDateTime.now().plusDays(1));
-        testRental.setFeedback("TestFeedback.");
+        testRental.setNote("TestNote.");
         testRental.setUser(user);
         testRental.setMachine(machine);
 
         testRentalWithoutId = new Rental();
         testRentalWithoutId.setDateOfRental(LocalDateTime.now().minusDays(1));
         testRentalWithoutId.setReturnDate(LocalDateTime.now().plusDays(1));
-        testRentalWithoutId.setFeedback("TestFeedback.");
+        testRentalWithoutId.setNote("TestNote.");
         testRentalWithoutId.setUser(user);
         testRentalWithoutId.setMachine(machine);
 
@@ -91,7 +91,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalSameMachineFuture.setId(3L);
         testRentalSameMachineFuture.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRentalSameMachineFuture.setReturnDate(LocalDateTime.now().minusDays(2));
-        testRentalSameMachineFuture.setFeedback("TestFeedback.");
+        testRentalSameMachineFuture.setNote("TestNote.");
         testRentalSameMachineFuture.setUser(user);
         testRentalSameMachineFuture.setMachine(machine);
 
@@ -99,7 +99,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalSameMachinePast.setId(4L);
         testRentalSameMachinePast.setDateOfRental(LocalDateTime.now().plusDays(2));
         testRentalSameMachinePast.setReturnDate(LocalDateTime.now().plusDays(3));
-        testRentalSameMachinePast.setFeedback("TestFeedback.");
+        testRentalSameMachinePast.setNote("TestNote.");
         testRentalSameMachinePast.setUser(user);
         testRentalSameMachinePast.setMachine(machine);
 
@@ -119,7 +119,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalDifferentMachineFuture.setId(5L);
         testRentalDifferentMachineFuture.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRentalDifferentMachineFuture.setReturnDate(LocalDateTime.now().minusDays(2));
-        testRentalDifferentMachineFuture.setFeedback("TestFeedback.");
+        testRentalDifferentMachineFuture.setNote("TestNote.");
         testRentalDifferentMachineFuture.setUser(user);
         testRentalDifferentMachineFuture.setMachine(machine2);
 
@@ -127,7 +127,7 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalDifferentMachinePast.setId(6L);
         testRentalDifferentMachinePast.setDateOfRental(LocalDateTime.now().plusDays(2));
         testRentalDifferentMachinePast.setReturnDate(LocalDateTime.now().plusDays(3));
-        testRentalDifferentMachinePast.setFeedback("TestFeedback.");
+        testRentalDifferentMachinePast.setNote("TestNote.");
         testRentalDifferentMachinePast.setUser(user);
         testRentalDifferentMachinePast.setMachine(machine3);
 
@@ -205,8 +205,8 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = DataIntegrityViolationException.class)
-    public void createRentalWithInvalidFeedbackNullTest() {
-        testRental.setFeedback(null);
+    public void createRentalWithInvalidNoteNullTest() {
+        testRental.setNote(null);
         doThrow(new DataIntegrityViolationException("")).when(rentalDao).create(testRental);
         rentalService.create(testRental);
     }
@@ -254,8 +254,8 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions = DataIntegrityViolationException.class)
-    public void updateRentalWithInvalidFeedbackNullTest() {
-        testRental.setFeedback(null);
+    public void updateRentalWithInvalidNoteNullTest() {
+        testRental.setNote(null);
         doThrow(new DataIntegrityViolationException("")).when(rentalDao).update(testRental);
         rentalService.update(testRental);
     }
@@ -295,10 +295,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void changeFeedbackTest() {
-        rentalService.changeFeedback(testRental, "NewFeedback");
+    public void changeNoteTest() {
+        rentalService.changeNote(testRental, "NewNote");
         verify(rentalDao).update(testRental);
-        assertEquals(testRental.getFeedback(), "NewFeedback");
+        assertEquals(testRental.getNote(), "NewNote");
     }
 
     @Test

@@ -63,8 +63,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void changeFeedback(Rental rental, String newFeedback) {
-        rental.setFeedback(newFeedback);
+    public void changeNote(Rental rental, String newNote) {
+        rental.setNote(newNote);
         rentalDao.update(rental);
     }
 
