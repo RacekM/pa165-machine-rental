@@ -381,13 +381,15 @@ rentalControllers.controller('AdminNewRentalCtrl',
 
             if (!rental.machine){
                 $rootScope.errorAlert = 'empty machine !';
-            }else if (!rental.user) {
+            } else if (!rental.user) {
                 $rootScope.errorAlert = 'empty user !';
             } else if (rental.dateOfRental < nowDatePart) {
                 $rootScope.errorAlert = 'Date of renting can not be in past !';
             } else if (rental.returnDate < nowDatePart) {
                 $rootScope.errorAlert = 'Date of return can not be in past !';
-            }else {
+            } else if (rental.dateOfRental >= rental.returnDate) {
+                $rootScope.errorAlert = 'Rental needs to be for at least 2 days !'
+            } else {
                 $http({
                     method: 'POST',
                     url: '/pa165/rest/rentals/create',
