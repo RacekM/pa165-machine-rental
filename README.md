@@ -41,8 +41,12 @@ curl -i -X GET http://admin:admin@localhost:8080/pa165/rest/machines/
 ```
 curl -i -X GET http://admin:admin@localhost:8080/pa165/rest/machines/{id}
 ```
-#### Machine.create: 
-triple quotes due to problems on windows
+#### Machine.create:
+linux version
+```
+curl -i -X POST -H "Content-Type: application/json" --data '{"name":"{machine_name_from_user}"}' http://admin:admin@localhost:8080/pa165/rest/machines/create
+```
+windows version, triple quotes due to problems on windows
 ```
 curl -i -X POST -H "Content-Type: application/json" --data "{"""name""":"""{machine_name_from_user}"""}" http://admin:admin@localhost:8080/pa165/rest/machines/create
 ```
