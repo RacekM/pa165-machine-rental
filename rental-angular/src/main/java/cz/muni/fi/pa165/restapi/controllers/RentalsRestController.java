@@ -1,13 +1,13 @@
 package cz.muni.fi.pa165.restapi.controllers;
 
-import cz.muni.fi.pa165.project.facade.RentalFacade;
-import cz.muni.fi.pa165.restapi.hateoas.RentalResource;
-import cz.muni.fi.pa165.restapi.hateoas.RentalResourceAssembler;
+import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
 import cz.muni.fi.pa165.project.dto.RentalDTO;
+import cz.muni.fi.pa165.project.facade.RentalFacade;
+import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
 import cz.muni.fi.pa165.restapi.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.restapi.exceptions.ServerProblemException;
-import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
-import cz.muni.fi.pa165.project.dto.RentalCreateDTO;
+import cz.muni.fi.pa165.restapi.hateoas.RentalResource;
+import cz.muni.fi.pa165.restapi.hateoas.RentalResourceAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +53,10 @@ public class RentalsRestController {
      * @return list of rentals
      */
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Resources<RentalResource>> rentals() {
+    public HttpEntity<Resources<RentalResource>> rentals(@RequestParam(value = "machine", required = false) Long machine) {
         log.debug("rest rentals()");
-        List<RentalDTO> allRentals = rentalFacade.getAllRentals();
+        List<RentalDTO> allRentals = machine == null ? rentalFacade.getAllRentals() :
+                rentalFacade.getRentalsByMachine(machine);
         Resources<RentalResource> rentalResources = new Resources<>(
                 rentalResourceAssembler.toResources(allRentals),
                 linkTo(RentalsRestController.class).withSelfRel(),

@@ -1,8 +1,9 @@
 package cz.muni.fi.pa165.project.service;
 
-import cz.muni.fi.pa165.project.entity.User;
+import cz.muni.fi.pa165.project.entity.Machine;
 import cz.muni.fi.pa165.project.entity.Rental;
 import cz.muni.fi.pa165.project.entity.Revision;
+import cz.muni.fi.pa165.project.entity.User;
 
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,15 @@ public interface RentalService {
      * @return List of rentals associated with user.
      */
     List<Rental> findByCustomer(User user);
+
+
+    /**
+     * Finds all rentals of machine
+     *
+     * @param machine u
+     * @return List of rentals associated with machine.
+     */
+    List<Rental> findByMachine(Machine machine);
 
     /**
      * Finds all rentals.
