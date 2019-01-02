@@ -309,6 +309,10 @@ rentalControllers.controller('AdminNewRevisionCtrl',
         }
         // function called when submit button is clicked, creates product on server
         $scope.create = function (revision) {
+            if (!revision.date){
+                $rootScope.errorAlert = 'Date must be set !';
+                return;
+            }
             console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
             if (!revision.machine){
                 $rootScope.errorAlert = 'empty machine !';
@@ -397,7 +401,7 @@ rentalControllers.controller('AdminNewRentalCtrl',
         };
 
         if (!$routeParams.machine) {
-            $http.get('/pa165/rest/machines').thhideAlerts();en(function (response) {
+            $http.get('/pa165/rest/machines').then(function (response) {
                 $scope.machines = response.data.content;
             });
         } else {
@@ -419,6 +423,10 @@ rentalControllers.controller('AdminNewRentalCtrl',
         // function called when submit button is clicked, creates product on server
         $scope.create = function (rental) {
             // so only date part + hours and minutes is used
+            if (!rental.dateOfRental || !rental.returnDate){
+                $rootScope.errorAlert = 'Date must be set !';
+                return;
+            }
             rental.dateOfRental.setHours(rental.dateOfRental.getHours(), rental.dateOfRental.getMinutes(), 0, 0);
             rental.returnDate.setHours(rental.returnDate.getHours(), rental.returnDate.getMinutes(), 0, 0);
 
