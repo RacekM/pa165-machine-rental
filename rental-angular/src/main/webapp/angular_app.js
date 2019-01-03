@@ -41,20 +41,28 @@ pa165rentalApp.run(function ($rootScope) {
     };
 });
 
+function hideAlerts($rootScope){
+    $rootScope.hideErrorAlert();
+    $rootScope.hideSuccessAlert();
+    $rootScope.hideWarningAlert();
+}
 
 /* Controllers */
 
-rentalControllers.controller('MainPageCtrl', function ($scope, $http) {
+rentalControllers.controller('MainPageCtrl', function ($scope, $rootScope, $http) {
+    hideAlerts($rootScope);
     console.log("main page");
 });
 
 rentalControllers.controller('MachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
+        hideAlerts($rootScope);
         //initial load of all machines
         loadMachines($http, $scope);
     });
 
-rentalControllers.controller('MyRentalsCtrl', function ($scope, $http) {
+rentalControllers.controller('MyRentalsCtrl', function ($scope, $rootScope, $http) {
+    hideAlerts($rootScope);
     console.log("user's rentals page");
 });
 
@@ -89,6 +97,7 @@ function countAdmins(users) {
 
 rentalControllers.controller('AdminMachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
+        hideAlerts($rootScope);
         //initial load of all machines
         loadMachines($http, $scope);
         // function called when Delete button is clicked
@@ -127,6 +136,7 @@ rentalControllers.controller('AdminMachinesCtrl',
 
 rentalControllers.controller('AdminUsersCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        hideAlerts($rootScope);
         //initial load of all users
         loadUsers($http, $scope);
         // function called when Delete button is clicked
@@ -166,6 +176,7 @@ rentalControllers.controller('AdminUsersCtrl',
 
 rentalControllers.controller('AdminNewMachineCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        hideAlerts($rootScope);
         //set object bound to form fields
         $scope.machine = {
             'name': ''
@@ -192,6 +203,7 @@ rentalControllers.controller('AdminNewMachineCtrl',
 
 rentalControllers.controller('AdminNewUserCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        hideAlerts($rootScope);
         //prepare data for selection lists
         $scope.userTypes = ['ADMIN', 'LEGAL_PERSON', 'INDIVIDUAL'];
         //set object bound to form fields
@@ -240,6 +252,7 @@ function loadAdminRevisions($http, $scope, machine) {
 
 rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        hideAlerts($rootScope);
         $scope.machine = $routeParams.machine;
         if ($routeParams.machine){
             $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
@@ -272,6 +285,7 @@ rentalControllers.controller('AdminRevisionCtrl',
 
 rentalControllers.controller('AdminNewRevisionCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        hideAlerts($rootScope);
         //set object bound to form fields
         $scope.showMachines = !$routeParams.machine;
         $scope.revision = {
@@ -295,6 +309,10 @@ rentalControllers.controller('AdminNewRevisionCtrl',
         }
         // function called when submit button is clicked, creates product on server
         $scope.create = function (revision) {
+            if (!revision.date){
+                $rootScope.errorAlert = 'Date must be set !';
+                return;
+            }
             console.log("creating post request" + revision.id + " " + revision.machine + " " + revision.date + " " + revision.result);
             if (!revision.machine){
                 $rootScope.errorAlert = 'empty machine !';
@@ -339,6 +357,7 @@ function loadAdminRentals($http, $scope, machine) {
 
 rentalControllers.controller('AdminRentalCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        hideAlerts($rootScope);
         $scope.machine = $routeParams.machine;
         if ($routeParams.machine){
             $http.get('/pa165/rest/machines/' + $routeParams.machine).then(function (response) {
@@ -371,6 +390,7 @@ rentalControllers.controller('AdminRentalCtrl',
 
 rentalControllers.controller('AdminNewRentalCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        hideAlerts($rootScope);
         //set object bound to form fields
         $scope.rental = {
             'machine': $routeParams.machine,
@@ -403,6 +423,10 @@ rentalControllers.controller('AdminNewRentalCtrl',
         // function called when submit button is clicked, creates product on server
         $scope.create = function (rental) {
             // so only date part + hours and minutes is used
+            if (!rental.dateOfRental || !rental.returnDate){
+                $rootScope.errorAlert = 'Date must be set !';
+                return;
+            }
             rental.dateOfRental.setHours(rental.dateOfRental.getHours(), rental.dateOfRental.getMinutes(), 0, 0);
             rental.returnDate.setHours(rental.returnDate.getHours(), rental.returnDate.getMinutes(), 0, 0);
 
