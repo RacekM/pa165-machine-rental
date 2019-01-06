@@ -127,14 +127,14 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         List<Rental> rentals = Arrays.asList(testingRental1, testingRental2, testingRental3);
         user.setName("Adam");
         when(userService.findById(user.getId())).thenReturn(user);
-        when(rentalService.findByCustomer(user)).thenReturn(rentals);
+        when(rentalService.findByUser(user)).thenReturn(rentals);
 
         List<RentalDTO> returnedRentals = rentalFacade.getRentalsByUser(user.getId());
         List<Rental> resultRental = beanMappingService.mapTo(returnedRentals, Rental.class);
 
         assertThat(resultRental, is(rentals));
         verify(userService).findById(user.getId());
-        verify(rentalService).findByCustomer(user);
+        verify(rentalService).findByUser(user);
 
     }
 

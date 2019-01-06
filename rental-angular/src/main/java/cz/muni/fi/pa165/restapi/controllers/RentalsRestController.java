@@ -125,6 +125,4 @@ public class RentalsRestController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
-
-
 }

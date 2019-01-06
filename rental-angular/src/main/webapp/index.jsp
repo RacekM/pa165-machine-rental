@@ -41,6 +41,14 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#!/machines">Machines for rental</a></li>
+
+
+                <li ng-if="loggedUserFlag === true">
+                    <a href="#!/my_rentals">My rentals</a>
+                </li>
+
+                <li><a href="#!/login">Login</a></li>
+                <li><a href="#!/logout">Logout</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
