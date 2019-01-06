@@ -352,7 +352,7 @@ rentalControllers.controller('LoginCtrl',
                     $scope.errorAlert = 'Unknown user!';
                 } else {
                     sessionStorage.loggedUser = JSON.stringify(response.data);
-                    loadUserFlagsToScope($scope);
+                    loadUserFlagsToScope($rootScope);
 
                     console.log(sessionStorage.loggedUser);
                 }
@@ -365,16 +365,17 @@ rentalControllers.controller('LoginCtrl',
     });
 
 
-function loadUserFlagsToScope($scope) {
+function loadUserFlagsToScope($rootScope) {
     if (sessionStorage.loggedUser === undefined) {
-        $scope.loggedUserFlag = false;
-        $scope.loggedName = null;
+        $rootScope.loggedUserFlag = false;
+        $rootScope.loggedName = null;
         return;
     }
 
     var loggedUser = JSON.parse(sessionStorage.loggedUser);
-    $scope.loggedUserFlag = false;
-    $scope.loggedName = loggedUser.username;
+    $rootScope.loggedUserFlag = true;
+    $rootScope.loggedName = loggedUser.username;
+    $rootScope.loggedType = loggedUser.userType;
 }
 
 rentalControllers.controller('LogoutCtrl',
@@ -382,7 +383,9 @@ rentalControllers.controller('LogoutCtrl',
         hideAlerts($rootScope);
         loadUserFlagsToScope($scope);
         sessionStorage.clear();
-        $scope.loggedUserFlag = false;
+        $rootScope.loggedUserFlag = false;
+        $rootScope.loggedType = undefined;
+        $rootScope.loggedName = undefined;
     });
 
 function loadAdminRevisions($http, $scope, machine) {

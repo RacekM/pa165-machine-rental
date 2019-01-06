@@ -25,6 +25,8 @@
     </script>
 </head>
 <body>
+
+<div ng-app="pa165rentalApp"><!-- AngularJS takes care of this element -->
 <!-- navigation bar -->
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
@@ -41,15 +43,10 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#!/machines">Machines for rental</a></li>
-
-
-                <li ng-if="loggedUserFlag === true">
-                    <a href="#!/my_rentals">My rentals</a>
-                </li>
-
-                <li><a href="#!/login">Login</a></li>
-                <li><a href="#!/logout">Logout</a></li>
-                <li class="dropdown">
+                <li ng-show="loggedUserFlag"><a href="#!/my_rentals">My rentals</a></li>
+                <li ng-show="!loggedUserFlag"><a href="#!/login">Login</a></li>
+                <li ng-show="loggedUserFlag"><a href="#!/logout">Logout</a></li>
+                <li ng-show="loggedType === 'ADMIN'" class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#!/admin/machines">Machines</a></li>
@@ -65,7 +62,6 @@
 
 <div class="container">
 
-    <div ng-app="pa165rentalApp"><!-- AngularJS takes care of this element -->
 
         <!-- Bootstrap-styled alerts, visible when $rootScope.xxxAlert is defined -->
         <div ng-show="warningAlert" class="alert alert-warning alert-dismissible" role="alert">
@@ -86,11 +82,12 @@
 
         <!-- the place where HTML templates are replaced by AngularJS routing -->
         <div ng-view></div>
-    </div>
 
     <footer class="footer">
         <p>&copy;&nbsp;Masaryk University</p>
     </footer>
+</div>
+
 </div>
 </body>
 </html>
