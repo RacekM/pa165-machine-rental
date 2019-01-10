@@ -55,6 +55,7 @@
                         <li><a href="#!/admin/rentals">Rentals</a></li>
                     </ul>
                 </li>
+                <li ng-show="loggedUserFlag"><a id="logged_user_label">NoUser</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
