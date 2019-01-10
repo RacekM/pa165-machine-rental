@@ -44,8 +44,6 @@
             <ul class="nav navbar-nav">
                 <li><a href="#!/machines">Machines for rental</a></li>
                 <li ng-show="loggedUserFlag"><a href="#!/my_rentals">My rentals</a></li>
-                <li ng-show="!loggedUserFlag"><a href="#!/login">Login</a></li>
-                <li ng-show="loggedUserFlag"><a href="#!/logout">Logout</a></li>
                 <li ng-show="loggedType === 'ADMIN'" class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -55,7 +53,13 @@
                         <li><a href="#!/admin/rentals">Rentals</a></li>
                     </ul>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li ng-show="loggedUserFlag"><a id="logged_user_label">NoUser</a></li>
+                <li ng-show="!loggedUserFlag"><a href="#!/login"><span
+                        class="glyphicon glyphicon-log-in pull-right "></span>Login </a></li>
+                <li ng-show="loggedUserFlag"><a href="#!/logout"><span
+                        class="glyphicon glyphicon-log-out pull-right "></span>Logout </a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

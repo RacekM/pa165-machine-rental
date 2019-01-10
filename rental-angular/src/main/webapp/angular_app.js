@@ -352,7 +352,7 @@ rentalControllers.controller('LoginCtrl',
                     $scope.errorAlert = 'Unknown user!';
                 } else {
                     sessionStorage.loggedUser = JSON.stringify(response.data);
-                    document.getElementById("logged_user_label").innerHTML = "logged as " + response.data.username;
+                    document.getElementById("logged_user_label").innerHTML = response.data.name;
                     loadUserFlagsToScope($rootScope);
 
                     console.log(sessionStorage.loggedUser);
