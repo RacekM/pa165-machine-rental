@@ -124,7 +124,6 @@ public class RevisionsRestController {
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final HttpEntity<RevisionResource> createRevision(@RequestBody @Valid RevisionCreateDTO revisionCreateDTO, BindingResult bindingResult) {
         log.debug("rest createRevision()");
-        System.out.println(bindingResult);
         if (bindingResult.hasErrors()) {
             log.error("failed validation {}", bindingResult.toString());
             throw new InvalidRequestException("Failed validation");

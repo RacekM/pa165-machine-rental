@@ -44,6 +44,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="#!/machines">Machines for rental</a></li>
                 <li ng-show="loggedUserFlag"><a href="#!/my_rentals">My rentals</a></li>
+                <li ng-show="loggedUserFlag"><a href="#!/my_active_rentals">My active rentals</a></li>
                 <li ng-show="loggedType === 'ADMIN'" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
