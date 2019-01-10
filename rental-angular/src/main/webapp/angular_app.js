@@ -163,6 +163,7 @@ rentalControllers.controller('MyRentalsCtrl', function ($scope, $rootScope, $htt
     hideAlerts($rootScope);
     console.log("user's rentals page");
 });
+
 rentalControllers.controller('MyActiveRentalsCtrl', function ($scope, $rootScope, $http) {
     loadUserFlagsToScope($scope);
     hideAlerts($rootScope);
@@ -665,7 +666,6 @@ rentalControllers.controller('MyActiveRentalsCtrl',
         var loggedUser = JSON.parse(sessionStorage.loggedUser);
         loadUserActiveRentals($http, $scope, loggedUser.id);
     });
-
 
 /* Utilities */
 

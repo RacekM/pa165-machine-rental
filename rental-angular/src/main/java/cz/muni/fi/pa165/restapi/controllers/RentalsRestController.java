@@ -5,13 +5,16 @@ import cz.muni.fi.pa165.project.dto.RentalDTO;
 import cz.muni.fi.pa165.project.dto.RevisionDTO;
 import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.facade.UserFacade;
+
 import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
 import cz.muni.fi.pa165.restapi.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.restapi.exceptions.ServerProblemException;
 import cz.muni.fi.pa165.restapi.hateoas.RentalResource;
 import cz.muni.fi.pa165.restapi.hateoas.RentalResourceAssembler;
+
 import cz.muni.fi.pa165.restapi.hateoas.RentalRevisionResource;
 import cz.muni.fi.pa165.restapi.hateoas.RentalRevisionResourceAssembler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
@@ -87,6 +91,7 @@ public class RentalsRestController {
                 linkTo(RentalsRestController.class).slash("/create").withRel("create"));
         return new ResponseEntity<>(rentalResources, HttpStatus.OK);
     }
+
 
     /**
      * Produces rental detail.
