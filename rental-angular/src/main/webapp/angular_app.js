@@ -86,6 +86,14 @@ pa165rentalApp.config(['$routeProvider',
                     userLevelAccess($location);
                 }
             }
+        }).when('/my_active_rentals', {
+            templateUrl: 'partials/my_active_rentals.html',
+            controller: 'MyActiveRentalsCtrl',
+            resolve: {
+                mess: function ($location) {
+                    userLevelAccess($location);
+                }
+            }
         }).when('/login', {
             templateUrl: 'partials/login.html',
             controller: 'LoginCtrl'
@@ -151,6 +159,11 @@ rentalControllers.controller('MachinesCtrl',
     });
 
 rentalControllers.controller('MyRentalsCtrl', function ($scope, $rootScope, $http) {
+    loadUserFlagsToScope($scope);
+    hideAlerts($rootScope);
+    console.log("user's rentals page");
+});
+rentalControllers.controller('MyActiveRentalsCtrl', function ($scope, $rootScope, $http) {
     loadUserFlagsToScope($scope);
     hideAlerts($rootScope);
     console.log("user's rentals page");
@@ -637,6 +650,20 @@ rentalControllers.controller('MyRentalsCtrl',
         hideAlerts($rootScope);
         var loggedUser = JSON.parse(sessionStorage.loggedUser);
         loadUserRentals($http, $scope, loggedUser.id);
+    });
+
+function loadUserActiveRentals($http, $scope, userId) {
+    $http.get('/pa165/rest/rentals/active/'+userId).then(function (response) {
+        $scope.rentals = response.data.content;
+        console.log('AJAX loaded all active rentals for user');
+    });
+}
+rentalControllers.controller('MyActiveRentalsCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        loadUserFlagsToScope($scope);
+        hideAlerts($rootScope);
+        var loggedUser = JSON.parse(sessionStorage.loggedUser);
+        loadUserActiveRentals($http, $scope, loggedUser.id);
     });
 
 
