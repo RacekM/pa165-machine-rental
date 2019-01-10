@@ -25,6 +25,8 @@
     </script>
 </head>
 <body>
+
+<div ng-app="pa165rentalApp"><!-- AngularJS takes care of this element -->
 <!-- navigation bar -->
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
@@ -41,8 +43,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#!/machines">Machines for rental</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                <li ng-show="loggedUserFlag"><a href="#!/my_rentals">My rentals</a></li>
+                <li ng-show="loggedType === 'ADMIN'" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#!/admin/machines">Machines</a></li>
                         <li><a href="#!/admin/revisions">Revisions</a></li>
@@ -51,13 +54,19 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="loggedUserFlag"><a id="logged_user_label">NoUser</a></li>
+                <li ng-show="!loggedUserFlag"><a href="#!/login"><span
+                        class="glyphicon glyphicon-log-in pull-right "></span>Login </a></li>
+                <li ng-show="loggedUserFlag"><a href="#!/logout"><span
+                        class="glyphicon glyphicon-log-out pull-right "></span>Logout </a></li>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 <div class="container">
 
-    <div ng-app="pa165rentalApp"><!-- AngularJS takes care of this element -->
 
         <!-- Bootstrap-styled alerts, visible when $rootScope.xxxAlert is defined -->
         <div ng-show="warningAlert" class="alert alert-warning alert-dismissible" role="alert">
@@ -78,11 +87,12 @@
 
         <!-- the place where HTML templates are replaced by AngularJS routing -->
         <div ng-view></div>
-    </div>
 
     <footer class="footer">
         <p>&copy;&nbsp;Masaryk University</p>
     </footer>
+</div>
+
 </div>
 </body>
 </html>

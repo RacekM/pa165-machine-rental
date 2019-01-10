@@ -435,10 +435,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByCustomerTest() {
-        when(rentalDao.findByCustomer(any(User.class))).thenReturn(testExistingRentalsSameMachine);
-        List<Rental> rentals = rentalService.findByCustomer(new User());
+        when(rentalDao.findByUser(any(User.class))).thenReturn(testExistingRentalsSameMachine);
+        List<Rental> rentals = rentalService.findByUser(new User());
         assertThat(rentals, is(testExistingRentalsSameMachine));
-        verify(rentalDao).findByCustomer(any(User.class));
+        verify(rentalDao).findByUser(any(User.class));
     }
 
     @Test
@@ -447,14 +447,14 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalRevisionMap.put(testRentalWithoutId, revision);
 
         List<Rental> rentalList = Arrays.asList(testRental, testRentalWithoutId);
-        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentalList);
+        when(rentalDao.findByUser(testRental.getUser())).thenReturn(rentalList);
         when(revisionService.getLastMachineRevision(testRental.getMachine())).thenReturn(revision);
         Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(testRentalRevisionMap, map);
         assertEquals(2, testExistingRentalsSameMachine.size());
         assertTrue(map.containsKey(testRental));
         assertTrue(map.containsKey(testRentalWithoutId));
-        verify(rentalDao).findByCustomer(testRental.getUser());
+        verify(rentalDao).findByUser(testRental.getUser());
         verify(revisionService, atLeastOnce()).getLastMachineRevision(testRental.getMachine());
 
     }
@@ -464,11 +464,11 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRental.setDateOfRental(LocalDateTime.now().minusDays(3));
         testRental.setReturnDate(LocalDateTime.now().minusDays(2));
         List<Rental> rentals = Collections.singletonList(testRental);
-        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentals);
+        when(rentalDao.findByUser(testRental.getUser())).thenReturn(rentals);
         Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(0, map.size());
         assertFalse(map.containsKey(testRental));
-        verify(rentalDao).findByCustomer(testRental.getUser());
+        verify(rentalDao).findByUser(testRental.getUser());
 
     }
 
@@ -477,33 +477,33 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         testRentalWithoutId.setDateOfRental(LocalDateTime.now().minusDays(5));
         testRentalWithoutId.setReturnDate(LocalDateTime.now().minusDays(3));
         List<Rental> rentals = Arrays.asList(testRentalWithoutId, testRental);
-        when(rentalDao.findByCustomer(testRentalWithoutId.getUser())).thenReturn(rentals);
+        when(rentalDao.findByUser(testRentalWithoutId.getUser())).thenReturn(rentals);
         Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRentalWithoutId.getUser());
         assertEquals(1, map.size());
         assertTrue(map.containsKey(testRental));
         assertFalse(map.containsKey(testRentalWithoutId));
-        verify(rentalDao).findByCustomer(testRentalWithoutId.getUser());
+        verify(rentalDao).findByUser(testRentalWithoutId.getUser());
         verify(revisionService, atLeastOnce()).getLastMachineRevision(testRentalWithoutId.getMachine());
     }
 
     @Test
     public void activeRentalsWithLastRevisionByCustomerWithoutRentalsTest() {
         List<Rental> rentals = Collections.EMPTY_LIST;
-        when(rentalDao.findByCustomer(testRental.getUser())).thenReturn(rentals);
+        when(rentalDao.findByUser(testRental.getUser())).thenReturn(rentals);
         Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(testRental.getUser());
         assertEquals(testRentalRevisionMap, map);
         assertEquals(0, map.size());
-        verify(rentalDao).findByCustomer(testRental.getUser());
+        verify(rentalDao).findByUser(testRental.getUser());
     }
 
     @Test
     public void activeRentalsWithLastRevisionByNullCustomerTest(){
         List<Rental> rentals = Collections.EMPTY_LIST;
-        when(rentalDao.findByCustomer(null)).thenReturn(rentals);
+        when(rentalDao.findByUser(null)).thenReturn(rentals);
         Map<Rental, Revision> map = rentalService.activeRentalsWithLastRevisionByCustomer(null);
         assertEquals(testRentalRevisionMap, map);
         assertEquals(0, map.size());
-        verify(rentalDao).findByCustomer(null);
+        verify(rentalDao).findByUser(null);
     }
 
 

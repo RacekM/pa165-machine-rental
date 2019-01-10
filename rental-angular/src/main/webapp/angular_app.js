@@ -14,15 +14,82 @@ pa165rentalApp.config(['$routeProvider',
         }).when('/machines', {
             templateUrl: 'partials/machines.html',
             controller: 'MachinesCtrl'
-        }).
-        when('/admin/machines', {templateUrl: 'partials/admin_machines.html', controller: 'AdminMachinesCtrl'}).
-        when('/admin/newmachine', {templateUrl: 'partials/admin_new_machine.html', controller: 'AdminNewMachineCtrl'}).
-        when('/admin/users', {templateUrl: 'partials/admin_users.html', controller: 'AdminUsersCtrl'}).
-        when('/admin/newuser', {templateUrl: 'partials/admin_new_user.html', controller: 'AdminNewUserCtrl'}).
-        when('/admin/revisions', {templateUrl: 'partials/admin_revisions.html', controller: 'AdminRevisionCtrl'}).
-        when('/admin/newrevision', {templateUrl: 'partials/admin_new_revision.html', controller: 'AdminNewRevisionCtrl'}).
-        when('/admin/rentals', {templateUrl: 'partials/admin_rentals.html', controller: 'AdminRentalCtrl'}).
-        when('/admin/newrental', {templateUrl: 'partials/admin_new_rental.html', controller: 'AdminNewRentalCtrl'}).
+        }).when('/admin/machines', {
+            templateUrl: 'partials/admin_machines.html',
+            controller: 'AdminMachinesCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/newmachine', {
+            templateUrl: 'partials/admin_new_machine.html',
+            controller: 'AdminNewMachineCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/users', {
+            templateUrl: 'partials/admin_users.html',
+            controller: 'AdminUsersCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/newuser', {
+            templateUrl: 'partials/admin_new_user.html',
+            controller: 'AdminNewUserCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/revisions', {
+            templateUrl: 'partials/admin_revisions.html',
+            controller: 'AdminRevisionCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/newrevision', {
+            templateUrl: 'partials/admin_new_revision.html',
+            controller: 'AdminNewRevisionCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/rentals', {
+            templateUrl: 'partials/admin_rentals.html',
+            controller: 'AdminRentalCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/admin/newrental', {
+            templateUrl: 'partials/admin_new_rental.html',
+            controller: 'AdminNewRentalCtrl',
+            resolve: {
+                mess: function ($location) {
+                    adminLevelAccess($location);
+                }
+            }
+        }).when('/my_rentals', {
+            templateUrl: 'partials/my_rentals.html',
+            controller: 'MyRentalsCtrl',
+            resolve: {
+                mess: function ($location) {
+                    userLevelAccess($location);
+                }
+            }
+        }).when('/login', {
+            templateUrl: 'partials/login.html',
+            controller: 'LoginCtrl'
+        }).when('/logout', {templateUrl: 'partials/main_page.html', controller: 'LogoutCtrl'}).
         otherwise({redirectTo: '/'});
     }]);
 
@@ -47,21 +114,44 @@ function hideAlerts($rootScope){
     $rootScope.hideWarningAlert();
 }
 
+function userLevelAccess($location) {
+    console.log("user level access");
+    if (sessionStorage.loggedUser === undefined) {
+        $location.path("/login");
+    }
+}
+
+function adminLevelAccess($location) {
+    if (sessionStorage.loggedUser === undefined) {
+        $location.path("/login");
+    }
+
+    var loggedUser = JSON.parse(sessionStorage.loggedUser);
+    if (loggedUser.userType !== "ADMIN") {
+        $location.path("/");
+        $rootScope.errorAlert("You have to be admin!");
+    }
+}
+
 /* Controllers */
 
 rentalControllers.controller('MainPageCtrl', function ($scope, $rootScope, $http) {
+    loadUserFlagsToScope($scope);
+    console.log($scope);
     hideAlerts($rootScope);
     console.log("main page");
 });
 
 rentalControllers.controller('MachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //initial load of all machines
         loadMachines($http, $scope);
     });
 
 rentalControllers.controller('MyRentalsCtrl', function ($scope, $rootScope, $http) {
+    loadUserFlagsToScope($scope);
     hideAlerts($rootScope);
     console.log("user's rentals page");
 });
@@ -97,6 +187,7 @@ function countAdmins(users) {
 
 rentalControllers.controller('AdminMachinesCtrl',
     function ($scope, $rootScope, $routeParams, $http, $location) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //initial load of all machines
         loadMachines($http, $scope);
@@ -136,6 +227,7 @@ rentalControllers.controller('AdminMachinesCtrl',
 
 rentalControllers.controller('AdminUsersCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //initial load of all users
         loadUsers($http, $scope);
@@ -176,6 +268,7 @@ rentalControllers.controller('AdminUsersCtrl',
 
 rentalControllers.controller('AdminNewMachineCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //set object bound to form fields
         $scope.machine = {
@@ -203,6 +296,7 @@ rentalControllers.controller('AdminNewMachineCtrl',
 
 rentalControllers.controller('AdminNewUserCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //prepare data for selection lists
         $scope.userTypes = ['ADMIN', 'LEGAL_PERSON', 'INDIVIDUAL'];
@@ -234,7 +328,66 @@ rentalControllers.controller('AdminNewUserCtrl',
     });
 
 
+rentalControllers.controller('LoginCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        loadUserFlagsToScope($scope);
+        hideAlerts($rootScope);
 
+        //set object bound to form fields
+        $scope.user = {
+            'username': '',
+            'password': ''
+        };
+        // function called when submit button is clicked, creates product on server
+        $scope.login = function (user) {
+            console.log(user);
+            $http({
+                method: 'POST',
+                url: '/pa165/rest/users/auth',
+                data: user
+            }).then(function success(response) {
+                console.log("tu bude autentizacia uzivatela");
+                console.log("uzivatel je " + response.data);
+                if (response.data === "") {
+                    $scope.errorAlert = 'Unknown user!';
+                } else {
+                    sessionStorage.loggedUser = JSON.stringify(response.data);
+                    document.getElementById("logged_user_label").innerHTML = response.data.name;
+                    loadUserFlagsToScope($rootScope);
+
+                    console.log(sessionStorage.loggedUser);
+                }
+                $location.path("/");
+            }, function error(response) {
+                console.log("cannot login");
+                $scope.errorAlert = 'Cannot login!';
+            });
+        };
+    });
+
+
+function loadUserFlagsToScope($rootScope) {
+    if (sessionStorage.loggedUser === undefined) {
+        $rootScope.loggedUserFlag = false;
+        $rootScope.loggedName = null;
+        return;
+    }
+
+    var loggedUser = JSON.parse(sessionStorage.loggedUser);
+    $rootScope.loggedUserFlag = true;
+    $rootScope.loggedName = loggedUser.username;
+    $rootScope.loggedType = loggedUser.userType;
+}
+
+rentalControllers.controller('LogoutCtrl',
+    function ($scope, $routeParams, $http, $location, $rootScope) {
+        hideAlerts($rootScope);
+        loadUserFlagsToScope($scope);
+        sessionStorage.clear();
+        $rootScope.loggedUserFlag = false;
+        $rootScope.loggedType = undefined;
+        $rootScope.loggedName = undefined;
+    });
 
 function loadAdminRevisions($http, $scope, machine) {
     if (machine) {
@@ -252,6 +405,7 @@ function loadAdminRevisions($http, $scope, machine) {
 
 rentalControllers.controller('AdminRevisionCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         $scope.machine = $routeParams.machine;
         if ($routeParams.machine){
@@ -285,6 +439,7 @@ rentalControllers.controller('AdminRevisionCtrl',
 
 rentalControllers.controller('AdminNewRevisionCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //set object bound to form fields
         $scope.showMachines = !$routeParams.machine;
@@ -357,6 +512,7 @@ function loadAdminRentals($http, $scope, machine) {
 
 rentalControllers.controller('AdminRentalCtrl',
     function ($scope, $rootScope, $routeParams, $http) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         $scope.machine = $routeParams.machine;
         if ($routeParams.machine){
@@ -390,6 +546,7 @@ rentalControllers.controller('AdminRentalCtrl',
 
 rentalControllers.controller('AdminNewRentalCtrl',
     function ($scope, $routeParams, $http, $location, $rootScope) {
+        loadUserFlagsToScope($scope);
         hideAlerts($rootScope);
         //set object bound to form fields
         $scope.rental = {
@@ -464,6 +621,22 @@ rentalControllers.controller('AdminNewRentalCtrl',
                 });
             }
         };
+    });
+
+
+function loadUserRentals($http, $scope, userId) {
+    $http.get('/pa165/rest/users/' + userId + '/rentals').then(function (response) {
+        $scope.rentals = response.data.content;
+        console.log('AJAX loaded all rentals for user');
+    });
+}
+
+rentalControllers.controller('MyRentalsCtrl',
+    function ($scope, $rootScope, $routeParams, $http) {
+        loadUserFlagsToScope($scope);
+        hideAlerts($rootScope);
+        var loggedUser = JSON.parse(sessionStorage.loggedUser);
+        loadUserRentals($http, $scope, loggedUser.id);
     });
 
 

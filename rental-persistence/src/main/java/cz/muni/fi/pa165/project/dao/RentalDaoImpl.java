@@ -37,11 +37,11 @@ public class RentalDaoImpl implements RentalDao {
     }
 
     @Override
-    public List<Rental> findByCustomer(User user) {
+    public List<Rental> findByUser(User user) {
         TypedQuery<Rental> query = entityManager.createQuery(
-                "SELECT r FROM Rental r WHERE r.customer = :customerId", Rental.class);
+                "SELECT r FROM Rental r WHERE r.user = :userId", Rental.class);
 
-        query.setParameter("customerId", user);
+        query.setParameter("userId", user);
         return query.getResultList();
     }
 

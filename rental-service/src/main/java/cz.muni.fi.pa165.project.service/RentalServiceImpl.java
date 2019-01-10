@@ -43,8 +43,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<Rental> findByCustomer(User user) {
-        return rentalDao.findByCustomer(user);
+    public List<Rental> findByUser(User user) {
+        return rentalDao.findByUser(user);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public Map<Rental, Revision> activeRentalsWithLastRevisionByCustomer(User user){
-        List<Rental> rentals = rentalDao.findByCustomer(user);
+        List<Rental> rentals = rentalDao.findByUser(user);
         Map<Rental, Revision> res= new HashMap<>();
         for (Rental r : rentals){
             if (r.getReturnDate().isAfter(LocalDateTime.now()))
