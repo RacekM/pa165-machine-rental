@@ -41,7 +41,7 @@ public interface RentalDao {
      * @param user user whose rentals to find
      * @return List of rentals associated with user.
      */
-    List<Rental> findByCustomer(User user);
+    List<Rental> findByUser(User user);
 
 
     List<Rental> findByMachine(Machine machine);

@@ -67,7 +67,7 @@ public class RentalFacadeImpl implements RentalFacade {
         User user = userService.findById(customerId);
         List<RentalDTO> rentalDTOs = new ArrayList<>();
         if (user != null) {
-            rentalDTOs = beanMappingService.mapTo(rentalService.findByCustomer(user), RentalDTO.class);
+            rentalDTOs = beanMappingService.mapTo(rentalService.findByUser(user), RentalDTO.class);
         }
         return rentalDTOs;
     }

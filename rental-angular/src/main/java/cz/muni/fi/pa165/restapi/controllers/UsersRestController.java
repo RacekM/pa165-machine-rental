@@ -1,10 +1,15 @@
 package cz.muni.fi.pa165.restapi.controllers;
 
+import cz.muni.fi.pa165.project.dto.RentalDTO;
+import cz.muni.fi.pa165.project.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.project.dto.UserDTO;
+import cz.muni.fi.pa165.project.facade.RentalFacade;
 import cz.muni.fi.pa165.project.facade.UserFacade;
 import cz.muni.fi.pa165.restapi.exceptions.InvalidRequestException;
 import cz.muni.fi.pa165.restapi.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.restapi.exceptions.ServerProblemException;
+import cz.muni.fi.pa165.restapi.hateoas.RentalResource;
+import cz.muni.fi.pa165.restapi.hateoas.RentalResourceAssembler;
 import cz.muni.fi.pa165.restapi.hateoas.UserResource;
 import cz.muni.fi.pa165.restapi.hateoas.UserResourceAssembler;
 import org.slf4j.Logger;
@@ -35,14 +40,20 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class UsersRestController {
     private final static Logger log = LoggerFactory.getLogger(UsersRestController.class);
     private UserFacade userFacade;
+    private RentalFacade rentalFacade;
     private UserResourceAssembler userResourceAssembler;
+    private RentalResourceAssembler rentalResourceAssembler;
 
     public UsersRestController(
             @Autowired UserFacade userFacade,
-            @Autowired UserResourceAssembler userResourceAssembler
+            @Autowired RentalFacade rentalFacade,
+            @Autowired UserResourceAssembler userResourceAssembler,
+            @Autowired RentalResourceAssembler rentalResourceAssembler
     ) {
         this.userFacade = userFacade;
+        this.rentalFacade = rentalFacade;
         this.userResourceAssembler = userResourceAssembler;
+        this.rentalResourceAssembler = rentalResourceAssembler;
     }
 
     /**
@@ -122,5 +133,45 @@ public class UsersRestController {
     }
 
 
+    /**
+     * Produces user detail.
+     *
+     * @return user detail
+     */
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    public HttpEntity<UserResource> authenticateUser(@RequestBody @Valid UserAuthenticateDTO userAuthenticateDTO, BindingResult bindingResult) {
+        log.debug("rest authenticateUser(()");
+        if (bindingResult.hasErrors()) {
+            log.error("Failed validation {}", bindingResult.toString());
+            throw new InvalidRequestException("Failed validation");
+        }
+        UserResource user = null;
+        if (userFacade.authenticate(userAuthenticateDTO)) {
+            user = userResourceAssembler.toResource(userFacade.findUserByUsername(userAuthenticateDTO.getUsername()));
+            user.setPasswordHash("");
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+    /**
+     * Produces user detail.
+     *
+     * @param id user identifier
+     * @return user detail
+     */
+    @RequestMapping(value = "/{id}/rentals", method = RequestMethod.GET)
+    public HttpEntity<Resources<RentalResource>> userRentals(@PathVariable("id") long id) {
+        log.debug("rest user({}) rentals", id);
+        UserDTO userDTO = userFacade.getUserById(id);
+        if (userDTO == null) throw new ResourceNotFoundException("user " + id + " not found");
+
+        List<RentalDTO> allRentals = rentalFacade.getRentalsByUser(userDTO.getId());
+        Resources<RentalResource> rentalResources = new Resources<>(
+                rentalResourceAssembler.toResources(allRentals),
+                linkTo(RentalsRestController.class).withSelfRel(),
+                linkTo(RentalsRestController.class).slash("/create").withRel("create"));
+        return new ResponseEntity<>(rentalResources, HttpStatus.OK);
+    }
 
 }
