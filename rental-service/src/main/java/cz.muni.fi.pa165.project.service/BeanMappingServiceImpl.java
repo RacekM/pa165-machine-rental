@@ -27,7 +27,6 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
     @Override
     public <T, V> Map<T, V> mapTo(Map<?, ?> objects, Class<T> mapToClassKey, Class<V> mapToClassValue) {
-        System.out.println("service called" + objects + "\n");
         Map<T, V> mappedCollection = new HashMap<>();
         for (Map.Entry<?, ?> e : objects.entrySet()) {
             if (e.getValue() != null)
