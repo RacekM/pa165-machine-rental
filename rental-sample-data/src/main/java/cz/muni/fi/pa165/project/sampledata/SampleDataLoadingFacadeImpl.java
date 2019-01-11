@@ -69,7 +69,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
         Rental rental1 = rental(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(4), "Satisfying", machineHammer, customer1);
         Rental rental2 = rental(LocalDateTime.now().minusDays(5), LocalDateTime.now().plusDays(2), "Quite good", machineShovel, customer1);
-        Rental rental3 = rental(LocalDateTime.now().minusDays(3), LocalDateTime.now().plusDays(3), "Terrible", machineWaterPump, customer2);
+        Rental rental3 = rental(LocalDateTime.now().minusDays(10), LocalDateTime.now().minusDays(8), "Already done", machineShovel, customer1);
+        Rental rental4 = rental(LocalDateTime.now().minusDays(3), LocalDateTime.now().plusDays(3), "Terrible", machineWaterPump, customer2);
         log.info("Loaded rentals");
     }
 

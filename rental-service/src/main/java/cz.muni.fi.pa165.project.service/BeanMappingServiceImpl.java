@@ -29,7 +29,11 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     public <T, V> Map<T, V> mapTo(Map<?, ?> objects, Class<T> mapToClassKey, Class<V> mapToClassValue) {
         Map<T, V> mappedCollection = new HashMap<>();
         for (Map.Entry<?, ?> e : objects.entrySet()) {
-            mappedCollection.put(dozer.map(e.getKey(), mapToClassKey), dozer.map(e.getValue(), mapToClassValue));
+            if (e.getValue() != null)
+                mappedCollection.put(dozer.map(e.getKey(), mapToClassKey), dozer.map(e.getValue(), mapToClassValue));
+            else
+                mappedCollection.put(dozer.map(e.getKey(), mapToClassKey), null);
+
         }
         return mappedCollection;
     }

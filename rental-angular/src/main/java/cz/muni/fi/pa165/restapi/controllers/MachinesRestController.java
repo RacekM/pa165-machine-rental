@@ -81,7 +81,6 @@ public class MachinesRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void deleteMachine(@PathVariable("id") long id) {
-        System.out.println("DELETING MACHINE");
         log.debug("rest deleteMachine({})", id);
         try {
             machineFacade.deleteMachine(id);
